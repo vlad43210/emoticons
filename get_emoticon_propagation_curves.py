@@ -8,7 +8,7 @@ import string, time
 
 def getEmoticonPropagationCurves(searcher, analyzer):
     raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
-    emoticon = ":)"
+    emoticon = ":("
     emoticon_file_name = raw_stats_dir
     for echar in emoticon:
         if echar == ':': emoticon_file_name += 'colon_'
@@ -46,7 +46,7 @@ def getEmoticonPropagationCurves(searcher, analyzer):
     countrylist = list(countryset)
     emo_propagation_by_time = sorted(emoticon_propagation_hash.items(), key=itemgetter(0))
     emoticon_file = open(emoticon_file_name,'w')
-    emoticon_file.write(",".join(countrylist)+"\n")        
+    emoticon_file.write("day,".join(countrylist)+",total\n")        
     for emo_day_entry in emo_propagation_by_time:
         emoticon_file.write(str(emo_day_entry[0])+","+",".join([str(emo_day_entry[1].get(ctry,0)) for ctry in countrylist]) + "," + str(emo_day_entry[1]["total"]) + "\n")
     emoticon_file.close()
@@ -63,5 +63,4 @@ if __name__ == '__main__':
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
     getEmoticonPropagationCurves(searcher, analyzer)
-    run(searcher, analyzer)
     searcher.close()
