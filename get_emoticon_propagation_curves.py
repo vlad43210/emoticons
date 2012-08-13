@@ -17,7 +17,7 @@ def getEmoticonPropagationCurves(searcher, analyzer):
     emoticon_file_name = emoticon_file_name.rstrip('_')+".timehash"
     print "Searching for: ", emoticon, " at: ", time.time()
     parsed_command = QueryParser.escape(emoticon)
-    query = QueryParser("text", analyzer).parse(emoticon)
+    query = QueryParser("text", analyzer).parse(parsed_command)
     hits = searcher.search(query)
     print "%s total matching documents." % hits.length()
 
