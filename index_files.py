@@ -125,7 +125,7 @@ class IndexTweets(IndexFiles):
                 doc.add(lucene.Field("timestamp", timestamp, lucene.Field.Store.YES, lucene.Field.Index.NO))
                 if len(text) > 0: doc.add(lucene.Field("text", text, lucene.Field.Store.NO, lucene.Field.Index.TOKENIZED))
                 if len(emoticon_str) > 0: 
-                    print "emoticon_str: ", emoticon_str
+                    #print "emoticon_str: ", emoticon_str
                     doc.add(lucene.Field("emoticons", emoticon_str, lucene.Field.Store.YES, lucene.Field.Index.TOKENIZED))
                     
                 self.writer.addDocument(doc)
