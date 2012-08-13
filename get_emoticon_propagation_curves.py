@@ -46,7 +46,7 @@ def getEmoticonPropagationCurves(searcher, analyzer):
     countrylist = list(countryset)
     emo_propagation_by_time = sorted(emoticon_propagation_hash.items(), key=itemgetter(0))
     emoticon_file = open(emoticon_file_name,'w')
-    emoticon_file_name.write(",".join(countrylist)+"\n")        
+    emoticon_file.write(",".join(countrylist)+"\n")        
     for emo_day_entry in emo_propagation_by_time:
         emoticon_file.write(int(emo_day_entry[0])+","+",".join([str(emo_day_entry[1].get(ctry,0)) for ctry in countrylist]) + "," + str(emo_day_entry[1]["total"]) + "\n")
     emoticon_file.close()
