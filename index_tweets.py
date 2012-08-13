@@ -18,7 +18,7 @@ def getUserLocations():
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print IndexFiles.__doc__
+        print IndexTweets.__doc__
         sys.exit(1)
     env=initVM()
     print 'lucene', VERSION

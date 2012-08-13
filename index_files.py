@@ -91,7 +91,7 @@ class IndexTweets(IndexFiles):
             lctr = 0
             for line in docsfile:
                 lctr+=1
-                if lctr%10 == 0: print "on line: ", lctr, " at: ", time.time()
+                if lctr%10000 == 0: print "on line: ", lctr, " at: ", time.time()
                 if lctr > self.linecutoff: break
                 tweet_id, user_id, date, tweet_id_replied, user_id_replied, source, some_flag, another_flag, location, text = unicode(line, 'utf-8').split('\t')
                 if not user_id_replied:
