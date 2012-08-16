@@ -14,8 +14,8 @@ def getEmoticonPropagationCurves(searcher, analyzer):
         if echar == ':': emoticon_file_name += 'colon_'
         elif echar == ')': emoticon_file_name += 'rparen_'
         elif echar == '(': emoticon_file_name += 'lparen_'
-        elif char == '^': emoticon_file_name += 'carrot_'
-        elif char == '_': emoticon_file_name += 'underscore_'
+        elif echar == '^': emoticon_file_name += 'carrot_'
+        elif echar == '_': emoticon_file_name += 'underscore_'
     emoticon_file_name = emoticon_file_name.rstrip('_')+".timehash"
     print "Searching for: ", emoticon, " at: ", time.time()
     parsed_command = QueryParser.escape(emoticon)
