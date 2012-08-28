@@ -75,7 +75,7 @@ class IndexTweets(IndexFiles):
     def __init__(self, root, storeDir, analyzer, location_hash):
         super(IndexTweets, self).__init__(root, storeDir, analyzer)
         self.location_hash = location_hash
-        self.linecutoff = 1000000
+        self.linecutoff = 10000000
         self.RTre = re.compile("RT @\w+")
         self.tzre = re.compile("\+\w+")
         self.emoticonre = re.compile("http(s)?[:]//|[=<>]?[;:][\^-]?[\\\/)(\]\[}{PpboO0]+[X#]?|[\^T]_+[\^T]")
@@ -91,7 +91,7 @@ class IndexTweets(IndexFiles):
             lctr = 0
             for line in docsfile:
                 lctr+=1
-                if lctr%10000 == 0: print "on line: ", lctr, " at: ", time.time()
+                if lctr%100000 == 0: print "on line: ", lctr, " at: ", time.time()
                 if lctr > self.linecutoff: break
                 tweet_id, user_id, date, tweet_id_replied, user_id_replied, source, some_flag, another_flag, location, text = unicode(line, 'utf-8').split('\t')
                 if not user_id_replied:
