@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from lucene import \
     QueryParser, IndexSearcher, WhitespaceAnalyzer, FSDirectory, Hit, \
-    VERSION, initVM, CLASSPATH
+    VERSION, initVM, CLASSPATH, RangeFilter, MatchAllDocsQuery
 
 from operator import itemgetter
 import string, time
@@ -29,6 +29,7 @@ def getEmoticonPropagationCurves(searcher, analyzer):
     print " compiling propagation curve at: ", time.time()
     emoticon_propagation_hash = {}
     countryset = set()
+    daytshash = {}
     try:
         hctr = 0
         for hit in hits:
@@ -38,6 +39,8 @@ def getEmoticonPropagationCurves(searcher, analyzer):
             countryset.add(country)
             timestruct = time.gmtime(int(timestamp))
             daysincestart = (timestruct[0]-2005)*365+timestruct[7]
+            daystartts = int(timestamp)-60*60*timestruct[3]
+            daytshash[daystartts] = daysincestrart
             total_emoticon_count = string.count(emoticons, emoticon)
             if daysincestart in emoticon_propagation_hash:
                 emoticon_propagation_hash[daysincestart]['total'] += total_emoticon_count
@@ -46,6 +49,18 @@ def getEmoticonPropagationCurves(searcher, analyzer):
                 emoticon_propagation_hash[daysincestart] = {'total':total_emoticon_count, country:total_emoticon_count}
     except Exception, e: 
         print "failed to list hit: ", e
+
+    sorted_daytslist = sorted(daytshash.keys())
+    for i, sorted_dayts in enumerate(sorted_daytslist):
+        if i == len(sorted_daytslist)-1: continue
+        parsed_daytts = QueryParser.escape(sorted_dayts)
+        range_filter = RangeFilter("timestamp", sorted_dayts, sorted_daytslist[i+1], True, True)
+        all_docs_query = MatchAllDocsQuery()
+        tweets_in_range_search = searcher.search(all_docs_query, range_filter)
+        num_tweets_in_range = tweets_in_range_search.length()
+        emoticon_propagation_hash[daytshash[sorted_dayts]]['total tweets'] = num_tweets_in_range
+        
+        
 
     print "outputting propagation curve to flat file at: ", time.time()
     countrylist = list(countryset)
