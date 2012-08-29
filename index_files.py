@@ -99,7 +99,8 @@ class IndexTweets(IndexFiles):
                 
                 if date:
                     tz = re.search(self.tzre, date).group(0)
-                    timestamp = str(int(time.mktime(time.strptime(date, "%a %b %d %H:%M:%S " + tz + " %Y"))))
+                    #timestamp = str(int(time.mktime(time.strptime(date, "%a %b %d %H:%M:%S " + tz + " %Y"))))
+                    timestamp = int(time.mktime(time.strptime(date, "%a %b %d %H:%M:%S " + tz + " %Y")))
                 else:
                     timestamp = '0'
                     
