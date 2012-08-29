@@ -41,7 +41,7 @@ def getEmoticonPropagationCurves(searcher, analyzer):
             timestruct = time.gmtime(int(timestamp))
             daysincestart = (timestruct[0]-2005)*365+timestruct[7]
             daystartts = int(timestamp)-60*60*timestruct[3]
-            daytshash[daystartts] = daysincestrart
+            daytshash[daystartts] = daysincestart
             total_emoticon_count = string.count(emoticons, emoticon)
             if daysincestart in emoticon_propagation_hash:
                 emoticon_propagation_hash[daysincestart]['total'] += total_emoticon_count
