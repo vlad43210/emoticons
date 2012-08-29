@@ -52,15 +52,21 @@ def getEmoticonPropagationCurves(searcher, analyzer):
     except Exception, e: 
         print "failed to list hit: ", e
 
+    test_all_docs_query = MatchAllDocsQuery()
+    all_tweets = searcher.search(test_all_docs_query)
+    print "total tweet docs: ", all_tweets.length()
+    #adding total tweets / day for normalization
     sorted_daytslist = sorted(daytshash.keys())
     for i, sorted_dayts in enumerate(sorted_daytslist):
         if i == len(sorted_daytslist)-1: continue
         parsed_daytts = QueryParser.escape(str(sorted_dayts))
         parsed_nextdaytts = QueryParser.escape(str(sorted_daytslist[i+1]))
+        print "parsed_daytts: ", parsed_daytts, " parsed_nextdaytts: ", parsed_nextdaytts
         range_filter = RangeFilter("timestamp", parsed_daytts, parsed_nextdaytts, True, True)
         all_docs_query = MatchAllDocsQuery()
         tweets_in_range_search = searcher.search(all_docs_query, range_filter)
         num_tweets_in_range = tweets_in_range_search.length()
+        print "num tweets in range: ", num_tweets_in_range
         emoticon_propagation_hash[daytshash[sorted_dayts]]['total tweets'] = num_tweets_in_range
         
         
