@@ -35,6 +35,7 @@ def getEmoticonPropagationCurves(searcher, analyzer):
         hctr = 0
         for hit in hits:
             hctr += 1
+            if hctr%10000==0: print "on hit: ", hctr
             if hctr == hits.length(): break
             uid, timestamp, country, emoticons = hit.get("user_id"), hit.get("timestamp"), hit.get('country'), hit.get('emoticons')
             countryset.add(country)
@@ -54,7 +55,7 @@ def getEmoticonPropagationCurves(searcher, analyzer):
     sorted_daytslist = sorted(daytshash.keys())
     for i, sorted_dayts in enumerate(sorted_daytslist):
         if i == len(sorted_daytslist)-1: continue
-        parsed_daytts = QueryParser.escape(sorted_dayts)
+        parsed_daytts = QueryParser.escape(str(sorted_dayts))
         range_filter = RangeFilter("timestamp", sorted_dayts, sorted_daytslist[i+1], True, True)
         all_docs_query = MatchAllDocsQuery()
         tweets_in_range_search = searcher.search(all_docs_query, range_filter)
