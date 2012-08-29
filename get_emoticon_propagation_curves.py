@@ -56,7 +56,8 @@ def getEmoticonPropagationCurves(searcher, analyzer):
     for i, sorted_dayts in enumerate(sorted_daytslist):
         if i == len(sorted_daytslist)-1: continue
         parsed_daytts = QueryParser.escape(str(sorted_dayts))
-        range_filter = RangeFilter("timestamp", sorted_dayts, sorted_daytslist[i+1], True, True)
+        parsed_nextdaytts = QueryParser.escape(str(sorted_daytslist[i+1]))
+        range_filter = RangeFilter("timestamp", parsed_daytts, parsed_nextdaytts, True, True)
         all_docs_query = MatchAllDocsQuery()
         tweets_in_range_search = searcher.search(all_docs_query, range_filter)
         num_tweets_in_range = tweets_in_range_search.length()
