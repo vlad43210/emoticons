@@ -123,7 +123,7 @@ class IndexTweets(IndexFiles):
                 doc.add(lucene.Field("user_id_replied", user_id_replied, lucene.Field.Store.YES, lucene.Field.Index.UN_TOKENIZED))
                 doc.add(lucene.Field("source", source, lucene.Field.Store.YES, lucene.Field.Index.UN_TOKENIZED))
                 doc.add(lucene.Field("country", country, lucene.Field.Store.YES, lucene.Field.Index.UN_TOKENIZED))
-                doc.add(lucene.NumericField("timestamp",4,lucene.Field.Store.Yes, True).setIntValue(timestamp))
+                doc.add(lucene.NumericField("timestamp",4,lucene.Field.Store.YES, True).setIntValue(timestamp))
                 #doc.add(lucene.Field("timestamp", timestamp, lucene.Field.Store.YES, lucene.Field.Index.UN_TOKENIZED))
                 if len(text) > 0: doc.add(lucene.Field("text", text, lucene.Field.Store.NO, lucene.Field.Index.TOKENIZED))
                 if len(emoticon_str) > 0: 
