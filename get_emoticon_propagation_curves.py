@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from lucene import \
     QueryParser, IndexSearcher, WhitespaceAnalyzer, FSDirectory, Hit, \
-    VERSION, initVM, CLASSPATH, RangeFilter, MatchAllDocsQuery
+    VERSION, initVM, CLASSPATH, NumericRangeFilter, MatchAllDocsQuery
 
 from operator import itemgetter
 import string, time
@@ -59,10 +59,8 @@ def getEmoticonPropagationCurves(searcher, analyzer):
     sorted_daytslist = sorted(daytshash.keys())
     for i, sorted_dayts in enumerate(sorted_daytslist):
         if i == len(sorted_daytslist)-1: continue
-        parsed_daytts = QueryParser.escape(str(sorted_dayts))
-        parsed_nextdaytts = QueryParser.escape(str(sorted_daytslist[i+1]))
         #print "parsed_daytts: ", parsed_daytts, " parsed_nextdaytts: ", parsed_nextdaytts
-        range_filter = RangeFilter("timestamp", parsed_daytts, parsed_nextdaytts, True, True)
+        range_filter = NumericRangeFilter("timestamp", sorted_dayts, sorted_daytslist[i+1], True, True)
         all_docs_query = MatchAllDocsQuery()
         tweets_in_range_search = searcher.search(all_docs_query, range_filter)
         num_tweets_in_range = tweets_in_range_search.length()
