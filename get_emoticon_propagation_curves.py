@@ -8,7 +8,7 @@ import string, time
 
 def getEmoticonPropagationCurves(searcher, analyzer):
     raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
-    emoticon = ":("
+    emoticon = "^_^"
     emoticon_file_name = raw_stats_dir
     for echar in emoticon:
         if echar == ':': emoticon_file_name += 'colon_'
