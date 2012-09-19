@@ -70,7 +70,7 @@ def getEmoticonPropagationCurves(searcher, analyzer):
         all_emoticon_docs_query_text = "[* TO *]"
         all_emoticon_docs_query = QueryParser("emoticons", analyzer).parse(all_emoticon_docs_query_text)
         emoticon_tweets_in_range_search = searcher.search(all_emoticon_docs_query, range_filter)
-        num_emoticon_tweets_in_range_search = emoticon_tweets_in_range_search.length()
+        num_emoticon_tweets_in_range = emoticon_tweets_in_range_search.length()
         print "num tweets in range: ", num_tweets_in_range
         print "num emoticon tweets in range: ", num_emoticon_tweets_in_range
         emoticon_propagation_hash[daytshash[sorted_dayts]]['total tweets'] = num_tweets_in_range
