@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
-import gzip, re, sys, os, lucene, threading, time
+import codecs, gzip, re, sys, os, lucene, threading, time
 from datetime import datetime
 
 """
@@ -80,7 +80,7 @@ class IndexTweets(IndexFiles):
         self.tzre = re.compile("\+\w+")
         self.emoticonre = re.compile(u"http(s)?[:]//|[=<>]?[;:]+[\^]?[\\\/)(\]\[}{PpboO0]+[X#]?|[+=>\^Tㅜㅠㅡ][ㅁㅇ._-]*[+=<\^Tㅜㅠㅡ]")
         self.emoticonhash = {}
-        self.emoticonhashfile = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticons_list.txt",'w')
+        self.emoticonhashfile = codecs.open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticons_list.txt", encoding='utf-8', mode='w')
 
     def runIndexer(self):
         if self.root.endswith('tweets.txt.gz'): 
@@ -136,7 +136,7 @@ class IndexTweets(IndexFiles):
                     
                 self.writer.addDocument(doc)
             for emoticon_char, count in self.emoticonhash.items():
-                self.emoticonhashfile.write(emoticon_char + " " + count + "\n")
+                self.emoticonhashfile.write(emoticon_char + u" " + unicode(count) + u"\n")
             self.emoticonhashfile.close()
         except Exception, e:
             print "failed to index file: ", docsfile, " with error: ", e
