@@ -80,8 +80,8 @@ def getEmoticonPropagationCurves(searcher, analyzer):
         num_emoticon_tweets_in_range = emoticon_tweets_in_range_search.length()
         print "num tweets in range: ", num_tweets_in_range
         print "num emoticon tweets in range: ", num_emoticon_tweets_in_range
-        emoticon_propagation_hash[daytshash[sorted_dayts]]['total tweets'] = num_tweets_in_range
-        emoticon_propagation_hash[daytshash[sorted_dayts]]['total emoticon tweets'] = num_emoticon_tweets_in_range
+        emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total tweets'] = num_tweets_in_range
+        emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total emoticon tweets'] = num_emoticon_tweets_in_range
         
         
 
