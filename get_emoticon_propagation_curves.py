@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from lucene import \
     Integer, QueryParser, IndexSearcher, WhitespaceAnalyzer, FSDirectory, Hit, \
-    VERSION, initVM, CLASSPATH, NumericRangeFilter, MatchAllDocsQuery, PrefixQuery, QueryFilter, Term
+    VERSION, initVM, CLASSPATH, NumericRangeFilter, MatchAllDocsQuery, PrefixQuery, QueryFilter, Term, ChainedFilter
 
 from operator import itemgetter
 import string, time
@@ -72,6 +72,8 @@ def getEmoticonPropagationCurves(searcher, analyzer):
         empty_term = Term("emoticons")
         empty_term_prefix = PrefixQuery(empty_term)
         all_emoticons_docs_query_filter = QueryFilter(empty_term_prefix)
+        emoticons_in_range_query = BooleanQuery
+        emoticons_in_range_query.add()
         emoticon_tweets_in_range_search = searcher.search(all_docs_query, all_emoticons_docs_query_filter)
         num_emoticon_tweets_in_range = emoticon_tweets_in_range_search.length()
         print "num tweets in range: ", num_tweets_in_range
