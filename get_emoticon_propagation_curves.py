@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from lucene import \
     Integer, QueryParser, IndexSearcher, WhitespaceAnalyzer, FSDirectory, Hit, \
-    VERSION, initVM, CLASSPATH, NumericRangeFilter, MatchAllDocsQuery
+    VERSION, initVM, CLASSPATH, FieldValueFilter, NumericRangeFilter, MatchAllDocsQuery
 
 from operator import itemgetter
 import string, time
