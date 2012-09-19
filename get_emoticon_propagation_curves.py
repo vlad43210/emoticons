@@ -60,9 +60,11 @@ def getEmoticonPropagationCurves(searcher, analyzer):
     print "total tweet docs: ", all_tweets.length()
     #adding total tweets / day for normalization
     sorted_daytslist = sorted(daytshash.keys())
-    for sorted_dayts in sorted_daytslist:
+    print "number of days to process: ", len(sorted_daytslist)
+    for i, sorted_dayts in enumerate(sorted_daytslist):
+        if i%100 == 0: print "on day number: ", i, " at: ", time.time()
         #print "parsed_daytts: ", parsed_daytts, " parsed_nextdaytts: ", parsed_nextdaytts
-        print "sorted_dayts: ", time.gmtime(sorted_dayts), " next: ", time.gmtime(daytshash[sorted_dayts]['next day ts'])
+        #print "sorted_dayts: ", time.gmtime(sorted_dayts), " next: ", time.gmtime(daytshash[sorted_dayts]['next day ts'])
         range_filter = NumericRangeFilter.newIntRange("timestamp", Integer(sorted_dayts), Integer(daytshash[sorted_dayts]['next day ts']), True, True)
         all_docs_query = MatchAllDocsQuery()
         tweets_in_range_search = searcher.search(all_docs_query, range_filter)
@@ -78,8 +80,8 @@ def getEmoticonPropagationCurves(searcher, analyzer):
         compound_filter.add(FilterClause(all_emoticons_docs_query_filter, BooleanClause.Occur.MUST))
         emoticon_tweets_in_range_search = searcher.search(all_docs_query, compound_filter)
         num_emoticon_tweets_in_range = emoticon_tweets_in_range_search.length()
-        print "num tweets in range: ", num_tweets_in_range
-        print "num emoticon tweets in range: ", num_emoticon_tweets_in_range
+        #print "num tweets in range: ", num_tweets_in_range
+        #print "num emoticon tweets in range: ", num_emoticon_tweets_in_range
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total tweets'] = num_tweets_in_range
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total emoticon tweets'] = num_emoticon_tweets_in_range
         
