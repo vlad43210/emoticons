@@ -1,8 +1,8 @@
 '''utils file for emoticon processing'''
 
 def normalizeEmoticonName(emoticon):
-	norm_name = ""
-	for echar in emoticon:
+    norm_name = ""
+    for echar in emoticon:
         if echar == ':': norm_name += 'colon_'
         elif echar == ')': norm_name += 'rparen_'
         elif echar == '(': norm_name += 'lparen_'
