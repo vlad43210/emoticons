@@ -10,7 +10,7 @@ import string, time
 
 def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
     raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
-    emoticon_file_name = raw_stats_dir + normalizeEmoticonName(emoticon).rstripr('_')+".timehash"
+    emoticon_file_name = raw_stats_dir + normalizeEmoticonName(emoticon).rstrip('_')+".timehash"
     print "Searching for: ", emoticon, " at: ", time.time()
     escaped_emoticon = QueryParser.escape(emoticon)
     query = QueryParser("text", analyzer).parse(escaped_emoticon)
