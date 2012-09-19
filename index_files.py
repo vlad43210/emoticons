@@ -2,6 +2,7 @@
 # coding=utf-8
 import codecs, gzip, re, sys, os, lucene, threading, time
 from datetime import datetime
+from operator import itemgetter
 
 """
 This class is loosely based on the Lucene (java implementation) demo class 
@@ -135,7 +136,7 @@ class IndexTweets(IndexFiles):
                     doc.add(lucene.Field("emoticons", emoticon_str, lucene.Field.Store.YES, lucene.Field.Index.TOKENIZED))
                     
                 self.writer.addDocument(doc)
-            for emoticon_char, count in self.emoticonhash.items():
+            for emoticon_char, count in sorted(self.emoticonhash.items(), key=itemgetter(1), reverse=True):
                 self.emoticonhashfile.write(emoticon_char + u" " + unicode(count) + u"\n")
             self.emoticonhashfile.close()
         except Exception, e:
