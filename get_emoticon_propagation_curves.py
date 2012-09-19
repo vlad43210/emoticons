@@ -74,8 +74,8 @@ def getEmoticonPropagationCurves(searcher, analyzer):
         empty_term_prefix = PrefixQuery(empty_term)
         all_emoticons_docs_query_filter = QueryFilter(empty_term_prefix)
         compound_filter = BooleanFilter
-        compound_filter.add(range_filter, BooleanClause.Occur.MUST)
-        compound_filter.add(all_emoticons_docs_query_filter, BooleanClause.Occur["MUST"])
+        compound_filter.add(FilterClause(range_filter, BooleanClause.Occur.MUST))
+        compound_filter.add(FilterClause(all_emoticons_docs_query_filter, BooleanClause.Occur.MUST))
         emoticon_tweets_in_range_search = searcher.search(all_docs_query, compound_filter)
         num_emoticon_tweets_in_range = emoticon_tweets_in_range_search.length()
         print "num tweets in range: ", num_tweets_in_range
