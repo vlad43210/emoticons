@@ -44,7 +44,8 @@ def getEmoticonPropagationCurves(searcher, analyzer):
             timestruct = time.gmtime(int(timestamp))
             daysincestart = (timestruct[0]-2005)*365+timestruct[7]
             daystartts = int(timestamp)-60*60*timestruct[3]
-            daytshash[daystartts] = daysincestart
+            nextdaystartts = daystartts+86400
+            daytshash[daystartts] = {'days since start':daysincestart, 'next day ts':nextdaystartts}
             total_emoticon_count = string.count(emoticons, emoticon)
             if daysincestart in emoticon_propagation_hash:
                 emoticon_propagation_hash[daysincestart]['total'] += total_emoticon_count
@@ -59,11 +60,10 @@ def getEmoticonPropagationCurves(searcher, analyzer):
     print "total tweet docs: ", all_tweets.length()
     #adding total tweets / day for normalization
     sorted_daytslist = sorted(daytshash.keys())
-    for i, sorted_dayts in enumerate(sorted_daytslist):
-        if i == len(sorted_daytslist)-1: continue
+    for sorted_dayts in sorted_daytslist:
         #print "parsed_daytts: ", parsed_daytts, " parsed_nextdaytts: ", parsed_nextdaytts
-        print "sorted_dayts: ", time.gmtime(sorted_dayts), " next: ", time.gmtime(sorted_daytslist[i+1])
-        range_filter = NumericRangeFilter.newIntRange("timestamp", Integer(sorted_dayts), Integer(sorted_daytslist[i+1]), True, True)
+        print "sorted_dayts: ", time.gmtime(sorted_dayts), " next: ", time.gmtime(daytshash[sorted_dayts]['next day ts'])
+        range_filter = NumericRangeFilter.newIntRange("timestamp", Integer(sorted_dayts), Integer(daytshash[sorted_dayts]['next day ts']), True, True)
         all_docs_query = MatchAllDocsQuery()
         tweets_in_range_search = searcher.search(all_docs_query, range_filter)
         num_tweets_in_range = tweets_in_range_search.length()
@@ -81,6 +81,7 @@ def getEmoticonPropagationCurves(searcher, analyzer):
         print "num tweets in range: ", num_tweets_in_range
         print "num emoticon tweets in range: ", num_emoticon_tweets_in_range
         emoticon_propagation_hash[daytshash[sorted_dayts]]['total tweets'] = num_tweets_in_range
+        emoticon_propagation_hash[daytshash[sorted_dayts]]['total emoticon tweets'] = num_emoticon_tweets_in_range
         
         
 
