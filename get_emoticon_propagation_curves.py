@@ -72,7 +72,7 @@ def getEmoticonPropagationCurves(searcher, analyzer):
         empty_term = Term("emoticons")
         empty_term_prefix = PrefixQuery(empty_term)
         all_emoticons_docs_query_filter = QueryFilter(empty_term_prefix)
-        emoticon_tweets_in_range_search = searcher.search(all_emoticon_docs_query, all_emoticons_docs_query_filter)
+        emoticon_tweets_in_range_search = searcher.search(all_docs_query, all_emoticons_docs_query_filter)
         num_emoticon_tweets_in_range = emoticon_tweets_in_range_search.length()
         print "num tweets in range: ", num_tweets_in_range
         print "num emoticon tweets in range: ", num_emoticon_tweets_in_range
