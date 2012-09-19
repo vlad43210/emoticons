@@ -19,6 +19,7 @@ def getEmoticonPropagationCurves(searcher, analyzer):
         elif echar == '>': emoticon_file_name += 'greaterthan_'
         elif echar == '<': emoticon_file_name += 'lessthan_'
         elif echar == '.': emoticon_file_name += 'dot_'
+        elif echar == ';': emoticon_file_name += 'semicolon_'
     emoticon_file_name = emoticon_file_name.rstrip('_')+".timehash"
     print "Searching for: ", emoticon, " at: ", time.time()
     parsed_command = QueryParser.escape(emoticon)
@@ -65,7 +66,13 @@ def getEmoticonPropagationCurves(searcher, analyzer):
         all_docs_query = MatchAllDocsQuery()
         tweets_in_range_search = searcher.search(all_docs_query, range_filter)
         num_tweets_in_range = tweets_in_range_search.length()
-        #print "num tweets in range: ", num_tweets_in_range
+
+        all_emoticon_docs_query_text = "[* TO *]"
+        all_emoticon_docs_query = QueryParser("emoticons", analyzer).parse(all_emoticon_docs_query_text)
+        emoticon_tweets_in_range_search = searcher.search(all_emoticon_docs_query, range_filter)
+        num_emoticon_tweets_in_range_search = emoticon_tweets_in_range_search.length()
+        print "num tweets in range: ", num_tweets_in_range
+        print "num emoticon tweets in range: ", num_emoticon_tweets_in_range
         emoticon_propagation_hash[daytshash[sorted_dayts]]['total tweets'] = num_tweets_in_range
         
         
