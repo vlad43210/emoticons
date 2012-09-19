@@ -73,17 +73,17 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
         #all tweets containing "http" or "https"
         bq = BooleanQuery()
         http_str = QueryParser.escape("http://")
-	    http_query = QueryParser("emoticons", analyzer).parse(http_str)
-	    https_str = QueryParser.escape("https://")
-	    https_query = QueryParser("emoticons", analyzer).parse(https_str)
-	    bq.add(http_query, BooleanClause.Occur.MUST)
-	    bq.add(https_query, BooleanClause.Occur.MUST)
-	    bq_search = searcher.search(bq, range_filter)
-	    num_http_emoticons = bq_search.length()
-	
-	    print "total tweets: ", num_tweets_in_range
-	    print "total emoticons: ", num_emoticon_tweets_in_range
-	    print "num_http_emoticons: ", num_http_emoticons
+        http_query = QueryParser("emoticons", analyzer).parse(http_str)
+        https_str = QueryParser.escape("https://")
+        https_query = QueryParser("emoticons", analyzer).parse(https_str)
+        bq.add(http_query, BooleanClause.Occur.MUST)
+        bq.add(https_query, BooleanClause.Occur.MUST)
+        bq_search = searcher.search(bq, range_filter)
+        num_http_emoticons = bq_search.length()
+    
+        print "total tweets: ", num_tweets_in_range
+        print "total emoticons: ", num_emoticon_tweets_in_range
+        print "num_http_emoticons: ", num_http_emoticons
 
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total tweets'] = num_tweets_in_range
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total emoticon tweets'] = num_emoticon_tweets_in_range
@@ -112,7 +112,7 @@ if __name__ == '__main__':
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
     getEmoticonPropagationCurves(":)", searcher, analyzer)
-    getEmoticonPropagationCurves(":(", searcher, analyzer)
-    getEmoticonPropagationCurves("^_^", searcher, analyzer)
-    getEmoticonPropagationCurves(";)", searcher, analyzer)
+    #getEmoticonPropagationCurves(":(", searcher, analyzer)
+    #getEmoticonPropagationCurves("^_^", searcher, analyzer)
+    #getEmoticonPropagationCurves(";)", searcher, analyzer)
     searcher.close()
