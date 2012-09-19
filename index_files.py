@@ -117,7 +117,7 @@ class IndexTweets(IndexFiles):
                     try:
                         emoticon_char = emoticon_iter.next().group(0)
                         emoticon_str += emoticon_char + " "
-                        self.emoticon_hash[emoticon_char] = self.emoticon_hash.get(emoticon_char,0)+1
+                        self.emoticonhash[emoticon_char] = self.emoticonhash.get(emoticon_char,0)+1
                     except Exception, e:
                         break
                 
@@ -135,7 +135,7 @@ class IndexTweets(IndexFiles):
                     doc.add(lucene.Field("emoticons", emoticon_str, lucene.Field.Store.YES, lucene.Field.Index.TOKENIZED))
                     
                 self.writer.addDocument(doc)
-            for emoticon_char, count in self.emoticon_hash.items():
+            for emoticon_char, count in self.emoticonhash.items():
                 self.emoticonhashfile.write(emoticon_char + " " + count + "\n")
             self.emoticonhashfile.close()
         except Exception, e:
