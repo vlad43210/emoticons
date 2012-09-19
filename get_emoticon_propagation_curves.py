@@ -69,8 +69,6 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
         tweets_in_range_search = searcher.search(all_docs_query, range_filter)
         num_tweets_in_range = tweets_in_range_search.length()
 
-        #all_emoticon_docs_query_text = QueryParser.escape("*")
-        #all_emoticon_docs_query = QueryParser("emoticons", analyzer).parse(all_emoticon_docs_query_text)
         empty_term = Term("emoticons")
         empty_term_prefix = PrefixQuery(empty_term)
         all_emoticons_docs_query_filter = QueryFilter(empty_term_prefix)
@@ -79,13 +77,10 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
         compound_filter.add(FilterClause(all_emoticons_docs_query_filter, BooleanClause.Occur.MUST))
         emoticon_tweets_in_range_search = searcher.search(all_docs_query, compound_filter)
         num_emoticon_tweets_in_range = emoticon_tweets_in_range_search.length()
-        #print "num tweets in range: ", num_tweets_in_range
-        #print "num emoticon tweets in range: ", num_emoticon_tweets_in_range
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total tweets'] = num_tweets_in_range
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total emoticon tweets'] = num_emoticon_tweets_in_range
         
         
-
     print "outputting propagation curve to flat file at: ", time.time()
     countrylist = list(countryset)
     emo_propagation_by_time = sorted(emoticon_propagation_hash.items(), key=itemgetter(0))

@@ -75,10 +75,12 @@ class IndexTweets(IndexFiles):
     def __init__(self, root, storeDir, analyzer, location_hash):
         super(IndexTweets, self).__init__(root, storeDir, analyzer)
         self.location_hash = location_hash
-        self.linecutoff = 10000000
+        self.linecutoff = 100000 #50000000
         self.RTre = re.compile("RT @\w+")
         self.tzre = re.compile("\+\w+")
-        self.emoticonre = re.compile("http(s)?[:]//|[=<>]?[;:][\^-]?[\\\/)(\]\[}{PpboO0]+[X#]?|[\^T]_+[\^T]")
+        self.emoticonre = re.compile(u"http(s)?[:]//|[=<>]?[;:]+[\^]?[\\\/)(\]\[}{PpboO0]+[X#]?|[+=>\^Tㅜㅠㅡ][ㅁㅇ._-]*[+=<\^Tㅜㅠㅡ]")
+        self.emoticonhash = {}
+        self.emoticonhashfile = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticons_list.txt",'w')
 
     def runIndexer(self):
         if self.root.endswith('tweets.txt.gz'): 
@@ -113,7 +115,9 @@ class IndexTweets(IndexFiles):
                 emoticon_str = ''
                 while True:
                     try:
-                        emoticon_str += emoticon_iter.next().group(0) + " "
+                        emoticon_char = emoticon_iter.next().group(0)
+                        emoticon_str += emoticon_char + " "
+                        self.emoticon_hash[emoticon_char] = self.emoticon_hash.get(emoticon_char,0)+1
                     except Exception, e:
                         break
                 
@@ -131,6 +135,9 @@ class IndexTweets(IndexFiles):
                     doc.add(lucene.Field("emoticons", emoticon_str, lucene.Field.Store.YES, lucene.Field.Index.TOKENIZED))
                     
                 self.writer.addDocument(doc)
+            for emoticon_char, count in self.emoticon_hash.items():
+                self.emoticonhashfile.write(emoticon_char + " " + count + "\n")
+            self.emoticonhashfile.close()
         except Exception, e:
             print "failed to index file: ", docsfile, " with error: ", e
     
