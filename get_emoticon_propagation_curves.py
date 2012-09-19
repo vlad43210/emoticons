@@ -1,29 +1,19 @@
 #!/usr/bin/env python
+from emoticon_utilities.string_utils import normalizeEmoticonName
 from lucene import \
     Integer, QueryParser, IndexSearcher, WhitespaceAnalyzer, FSDirectory, Hit, \
     VERSION, initVM, CLASSPATH, NumericRangeFilter, MatchAllDocsQuery, PrefixQuery, \
-    QueryFilter, Term, BooleanFilter, FilterClause, BooleanClause
+    QueryFilter, Term, BooleanFilter, FilterClause, BooleanClause, BooleanQuery
 
 from operator import itemgetter
 import string, time
 
 def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
     raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
-    emoticon_file_name = raw_stats_dir
-    for echar in emoticon:
-        if echar == ':': emoticon_file_name += 'colon_'
-        elif echar == ')': emoticon_file_name += 'rparen_'
-        elif echar == '(': emoticon_file_name += 'lparen_'
-        elif echar == '^': emoticon_file_name += 'carrot_'
-        elif echar == '_': emoticon_file_name += 'underscore_'
-        elif echar == '>': emoticon_file_name += 'greaterthan_'
-        elif echar == '<': emoticon_file_name += 'lessthan_'
-        elif echar == '.': emoticon_file_name += 'dot_'
-        elif echar == ';': emoticon_file_name += 'semicolon_'
-    emoticon_file_name = emoticon_file_name.rstrip('_')+".timehash"
+    emoticon_file_name = raw_stats_dir + normalizeEmoticonName(emoticon).rstripr('_')+".timehash"
     print "Searching for: ", emoticon, " at: ", time.time()
-    parsed_command = QueryParser.escape(emoticon)
-    query = QueryParser("text", analyzer).parse(parsed_command)
+    escaped_emoticon = QueryParser.escape(emoticon)
+    query = QueryParser("text", analyzer).parse(escaped_emoticon)
     hits = searcher.search(query)
     print "%s total matching documents." % hits.length()
     if hits.length() == 0: return
@@ -36,6 +26,7 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
         hctr = 0
         for hit in hits:
             hctr += 1
+            if hctr > 10000: break
             if hctr%10000==0: print "on hit: ", hctr
             if hctr == hits.length(): break
             uid, timestamp, country, emoticons = hit.get("user_id"), hit.get("timestamp"), hit.get('country'), hit.get('emoticons')
@@ -62,13 +53,14 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
     print "number of days to process: ", len(sorted_daytslist)
     for i, sorted_dayts in enumerate(sorted_daytslist):
         if i%100 == 0: print "on day number: ", i, " at: ", time.time()
-        #print "parsed_daytts: ", parsed_daytts, " parsed_nextdaytts: ", parsed_nextdaytts
-        #print "sorted_dayts: ", time.gmtime(sorted_dayts), " next: ", time.gmtime(daytshash[sorted_dayts]['next day ts'])
         range_filter = NumericRangeFilter.newIntRange("timestamp", Integer(sorted_dayts), Integer(daytshash[sorted_dayts]['next day ts']), True, True)
+        
+        #all tweets in day range
         all_docs_query = MatchAllDocsQuery()
         tweets_in_range_search = searcher.search(all_docs_query, range_filter)
         num_tweets_in_range = tweets_in_range_search.length()
 
+        #all tweets containing emoticons
         empty_term = Term("emoticons")
         empty_term_prefix = PrefixQuery(empty_term)
         all_emoticons_docs_query_filter = QueryFilter(empty_term_prefix)
@@ -77,6 +69,22 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
         compound_filter.add(FilterClause(all_emoticons_docs_query_filter, BooleanClause.Occur.MUST))
         emoticon_tweets_in_range_search = searcher.search(all_docs_query, compound_filter)
         num_emoticon_tweets_in_range = emoticon_tweets_in_range_search.length()
+
+        #all tweets containing "http" or "https"
+        bq = BooleanQuery()
+        http_str = QueryParser.escape("http://")
+	    http_query = QueryParser("emoticons", analyzer).parse(http_str)
+	    https_str = QueryParser.escape("https://")
+	    https_query = QueryParser("emoticons", analyzer).parse(https_str)
+	    bq.add(http_query, BooleanClause.Occur.MUST)
+	    bq.add(https_query, BooleanClause.Occur.MUST)
+	    bq_search = searcher.search(bq, range_filter)
+	    num_http_emoticons = bq_search.length()
+	
+	    print "total tweets: ", num_tweets_in_range
+	    print "total emoticons: ", num_emoticon_tweets_in_range
+	    print "num_http_emoticons: ", num_http_emoticons
+
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total tweets'] = num_tweets_in_range
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total emoticon tweets'] = num_emoticon_tweets_in_range
         

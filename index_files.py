@@ -137,7 +137,7 @@ class IndexTweets(IndexFiles):
                     
                 self.writer.addDocument(doc)
             for emoticon_char, count in sorted(self.emoticonhash.items(), key=itemgetter(1), reverse=True):
-                self.emoticonhashfile.write(emoticon_char + u" " + unicode(count) + u"\n")
+                self.emoticonhashfile.write(emoticon_char + u"," + unicode(count) + u"\n")
             self.emoticonhashfile.close()
         except Exception, e:
             print "failed to index file: ", docsfile, " with error: ", e
