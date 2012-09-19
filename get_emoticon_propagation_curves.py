@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from lucene import \
     Integer, QueryParser, IndexSearcher, WhitespaceAnalyzer, FSDirectory, Hit, \
-    VERSION, initVM, CLASSPATH, FieldValueFilter, NumericRangeFilter, MatchAllDocsQuery
+    VERSION, initVM, CLASSPATH, NumericRangeFilter, MatchAllDocsQuery, PrefixQuery, QueryFilter, Term
 
 from operator import itemgetter
 import string, time
@@ -67,9 +67,12 @@ def getEmoticonPropagationCurves(searcher, analyzer):
         tweets_in_range_search = searcher.search(all_docs_query, range_filter)
         num_tweets_in_range = tweets_in_range_search.length()
 
-        all_emoticon_docs_query_text = QueryParser.escape("*")
-        all_emoticon_docs_query = QueryParser("emoticons", analyzer).parse(all_emoticon_docs_query_text)
-        emoticon_tweets_in_range_search = searcher.search(all_emoticon_docs_query, range_filter)
+        #all_emoticon_docs_query_text = QueryParser.escape("*")
+        #all_emoticon_docs_query = QueryParser("emoticons", analyzer).parse(all_emoticon_docs_query_text)
+        empty_term = Term("emoticons")
+        empty_term_prefix = PrefixQuery(empty_term)
+        all_emoticons_docs_query_filter = QueryFilter(empty_term_prefix)
+        emoticon_tweets_in_range_search = searcher.search(all_emoticon_docs_query, all_emoticons_docs_query_filter)
         num_emoticon_tweets_in_range = emoticon_tweets_in_range_search.length()
         print "num tweets in range: ", num_tweets_in_range
         print "num emoticon tweets in range: ", num_emoticon_tweets_in_range
