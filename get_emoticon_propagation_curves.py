@@ -76,10 +76,9 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
         http_query = QueryParser("emoticons", analyzer).parse(http_str)
         https_str = QueryParser.escape("https://")
         https_query = QueryParser("emoticons", analyzer).parse(https_str)
-        bq.add(http_query, BooleanClause.Occur.MUST)
-        bq.add(https_query, BooleanClause.Occur.MUST)
-        #bq_search = searcher.search(bq, range_filter)
-        bq_search = searcher.search(http_query, range_filter)
+        bq.add(http_query, BooleanClause.Occur.SHOULD)
+        bq.add(https_query, BooleanClause.Occur.SHOULD)
+        bq_search = searcher.search(bq, range_filter)
         num_http_emoticons = bq_search.length()
     
         print "total tweets: ", num_tweets_in_range
