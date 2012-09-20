@@ -15,7 +15,7 @@ def getBaselineStatistics(searcher, analyzer):
     max_day_ctr = 1830
     day_ctr = 0
     while day_ctr < max_day_ctr:
-        if day_ctr%100 == 0: print "on day ctr: ", day_ctr
+        if day_ctr%100 == 0: print "on day ctr: ", day_ctr, " at time: ", time.time()
         if day_ctr > 300: break
         curr_day_ts = day_one_ts + 86400*day_ctr
         next_day_ts = day_one_ts + 86400*(day_ctr+1)
@@ -58,7 +58,7 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
     raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
     emoticon_file_name = raw_stats_dir + normalizeEmoticonName(emoticon).rstrip('_')+".timehash"
     emoticon_stats_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_stats.json","r") 
-    emoticon_stats_hash = json.loads(emoticon_stats_file)
+    emoticon_stats_hash = json.loads(emoticon_stats_file.read())
     print "Searching for: ", emoticon, " at: ", time.time()
     escaped_emoticon = QueryParser.escape(emoticon)
     query = QueryParser("text", analyzer).parse(escaped_emoticon)
