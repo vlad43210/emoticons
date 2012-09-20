@@ -26,7 +26,7 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
         hctr = 0
         for hit in hits:
             hctr += 1
-            if hctr > 10000: break
+            if hctr > 100000: break
             if hctr%10000==0: print "on hit: ", hctr
             if hctr == hits.length(): break
             uid, timestamp, country, emoticons = hit.get("user_id"), hit.get("timestamp"), hit.get('country'), hit.get('emoticons')
@@ -78,7 +78,8 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
         https_query = QueryParser("emoticons", analyzer).parse(https_str)
         bq.add(http_query, BooleanClause.Occur.MUST)
         bq.add(https_query, BooleanClause.Occur.MUST)
-        bq_search = searcher.search(bq, range_filter)
+        #bq_search = searcher.search(bq, range_filter)
+        bq_search = searcher.search(http_query, range_filter)
         num_http_emoticons = bq_search.length()
     
         print "total tweets: ", num_tweets_in_range
