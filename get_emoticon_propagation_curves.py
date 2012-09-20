@@ -80,10 +80,6 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
         bq.add(https_query, BooleanClause.Occur.SHOULD)
         bq_search = searcher.search(bq, range_filter)
         num_http_emoticons = bq_search.length()
-    
-        print "total tweets: ", num_tweets_in_range
-        print "total emoticons: ", num_emoticon_tweets_in_range
-        print "num_http_emoticons: ", num_http_emoticons
 
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total tweets'] = num_tweets_in_range
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total emoticon tweets'] = num_emoticon_tweets_in_range
