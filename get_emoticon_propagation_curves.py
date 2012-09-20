@@ -73,9 +73,8 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
         hctr = 0
         for hit in hits:
             hctr += 1
-            if hctr%10000==0: print "on hit: ", hctr
+            if hctr%100000==0: print "on hit: ", hctr
             if hctr == hits.length(): break
-            if hctr > 100000: break
             uid, timestamp, country, emoticons = hit.get("user_id"), hit.get("timestamp"), hit.get('country'), hit.get('emoticons')
             countryset.add(country)
             timestruct = time.gmtime(int(timestamp))
@@ -101,8 +100,6 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
     for i, sorted_dayts in enumerate(sorted_daytslist):
         if i%100 == 0: print "on day number: ", i, " at: ", time.time()
 
-        if daytshash[sorted_dayts] > 290: break
-
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total tweets'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['total tweets']
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total emoticon tweets'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['emoticons']
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total http emoticons'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['http']
@@ -126,7 +123,7 @@ if __name__ == '__main__':
     directory = FSDirectory.getDirectory(STORE_DIR, False)
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
-    getBaselineStatistics(searcher, analyzer)
+    #getBaselineStatistics(searcher, analyzer)
     getEmoticonPropagationCurves(":)", searcher, analyzer)
     #getEmoticonPropagationCurves(":(", searcher, analyzer)
     #getEmoticonPropagationCurves("^_^", searcher, analyzer)
