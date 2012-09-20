@@ -12,4 +12,5 @@ def normalizeEmoticonName(emoticon):
         elif echar == '<': norm_name += 'lessthan_'
         elif echar == '.': norm_name += 'dot_'
         elif echar == ';': norm_name += 'semicolon_'
+        elif echar == 'T': norm_name += 'T_'
     return norm_name

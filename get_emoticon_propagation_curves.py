@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# coding=utf-8
+
 from emoticon_utilities.string_utils import normalizeEmoticonName
 from lucene import \
     Integer, QueryParser, IndexSearcher, WhitespaceAnalyzer, FSDirectory, Hit, \
@@ -125,7 +127,8 @@ if __name__ == '__main__':
     analyzer = WhitespaceAnalyzer()
     #getBaselineStatistics(searcher, analyzer)
     #getEmoticonPropagationCurves(":)", searcher, analyzer)
-    getEmoticonPropagationCurves(":(", searcher, analyzer)
-    getEmoticonPropagationCurves("^_^", searcher, analyzer)
-    getEmoticonPropagationCurves(";)", searcher, analyzer)
+    #getEmoticonPropagationCurves(":(", searcher, analyzer)
+    #getEmoticonPropagationCurves("^_^", searcher, analyzer)
+    #getEmoticonPropagationCurves(";)", searcher, analyzer)
+    getEmoticonPropagationCurves("TT", searcher, analyzer)
     searcher.close()
