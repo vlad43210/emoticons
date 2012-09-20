@@ -16,7 +16,6 @@ def getBaselineStatistics(searcher, analyzer):
     day_ctr = 0
     while day_ctr < max_day_ctr:
         if day_ctr%100 == 0: print "on day ctr: ", day_ctr, " at time: ", time.time()
-        if day_ctr > 300: break
         curr_day_ts = day_one_ts + 86400*day_ctr
         next_day_ts = day_one_ts + 86400*(day_ctr+1)
         day_ctr+=1
@@ -76,6 +75,7 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
             hctr += 1
             if hctr%10000==0: print "on hit: ", hctr
             if hctr == hits.length(): break
+            if hctr > 100000: break
             uid, timestamp, country, emoticons = hit.get("user_id"), hit.get("timestamp"), hit.get('country'), hit.get('emoticons')
             countryset.add(country)
             timestruct = time.gmtime(int(timestamp))
@@ -88,7 +88,7 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
                 emoticon_propagation_hash[daysincestart]['total'] += total_emoticon_count
                 emoticon_propagation_hash[daysincestart][country] = emoticon_propagation_hash[daysincestart].get(country,0) + total_emoticon_count
             else:
-                emoticon_propagation_hash[daysincestart] = {'total':total_emoticon_count, country:total_emoticon_count}
+                emoticon_propagation_hash[daysincestart] = {'total':total_emoticon_count, country:total_emoticon_count, 'total tweets':0, 'total emoticon tweets':0, 'total http emoticons':0}
     except Exception, e: 
         print "failed to list hit: ", e
 
@@ -103,9 +103,9 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
 
         if daytshash[sorted_dayts] > 290: break
 
-        emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total tweets'] = emoticon_stats_hash[sorted_dayts]['total tweets']
-        emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total emoticon tweets'] = emoticon_stats_hash[sorted_dayts]['emoticons']
-        emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total http emoticons'] = emoticon_stats_hash[sorted_dayts]['http']
+        emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total tweets'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['total tweets']
+        emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total emoticon tweets'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['emoticons']
+        emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total http emoticons'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['http']
         
     print "outputting propagation curve to flat file at: ", time.time()
     countrylist = list(countryset)
