@@ -130,5 +130,6 @@ if __name__ == '__main__':
     #getEmoticonPropagationCurves(":(", searcher, analyzer)
     #getEmoticonPropagationCurves("^_^", searcher, analyzer)
     #getEmoticonPropagationCurves(";)", searcher, analyzer)
-    getEmoticonPropagationCurves("TT", searcher, analyzer)
+    #getEmoticonPropagationCurves("TT", searcher, analyzer)
+    getEmoticonPropagationCurves("=^", searcher, analyzer)
     searcher.close()
