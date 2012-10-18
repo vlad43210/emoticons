@@ -1,8 +1,8 @@
 """Created on Dec 28, 2011 by finkcr1"""
 
 class PMIResult(object):
-	
-	def __init__(self, term, pmi, cooccurrence_count):
+    
+    def __init__(self, term, pmi, cooccurrence_count):
         super(PMIResult, self).__init__()
         self.term = term
         self.pmi = pmi
