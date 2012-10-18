@@ -56,7 +56,7 @@ class PMICalculator(object):
         try:
             cooccurrence_count = self.terms.getCount(co_term)*1.0
             term_count = self.getTermCount(co_term)*1.0
-            if cooccurrence_count > 0
+            if cooccurrence_count > 0:
                 p_cooccurrence = cooccurrence_count / self.n
                 p_term = term_count / self.n + .00000001
             pmi = math.log(2, p_cooccurrence / (self.p_query_result * p_term))
