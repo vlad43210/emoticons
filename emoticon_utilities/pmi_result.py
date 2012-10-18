@@ -1,14 +1,4 @@
-/**
- * Created on Dec 28, 2011 by finkcr1
- */
-package edu.jhuapl.corpusstats.pmi;
-
-import org.apache.commons.lang3.builder.CompareToBuilder;
-
-/**
- * @author finkcr1
- * 
- */
+"""Created on Dec 28, 2011 by finkcr1"""
 
 class PMIResult(object):
 	
