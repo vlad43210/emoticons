@@ -5,7 +5,8 @@ from emoticon_utilities.term_count_collector import TermCountCollector
 from emoticon_utilities.pmi_result import PMIResult
 
 from lucene import \
-    VERSION, initVM, CLASSPATH, FSDirectory, Filter, IndexSearcher, WhitespaceAnalyzer
+    VERSION, initVM, CLASSPATH, FSDirectory, Filter, IndexSearcher, \
+    QueryParser, WhitespaceAnalyzer
 
 class PMICalculator(object):
 
