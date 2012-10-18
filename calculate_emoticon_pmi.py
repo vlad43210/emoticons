@@ -25,6 +25,8 @@ class PMICalculator(object):
         #qf = QueryFilter(MatchAllDocsQuery())
         #self.searcher.search(self.query, self.term_count_collector)
         hits = self.searcher.search(self.query)
+        print "number of hits: ", hits.length()
+        print "first hit id: ", hits.id(0)
         freqvec = reader.getTermFreqVector(hits.id(0), "all")
         self.terms = freqvec.getTerms()
         #self.terms = self.term_count_collector.getTerms()
