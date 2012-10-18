@@ -6,7 +6,7 @@ from emoticon_utilities.pmi_result import PMIResult
 
 from lucene import \
     VERSION, initVM, CLASSPATH, FSDirectory, Filter, IndexSearcher, \
-    QueryParser, WhitespaceAnalyzer
+    MatchAllDocsQuery, QueryFilter, QueryParser, WhitespaceAnalyzer
 
 class PMICalculator(object):
 
@@ -22,8 +22,8 @@ class PMICalculator(object):
         self.raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
         self.pmi_file_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".pmidata"
         self.term_count_collector = TermCountCollector(searcher)
-        #f = Filter()
-        self.searcher.search(self.query, None, self.term_count_collector)
+        qf = QueryFilter(MatchAllDocsQuery())
+        self.searcher.search(self.query, qf, self.term_count_collector)
         self.terms = self.term_count_collector.getTerms()
         self.query_result_count = self.term_count_collector.getDocCount()
         self.n = searcher.getIndexReader().numDocs()
