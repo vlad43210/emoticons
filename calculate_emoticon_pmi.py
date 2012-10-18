@@ -30,7 +30,7 @@ class PMICalculator(object):
 
         print "computing PMI for query: ", self.emoticon
         
-        self.p_query_result = query_result_count*1.0/self.n
+        self.p_query_result = self.query_result_count*1.0/self.n
 
     def getTermPMI(self, min_cooccurrence):
 
