@@ -20,7 +20,7 @@ class PMICalculator(object):
         self.escaped_emoticon = QueryParser.escape(self.emoticon)
         self.query = QueryParser("text",self.analyzer).parse(self.escaped_emoticon)
         self.raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
-        self.pmi_file_name = raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".pmidata"
+        self.pmi_file_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".pmidata"
         self.term_count_collector = TermCountCollector(searcher)
         self.searcher.search(self.query, Filter(), self.term_count_collector)
         self.terms = self.term_count_collector.getTerms()
