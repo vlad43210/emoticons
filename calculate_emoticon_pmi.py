@@ -23,7 +23,7 @@ class PMICalculator(object):
         self.pmi_file_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".pmidata"
         self.term_count_collector = TermCountCollector(searcher)
         qf = QueryFilter(MatchAllDocsQuery())
-        self.searcher.search(self.query, qf, self.term_count_collector)
+        self.searcher.search(self.query, qf)
         self.terms = self.term_count_collector.getTerms()
         self.query_result_count = self.term_count_collector.getDocCount()
         self.n = searcher.getIndexReader().numDocs()
