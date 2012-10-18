@@ -40,7 +40,7 @@ class PMICalculator(object):
         cnt = 0
         result_set = set()
 
-        for co_occurring_term in terms.uniqueSet():
+        for co_occurring_term in self.terms.uniqueSet():
             cnt+=1
             if (terms.getCount(co_occurring_term) >= min_cooccurrence) and re.match(term_re, co_occurring_term):
                 term_result = getPMI(co_occurring_term)
