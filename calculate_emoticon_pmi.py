@@ -76,6 +76,7 @@ class PMICalculator(object):
         return t_count
  
 if __name__ == '__main__':
+    print "started PMI calculator at: ", time.time()
     STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index"
     initVM(CLASSPATH, maxheap='1024m')
     print 'lucene', VERSION
