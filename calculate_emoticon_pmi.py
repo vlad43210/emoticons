@@ -5,12 +5,12 @@ from emoticon_utilities.term_count_collector import TermCountCollector
 from emoticon_utilities.pmi_result import PMIResult
 
 from lucene import \
-    VERSION, initVM, CLASSPATH, FSDirectory, Filter, IndexSearcher, \
-    MatchAllDocsQuery, QueryFilter, QueryParser, WhitespaceAnalyzer
+    VERSION, initVM, CLASSPATH, FSDirectory, IndexReader, IndexSearcher, \
+    QueryParser, WhitespaceAnalyzer
 
 class PMICalculator(object):
 
-    def __init__(self, emoticon, searcher, analyzer):
+    def __init__(self, emoticon, searcher, analyzer, reader):
         super(PMICalculator, self).__init__()
     
         self.field = "emoticons"
@@ -22,9 +22,12 @@ class PMICalculator(object):
         self.raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
         self.pmi_file_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".pmidata"
         self.term_count_collector = TermCountCollector(searcher)
-        qf = QueryFilter(MatchAllDocsQuery())
-        self.searcher.search(self.query, self.term_count_collector)
-        self.terms = self.term_count_collector.getTerms()
+        #qf = QueryFilter(MatchAllDocsQuery())
+        #self.searcher.search(self.query, self.term_count_collector)
+        hits = self.searcher.search(self.query)
+        freqvec = reader.getTermFreqVector(hits.id(0), "all")
+        self.terms = freqvec.getTerms()
+        #self.terms = self.term_count_collector.getTerms()
         self.query_result_count = self.term_count_collector.getDocCount()
         self.n = searcher.getIndexReader().numDocs()
 
@@ -82,6 +85,7 @@ if __name__ == '__main__':
     print 'lucene', VERSION
     directory = FSDirectory.getDirectory(STORE_DIR, False)
     searcher = IndexSearcher(directory)
+    reader = IndexReader(directory)
     analyzer = WhitespaceAnalyzer()
     min_doc_frequency = 3
     emoticonPmiCalculator = PMICalculator(":)", searcher, analyzer)
