@@ -27,6 +27,7 @@ class PMICalculator(object):
         hits = self.searcher.search(self.query)
         print "number of hits: ", hits.length()
         print "first hit id: ", hits.id(0)
+        print "first hit tfv: ", reader.getTermFreqVector(hits.id(0), "text")
         freqvec = reader.getTermFreqVector(hits.id(0), "text")
         self.terms = freqvec.getTerms()
         #self.terms = self.term_count_collector.getTerms()
