@@ -13,12 +13,12 @@ class PMICalculator(object):
     def __init__(self, emoticon, searcher, analyzer):
         super(PMICalculator, self).__init__()
     
-        self.field = "text"
+        self.field = "emoticons"
         self.emoticon = emoticon
         self.searcher = searcher
         self.analyzer = analyzer
         self.escaped_emoticon = QueryParser.escape(self.emoticon)
-        self.query = QueryParser("text",self.analyzer).parse(self.escaped_emoticon)
+        self.query = QueryParser("emoticons",self.analyzer).parse(self.escaped_emoticon)
         self.raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
         self.pmi_file_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".pmidata"
         self.term_count_collector = TermCountCollector(searcher)
@@ -92,7 +92,7 @@ if __name__ == '__main__':
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
     min_doc_frequency = 3
-    emoticonPmiCalculator = PMICalculator("happy", searcher, analyzer)
+    emoticonPmiCalculator = PMICalculator(":)", searcher, analyzer)
     emoticonPmiCalculator.getTermPMI(min_doc_frequency)
-    print "calculated PMI for happy at: ", time.time()
+    print "calculated PMI for :) at: ", time.time()
     searcher.close()
