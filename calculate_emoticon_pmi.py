@@ -24,7 +24,7 @@ class PMICalculator(object):
         self.term_count_collector = TermCountCollector(searcher)
         #qf = QueryFilter(MatchAllDocsQuery())
         #self.searcher.search(self.query, self.term_count_collector)
-        #hits = self.searcher.search(self.query)
+        hits = self.searcher.search(self.query)
         #print "number of hits: ", hits.length()
         #print "first hit id: ", hits.id(0)
         #print "first hit tfv: ", reader.getTermFreqVector(hits.id(0), "emoticons")
