@@ -6,7 +6,7 @@ from emoticon_utilities.pmi_result import PMIResult
 
 from lucene import \
     VERSION, initVM, CLASSPATH, FSDirectory, IndexReader, IndexSearcher, \
-    PythonHitCollector, QueryFilter, QueryParser, WhitespaceAnalyzer
+    MatchAllDocsQuery, PythonHitCollector, QueryFilter, QueryParser, WhitespaceAnalyzer
 
 class PMICalculator(object):
 
