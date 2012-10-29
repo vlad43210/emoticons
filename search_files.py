@@ -64,7 +64,7 @@ def run(searcher, analyzer):
 
 
 if __name__ == '__main__':
-    STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index"
+    STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test"
     initVM(CLASSPATH)
     print 'lucene', VERSION
     directory = FSDirectory.getDirectory(STORE_DIR, False)
