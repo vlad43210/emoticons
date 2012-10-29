@@ -22,9 +22,9 @@ class PMICalculator(object):
         self.raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
         self.pmi_file_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".pmidata"
         self.term_count_collector = TermCountCollector(searcher)
-        #qf = QueryFilter(MatchAllDocsQuery())
+        qf = QueryFilter(MatchAllDocsQuery())
         phc = PythonHitCollector()
-        hits = self.searcher.search(self.query)
+        hits = self.searcher.search(self.query, qf)
         #hits = self.searcher.search(self.query, self.term_count_collector)
         #hits = self.searcher.search(self.query)
         #print "number of hits: ", hits.length()
