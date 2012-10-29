@@ -21,7 +21,7 @@ class TermCountCollector(PythonHitCollector):
         return True
 
     def collect(self, arg0, score):
-        tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
+        tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "emoticons")
         for tv_term in tv.getTerms: self.terms.append(tv_term)
         self.doc_count+=1
 
