@@ -90,7 +90,6 @@ if __name__ == '__main__':
     print 'lucene', VERSION
     directory = FSDirectory.getDirectory(STORE_DIR, False)
     searcher = IndexSearcher(directory)
-    reader = IndexReader.open(directory)
     analyzer = WhitespaceAnalyzer()
     min_doc_frequency = 3
     emoticonPmiCalculator = PMICalculator(":)", searcher, analyzer)
