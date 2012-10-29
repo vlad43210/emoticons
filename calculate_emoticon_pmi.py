@@ -10,7 +10,7 @@ from lucene import \
 
 class PMICalculator(object):
 
-    def __init__(self, emoticon, searcher, analyzer, reader):
+    def __init__(self, emoticon, searcher, analyzer):
         super(PMICalculator, self).__init__()
     
         self.field = "emoticons"
@@ -24,13 +24,13 @@ class PMICalculator(object):
         self.term_count_collector = TermCountCollector(searcher)
         #qf = QueryFilter(MatchAllDocsQuery())
         #self.searcher.search(self.query, self.term_count_collector)
-        hits = self.searcher.search(self.query)
-        print "number of hits: ", hits.length()
-        print "first hit id: ", hits.id(0)
-        print "first hit tfv: ", reader.getTermFreqVector(hits.id(0), "emoticons")
-        freqvec = reader.getTermFreqVector(hits.id(0), "text")
-        self.terms = freqvec.getTerms()
-        #self.terms = self.term_count_collector.getTerms()
+        #hits = self.searcher.search(self.query)
+        #print "number of hits: ", hits.length()
+        #print "first hit id: ", hits.id(0)
+        #print "first hit tfv: ", reader.getTermFreqVector(hits.id(0), "emoticons")
+        #freqvec = reader.getTermFreqVector(hits.id(0), "text")
+        #self.terms = freqvec.getTerms()
+        self.terms = self.term_count_collector.getTerms()
         self.query_result_count = self.term_count_collector.getDocCount()
         self.n = searcher.getIndexReader().numDocs()
 
@@ -91,7 +91,7 @@ if __name__ == '__main__':
     reader = IndexReader.open(directory)
     analyzer = WhitespaceAnalyzer()
     min_doc_frequency = 3
-    emoticonPmiCalculator = PMICalculator(":)", searcher, analyzer, reader)
+    emoticonPmiCalculator = PMICalculator(":)", searcher, analyzer)
     emoticonPmiCalculator.getTermPMI(min_doc_frequency)
     print "calculated PMI for :) at: ", time.time()
     searcher.close()
