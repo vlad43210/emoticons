@@ -76,7 +76,7 @@ class IndexTweets(IndexFiles):
     def __init__(self, root, storeDir, analyzer, location_hash):
         super(IndexTweets, self).__init__(root, storeDir, analyzer)
         self.location_hash = location_hash
-        self.linecutoff = 1000000
+        self.linecutoff = 100000
         self.RTre = re.compile("RT @\w+")
         self.tzre = re.compile("\+\w+")
         self.emoticonre = re.compile(u"http(s)?[:]//|[=<>]?[;:]+[\^]?[\\\/)(\]\[}{PpboO0]+[X#]?|[+=>\^Tㅜㅠㅡ][ㅁㅇ._-]*[+=<\^Tㅜㅠㅡ]")

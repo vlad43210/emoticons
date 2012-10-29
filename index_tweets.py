@@ -1,7 +1,7 @@
 import lucene, sys, os, threading, time
 
 from datetime import datetime
-from lucene import WhitespaceAnalyzer, VERSION, initVM, Version
+from lucene import StandardAnalyzer, WhitespaceAnalyzer, VERSION, initVM, Version
 from index_files import IndexTweets
 
 def getUserLocations():
@@ -27,8 +27,10 @@ if __name__ == '__main__':
     def fn():
         env.attachCurrentThread()
         start = datetime.now()
-        ix = IndexTweets(sys.argv[1], "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test",
+        #ix = IndexTweets(sys.argv[1], "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test",
                    WhitespaceAnalyzer(Version.LUCENE_CURRENT), location_hash)
+		ix = IndexTweets(sys.argv[1], "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test",
+		           StandardAnalyzer(Version.LUCENE_CURRENT), location_hash)
         ix.runIndexer()
         end = datetime.now()
         print end - start
