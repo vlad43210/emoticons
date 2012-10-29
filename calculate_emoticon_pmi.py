@@ -13,12 +13,12 @@ class PMICalculator(object):
     def __init__(self, emoticon, searcher, analyzer):
         super(PMICalculator, self).__init__()
     
-        self.field = "text"
+        self.field = "emoticons"
         self.emoticon = emoticon
         self.searcher = searcher
         self.analyzer = analyzer
         self.escaped_emoticon = QueryParser.escape(self.emoticon)
-        self.query = QueryParser("text",self.analyzer).parse(self.escaped_emoticon)
+        self.query = QueryParser("emoticons",self.analyzer).parse(self.escaped_emoticon)
         self.raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
         self.pmi_file_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".pmidata"
         self.term_count_collector = TermCountCollector(searcher)
@@ -85,7 +85,7 @@ class PMICalculator(object):
  
 if __name__ == '__main__':
     print "started PMI calculator at: ", time.time()
-    STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index"
+    STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test"
     initVM(CLASSPATH, maxheap='1024m')
     print 'lucene', VERSION
     directory = FSDirectory.getDirectory(STORE_DIR, False)
@@ -93,7 +93,7 @@ if __name__ == '__main__':
     reader = IndexReader.open(directory)
     analyzer = WhitespaceAnalyzer()
     min_doc_frequency = 3
-    emoticonPmiCalculator = PMICalculator("hello", searcher, analyzer)
+    emoticonPmiCalculator = PMICalculator(":)", searcher, analyzer)
     emoticonPmiCalculator.getTermPMI(min_doc_frequency)
-    print "calculated PMI for hello at: ", time.time()
+    print "calculated PMI for :) at: ", time.time()
     searcher.close()
