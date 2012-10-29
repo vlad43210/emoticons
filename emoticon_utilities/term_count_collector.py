@@ -23,12 +23,13 @@ class TermCountCollector(PythonHitCollector):
     def collect(self, arg0, score):
         #print "doc count: ", self.doc_count
         doc = self.searcher.doc(arg0);
-        print "%s: %s" %(doc, score)
-        tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
-        try:
-            for tv_term in tv.getTerms: self.terms.append(tv_term)
-        except:
-            pass
+        #print "%s: %s" %(doc, score)
+        tv = self.searcher.getIndexReader().getTermFreqVectors(self.base_doc + arg0)
+        print "tv: ", tv
+        #try:
+        #    for tv_term in tv.getTerms: self.terms.append(tv_term)
+        #except:
+        #    pass
         #print "terms: ", self.terms
         self.doc_count+=1
 
