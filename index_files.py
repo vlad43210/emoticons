@@ -76,7 +76,7 @@ class IndexTweets(IndexFiles):
     def __init__(self, root, storeDir, analyzer, location_hash):
         super(IndexTweets, self).__init__(root, storeDir, analyzer)
         self.location_hash = location_hash
-        self.linecutoff = 50000000
+        self.linecutoff = 1000000
         self.RTre = re.compile("RT @\w+")
         self.tzre = re.compile("\+\w+")
         self.emoticonre = re.compile(u"http(s)?[:]//|[=<>]?[;:]+[\^]?[\\\/)(\]\[}{PpboO0]+[X#]?|[+=>\^Tㅜㅠㅡ][ㅁㅇ._-]*[+=<\^Tㅜㅠㅡ]")
@@ -130,7 +130,7 @@ class IndexTweets(IndexFiles):
                 doc.add(lucene.Field("country", country, lucene.Field.Store.YES, lucene.Field.Index.UN_TOKENIZED))
                 doc.add(lucene.NumericField("timestamp",4,lucene.Field.Store.YES, True).setIntValue(timestamp))
                 #doc.add(lucene.Field("timestamp", timestamp, lucene.Field.Store.YES, lucene.Field.Index.UN_TOKENIZED))
-                if len(text) > 0: doc.add(lucene.Field("text", text, lucene.Field.Store.NO, lucene.Field.Index.TOKENIZED))
+                if len(text) > 0: doc.add(lucene.Field("text", text, lucene.Field.Store.YES, lucene.Field.Index.TOKENIZED))
                 if len(emoticon_str) > 0: 
                     #print "emoticon_str: ", emoticon_str
                     doc.add(lucene.Field("emoticons", emoticon_str, lucene.Field.Store.YES, lucene.Field.Index.TOKENIZED))
