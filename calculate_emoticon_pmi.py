@@ -6,7 +6,7 @@ from emoticon_utilities.pmi_result import PMIResult
 
 from lucene import \
     VERSION, initVM, CLASSPATH, FSDirectory, IndexReader, IndexSearcher, \
-    QueryParser, WhitespaceAnalyzer
+    PythonHitCollector, QueryParser, WhitespaceAnalyzer
 
 class PMICalculator(object):
 
@@ -23,7 +23,9 @@ class PMICalculator(object):
         self.pmi_file_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".pmidata"
         self.term_count_collector = TermCountCollector(searcher)
         #qf = QueryFilter(MatchAllDocsQuery())
-        self.searcher.search(self.query, self.term_count_collector)
+        phc = PythonHitCollector()
+        test_collector = self.searcher.search(self.query, phc)
+        #hits = self.searcher.search(self.query, self.term_count_collector)
         #hits = self.searcher.search(self.query)
         #print "number of hits: ", hits.length()
         #print "first hit id: ", hits.id(0)
