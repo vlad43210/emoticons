@@ -1,8 +1,8 @@
 from lucene import \
-    IndexSearcher, PythonHitCollector
+    IndexSearcher, Collector
 
 
-class TermCountCollector(PythonHitCollector): 
+class TermCountCollector(Collector): 
 
     def __init__(self, searcher):
         super(TermCountCollector, self).__init__()
