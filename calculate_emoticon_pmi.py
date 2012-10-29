@@ -13,7 +13,7 @@ class PMICalculator(object):
     def __init__(self, emoticon, searcher, analyzer):
         super(PMICalculator, self).__init__()
     
-        self.field = "emoticons"
+        self.field = "text"
         self.emoticon = emoticon
         self.searcher = searcher
         self.analyzer = analyzer
@@ -93,7 +93,7 @@ if __name__ == '__main__':
     reader = IndexReader.open(directory)
     analyzer = WhitespaceAnalyzer()
     min_doc_frequency = 3
-    emoticonPmiCalculator = PMICalculator(":)", searcher, analyzer)
+    emoticonPmiCalculator = PMICalculator("hello", searcher, analyzer)
     emoticonPmiCalculator.getTermPMI(min_doc_frequency)
-    print "calculated PMI for :) at: ", time.time()
+    print "calculated PMI for hello at: ", time.time()
     searcher.close()
