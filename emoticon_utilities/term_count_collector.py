@@ -22,7 +22,7 @@ class TermCountCollector(PythonHitCollector):
         return True
 
     def collect(self, arg0, score):
-        if self.doc_count%10000 == 0: print "doc number: ", self.doc_count, " at: ", time.time()
+        #if self.doc_count%10000 == 0: print "doc number: ", self.doc_count, " at: ", time.time()
         #print "doc count: ", self.doc_count
         doc = self.searcher.doc(arg0);
         #print "%s: %s" %(doc, score)
