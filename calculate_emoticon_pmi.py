@@ -33,6 +33,7 @@ class PMICalculator(object):
         #freqvec = reader.getTermFreqVector(hits.id(0), "text")
         #self.terms = freqvec.getTerms()
         self.terms = self.term_count_collector.getTerms()
+        print "terms: ", self.terms
         self.query_result_count = self.term_count_collector.getDocCount()
         self.n = searcher.getIndexReader().numDocs()
 
