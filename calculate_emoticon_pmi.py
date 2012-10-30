@@ -69,7 +69,7 @@ class PMICalculator(object):
         cooccurrence_count = 0
         term_count = 0
         try:
-            cooccurrence_count = self.unique_terms.count(co_term)*1.0
+            cooccurrence_count = self.terms.count(co_term)*1.0
             term_count = self.getTermCount(co_term)*1.0
             if cooccurrence_count > 0:
                 p_cooccurrence = cooccurrence_count / self.n
