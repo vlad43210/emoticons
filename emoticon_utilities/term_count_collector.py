@@ -38,9 +38,8 @@ class TermCountCollector(PythonHitCollector):
             pass
         else:
             for p_term in self.popular_terms_hash:
-                clean_term = p_term.rstrip(".")
-                if clean_term in tv_term_str:
-                    self.popular_terms_hash[clean_term].append(tv)
+                if p_term in tv_term_str:
+                    self.popular_terms_hash[p_term].append(tv)
             self.unique_tv_list[tv_term_str.rstrip(",")] = 1
             try:
                 for tv_term in tv.getTerms(): 
