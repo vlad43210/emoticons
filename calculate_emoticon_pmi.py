@@ -33,6 +33,7 @@ class PMICalculator(object):
         #freqvec = reader.getTermFreqVector(hits.id(0), "text")
         #self.terms = freqvec.getTerms()
         self.terms = self.term_count_collector.getTerms()
+        self.unique_terms = set(self.terms)
         #print "terms: ", self.terms
         self.query_result_count = self.term_count_collector.getDocCount()
         self.n = searcher.getIndexReader().numDocs()
@@ -48,9 +49,8 @@ class PMICalculator(object):
         term_re = "([a-z]+)|([#]\\w+)"
         cnt = 0
         result_set = set()
-        unique_terms = set(self.terms)
 
-        for co_occurring_term in unique_terms:
+        for co_occurring_term in self.unique_terms:
             cnt+=1
             if (self.terms.count(co_occurring_term) >= min_cooccurrence) and re.match(term_re, co_occurring_term):
                 term_result = self.getPMI(co_occurring_term)
@@ -66,7 +66,7 @@ class PMICalculator(object):
         cooccurrence_count = 0
         term_count = 0
         try:
-            cooccurrence_count = self.terms.getCount(co_term)*1.0
+            cooccurrence_count = self.unique_terms.count(co_term)*1.0
             term_count = self.getTermCount(co_term)*1.0
             if cooccurrence_count > 0:
                 p_cooccurrence = cooccurrence_count / self.n
