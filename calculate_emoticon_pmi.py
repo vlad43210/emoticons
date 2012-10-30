@@ -90,7 +90,7 @@ if __name__ == '__main__':
     directory = FSDirectory.getDirectory(STORE_DIR, False)
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
-    min_doc_frequency = 1000
+    min_doc_frequency = 200
     emoticonPmiCalculator = PMICalculator(":)", searcher, analyzer)
     emoticonPmiCalculator.getTermPMI(min_doc_frequency)
     print "calculated PMI for :) at: ", time.time()
