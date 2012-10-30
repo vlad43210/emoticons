@@ -59,6 +59,8 @@ class PMICalculator(object):
                     result_set.add(term_result)
             if cnt%1000 == 0: print "processed term number: ", cnt, " out of: ", len(self.unique_terms)
 
+        print "number of results: ", len(result_set)
+        result_set.sort(lambda x: x.getPmi(), reverse=True)
         for tr in result_set: self.pmi_file.write(tr.getTerm() + "," + tr.getPmi() + "," + tr.getCooccurrenceCount() + "\n")
         self.pmi_file.close()
 
