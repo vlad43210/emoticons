@@ -11,6 +11,7 @@ class TermCountCollector(PythonHitCollector):
         self.terms = {}
         self.searcher = searcher
         self.unique_tv_list = {}
+        self.popular_terms_hash = {"hurt":[], "podcast":[], "general":[], "catalog":[], "medicine":[]}
         
     def getDocCount(self):
         return self.doc_count
@@ -35,9 +36,10 @@ class TermCountCollector(PythonHitCollector):
         if tv_term_str.rstrip(",") in self.unique_tv_list:
             #print "eliminated duplicated string: ", tv_term_str
             pass
-        if "hurt" in tv_term_str or "podcast" in tv_term_str or "general" in tv_term_str or "catalog" in tv_term_str or "medicine" in tv_term_str:
-            print "document: ", tv
         else:
+            for p_term in self.popular_terms_hash:
+                if p_term in tv_term_str:
+                    self.popular_terms_hash[p_term].append(tv)
             self.unique_tv_list[tv_term_str.rstrip(",")] = 1
             try:
                 for tv_term in tv.getTerms(): self.terms[tv_term] = self.terms.get(tv_term,0)+1

@@ -28,6 +28,9 @@ class PMICalculator(object):
         self.terms = self.term_count_collector.getTerms()
         #print "terms: ", self.terms
         self.query_result_count = self.term_count_collector.getDocCount()
+        for p_term, p_term_tweets in self.term_count_collector.popular_terms_hash.items():
+            print "term: ", p_term
+            print "tweets: ", p_term_tweets[:50]
         self.n = searcher.getIndexReader().numDocs()
 
         print "computing PMI for query: ", self.emoticon, " at: ", time.time()
