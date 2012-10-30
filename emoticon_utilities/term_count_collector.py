@@ -34,13 +34,14 @@ class TermCountCollector(PythonHitCollector):
                 tv_term_str = tv_term_str + tv_term + ","
         if tv_term_str.rstrip(",") in self.unique_tv_list:
             print "eliminated duplicated string: ", tv_term_str
-            continue
-        try:
-            for tv_term in tv.getTerms(): self.terms[tv_term] = self.terms.get(tv_term,0)+1
-        except:
-            pass
-        #print "terms: ", self.terms
-        self.doc_count+=1
+        else:
+            self.unique_tv_list[tv_term_str.rstrip(",")] = 1
+            try:
+                for tv_term in tv.getTerms(): self.terms[tv_term] = self.terms.get(tv_term,0)+1
+            except:
+                pass
+            #print "terms: ", self.terms
+            self.doc_count+=1
 
     def setNextReader(self, arg0, arg1):
         self.base_doc = arg1
