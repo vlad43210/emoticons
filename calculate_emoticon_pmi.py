@@ -60,8 +60,8 @@ class PMICalculator(object):
             if cnt%1000 == 0: print "processed term number: ", cnt, " out of: ", len(self.unique_terms)
 
         print "number of results: ", len(result_set)
-        result_set.sort(lambda x: x.getPmi(), reverse=True)
-        for tr in result_set: self.pmi_file.write(tr.getTerm() + "," + tr.getPmi() + "," + tr.getCooccurrenceCount() + "\n")
+        sorted_result_set = sorted(list(result_set), lambda x: x.getPmi(), reverse=True)
+        for tr in sorted_result_set: self.pmi_file.write(tr.getTerm() + "," + tr.getPmi() + "," + tr.getCooccurrenceCount() + "\n")
         self.pmi_file.close()
 
     def getPMI(self, co_term):
@@ -96,7 +96,7 @@ if __name__ == '__main__':
     directory = FSDirectory.getDirectory(STORE_DIR, False)
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
-    min_doc_frequency = 3
+    min_doc_frequency = 1
     emoticonPmiCalculator = PMICalculator(":)", searcher, analyzer)
     emoticonPmiCalculator.getTermPMI(min_doc_frequency)
     print "calculated PMI for :) at: ", time.time()
