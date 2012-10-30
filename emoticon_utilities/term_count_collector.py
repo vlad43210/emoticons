@@ -36,9 +36,10 @@ class TermCountCollector(PythonHitCollector):
                 tv_term_str = tv_term_str + tv_term.rstrip(".") + ","
             if tv_term in [u'RT', u'rt']:
                 is_rt = True
-        if tv_term_str.rstrip(",") in self.unique_tv_list and is_rt:
+        #if tv_term_str.rstrip(",") in self.unique_tv_list and is_rt:
             #print "eliminated duplicated string: ", tv_term_str
-            pass
+        #    pass
+        if False: pass
         else:
             for p_term in self.popular_terms_hash:
                 if p_term in tv_term_str:
