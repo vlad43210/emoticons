@@ -61,7 +61,7 @@ class PMICalculator(object):
 
         print "number of results: ", len(result_set)
         sorted_result_set = sorted(list(result_set), key=lambda x: x.getPMI(), reverse=True)
-        for tr in sorted_result_set: self.pmi_file.write(tr.getTerm() + "," + tr.getPMI() + "," + tr.getCooccurrenceCount() + "\n")
+        for tr in sorted_result_set: self.pmi_file.write(tr.getTerm() + "," + str(tr.getPMI()) + "," + str(tr.getCooccurrenceCount()) + "\n")
         self.pmi_file.close()
 
     def getPMI(self, co_term):
