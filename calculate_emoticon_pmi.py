@@ -57,7 +57,7 @@ class PMICalculator(object):
                 term_result = self.getPMI(co_occurring_term)
                 if term_result.getCooccurrenceCount() >= min_cooccurrence:
                     result_set.add(term_result)
-            if cnt%1000 == 0: print "processed term number: ", cnt
+            if cnt%1000 == 0: print "processed term number: ", cnt, " out of: ", len(self.unique_terms)
 
         for tr in result_set: self.pmi_file.write(tr.getTerm() + "," + tr.getPmi() + "," + tr.getCooccurrenceCount() + "\n")
         self.pmi_file.close()
@@ -73,7 +73,7 @@ class PMICalculator(object):
                 p_cooccurrence = cooccurrence_count / self.n
                 p_term = term_count / self.n + .00000001
             pmi = math.log(2, p_cooccurrence / (self.p_query_result * p_term))
-            print "term: ", co_term, " term count: ", term_count, " cooccurrence_count: ", cooccurrence_count, " P(seed-term,term): ", p_cooccurrence, " P(seedterm): ", p_term, " PMI: ", pmi
+            #print "term: ", co_term, " term count: ", term_count, " cooccurrence_count: ", cooccurrence_count, " P(seed-term,term): ", p_cooccurrence, " P(seedterm): ", p_term, " PMI: ", pmi
         except Exception, e:
             print "failed to calculate PMI: ", e
         return PMIResult(co_term, pmi, cooccurrence_count)
