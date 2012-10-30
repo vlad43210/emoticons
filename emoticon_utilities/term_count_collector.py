@@ -8,7 +8,7 @@ class TermCountCollector(PythonHitCollector):
         super(TermCountCollector, self).__init__()
         self.base_doc = 0
         self.doc_count = 0
-        self.terms = []
+        self.terms = {}
         self.searcher = searcher
         
     def getDocCount(self):
@@ -27,7 +27,7 @@ class TermCountCollector(PythonHitCollector):
         tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
         #print "tv: ", tv
         try:
-            for tv_term in tv.getTerms(): self.terms.append(tv_term)
+            for tv_term in tv.getTerms(): self.terms[tv_term] = self.terms.get(tv_term,0)+1
         except:
             pass
         #print "terms: ", self.terms

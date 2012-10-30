@@ -23,23 +23,14 @@ class PMICalculator(object):
         self.raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
         self.pmi_file_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".pmidata"
         self.term_count_collector = TermCountCollector(searcher)
-        #qf = QueryFilter(MatchAllDocsQuery())
-        #phc = PythonHitCollector()
-        #hits = self.searcher.search(self.query, qf, phc)
+        print "starting query at: ", time.time()
         hits = self.searcher.search(self.query, self.term_count_collector)
-        #hits = self.searcher.search(self.query)
-        #print "number of hits: ", hits.length()
-        #print "first hit id: ", hits.id(0)
-        #print "first hit tfv: ", reader.getTermFreqVector(hits.id(0), "emoticons")
-        #freqvec = reader.getTermFreqVector(hits.id(0), "text")
-        #self.terms = freqvec.getTerms()
         self.terms = self.term_count_collector.getTerms()
-        self.unique_terms = list(set(self.terms))
         #print "terms: ", self.terms
         self.query_result_count = self.term_count_collector.getDocCount()
         self.n = searcher.getIndexReader().numDocs()
 
-        print "computing PMI for query: ", self.emoticon
+        print "computing PMI for query: ", self.emoticon, " at: ", time.time()
         
         self.p_query_result = self.query_result_count*1.0/self.n
 
@@ -51,13 +42,13 @@ class PMICalculator(object):
         cnt = 0
         result_set = set()
 
-        for co_occurring_term in self.unique_terms:
+        for co_occurring_term in self.terms:
             cnt+=1
-            if (self.terms.count(co_occurring_term) >= min_cooccurrence) and re.match(term_re, co_occurring_term):
+            if (self.terms[co_occurring_term] >= min_cooccurrence) and re.match(term_re, co_occurring_term):
                 term_result = self.getPMI(co_occurring_term)
                 if term_result.getCooccurrenceCount() >= min_cooccurrence:
                     result_set.add(term_result)
-            if cnt%1000 == 0: print "processed term number: ", cnt, " out of: ", len(self.unique_terms)
+            if cnt%1 == 0: print "processed term number: ", cnt, " out of: ", len(self.unique_terms), " at: ", time.time()
 
         print "number of results: ", len(result_set)
         sorted_result_set = sorted(list(result_set), key=lambda x: x.getPMI(), reverse=True)
@@ -69,7 +60,7 @@ class PMICalculator(object):
         cooccurrence_count = 0
         term_count = 0
         try:
-            cooccurrence_count = self.terms.count(co_term)*1.0
+            cooccurrence_count = self.terms[co_term]*1.0
             term_count = self.getTermCount(co_term)*1.0
             if cooccurrence_count > 0:
                 p_cooccurrence = cooccurrence_count / self.n
