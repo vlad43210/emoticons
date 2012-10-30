@@ -32,17 +32,20 @@ class TermCountCollector(PythonHitCollector):
         tv_term_str = ""
         for tv_term in tv.getTerms():
             if tv_term not in [u'RT', u'rt'] and not tv_term.startswith("@") and not tv_term.startswith("http://"):
-                tv_term_str = tv_term_str + tv_term + ","
+                tv_term_str = tv_term_str + tv_term.rstrip(".") + ","
         if tv_term_str.rstrip(",") in self.unique_tv_list:
             #print "eliminated duplicated string: ", tv_term_str
             pass
         else:
             for p_term in self.popular_terms_hash:
-                if p_term in tv_term_str:
-                    self.popular_terms_hash[p_term].append(tv)
+                clean_term = p_term.rstrip(".")
+                if clean_term in tv_term_str:
+                    self.popular_terms_hash[clean_term].append(tv)
             self.unique_tv_list[tv_term_str.rstrip(",")] = 1
             try:
-                for tv_term in tv.getTerms(): self.terms[tv_term] = self.terms.get(tv_term,0)+1
+                for tv_term in tv.getTerms(): 
+                    clean_tv_term = tv_term.rstrip(".")
+                    self.terms[clean_tv_term] = self.terms.get(clean_tv_term,0)+1
             except:
                 pass
             #print "terms: ", self.terms
