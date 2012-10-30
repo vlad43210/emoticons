@@ -27,7 +27,7 @@ class TermCountCollector(PythonHitCollector):
         tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
         #print "tv: ", tv
         try:
-            for tv_term in tv.getTerms: self.terms.append(tv_term)
+            for tv_term in tv.getTerms(): self.terms.append(tv_term)
         except:
             pass
         #print "terms: ", self.terms
