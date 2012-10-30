@@ -25,7 +25,7 @@ class TermCountCollector(PythonHitCollector):
         doc = self.searcher.doc(arg0);
         #print "%s: %s" %(doc, score)
         tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
-        #print "tv: ", tv
+        print "tv: ", tv
         try:
             for tv_term in tv.getTerms(): self.terms[tv_term] = self.terms.get(tv_term,0)+1
         except:

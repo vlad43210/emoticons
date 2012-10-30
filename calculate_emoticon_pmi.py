@@ -48,7 +48,7 @@ class PMICalculator(object):
                 term_result = self.getPMI(co_occurring_term)
                 if term_result.getCooccurrenceCount() >= min_cooccurrence:
                     result_set.add(term_result)
-            if cnt%1 == 10000: print "processed term number: ", cnt, " out of: ", len(self.terms), " at: ", time.time()
+            if cnt%10000 == 0: print "processed term number: ", cnt, " out of: ", len(self.terms), " at: ", time.time()
 
         print "number of results: ", len(result_set)
         sorted_result_set = sorted(list(result_set), key=lambda x: x.getPMI(), reverse=True)
