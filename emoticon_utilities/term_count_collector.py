@@ -1,6 +1,6 @@
 from lucene import \
     IndexSearcher, PythonHitCollector
-
+import time
 
 class TermCountCollector(PythonHitCollector): 
 
@@ -10,6 +10,7 @@ class TermCountCollector(PythonHitCollector):
         self.doc_count = 0
         self.terms = {}
         self.searcher = searcher
+        self.unique_tv_list = {}
         
     def getDocCount(self):
         return self.doc_count
@@ -21,11 +22,13 @@ class TermCountCollector(PythonHitCollector):
         return True
 
     def collect(self, arg0, score):
+        #if self.doc_count%10 == 0: print "doc number: ", self.doc_count, " at: ", time.time()
         #print "doc count: ", self.doc_count
         doc = self.searcher.doc(arg0);
         #print "%s: %s" %(doc, score)
         tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
-        print "tv: ", tv
+        #tv_hash = dict([(t.split("/")[0].strip(), t.split("/")[1]) for for t in tv.split(",")])
+        print "tv: ", tv.getTerms()
         try:
             for tv_term in tv.getTerms(): self.terms[tv_term] = self.terms.get(tv_term,0)+1
         except:
