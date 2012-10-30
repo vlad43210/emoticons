@@ -28,7 +28,6 @@ class TermCountCollector(PythonHitCollector):
         doc = self.searcher.doc(arg0);
         #print "%s: %s" %(doc, score)
         tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
-        #tv_hash = dict([(t.split("/")[0].strip(), t.split("/")[1]) for for t in tv.split(",")])
         tv_term_str = ""
         is_rt = False
         for tv_term in tv.getTerms():
@@ -37,13 +36,13 @@ class TermCountCollector(PythonHitCollector):
                 tv_term_str = tv_term_str + clean_term + ","
             if clean_term in [u'RT', u'rt']:
                 is_rt = True
-        if tv_term_str.rstrip(",") in self.unique_tv_list and is_rt:
+        if tv_term_str.rstrip(",") in self.unique_tv_list:
             print "eliminated duplicated string: ", tv_term_str
             pass
         else:
-            for p_term in self.popular_terms_hash:
-                if p_term in tv_term_str:
-                    self.popular_terms_hash[p_term].append(tv)
+            #for p_term in self.popular_terms_hash:
+            #    if p_term in tv_term_str:
+            #        self.popular_terms_hash[p_term].append(tv)
             self.unique_tv_list[tv_term_str.rstrip(",")] = 1
             try:
                 for tv_term in tv.getTerms(): 
