@@ -30,11 +30,13 @@ class TermCountCollector(PythonHitCollector):
         #tv_hash = dict([(t.split("/")[0].strip(), t.split("/")[1]) for for t in tv.split(",")])
         tv_term_str = ""
         for tv_term in tv.getTerms():
-            if tv_term not in [u'RT', u'rt'] and not tv_term.startswith("@"):
+            if tv_term not in [u'RT', u'rt'] and not tv_term.startswith("@") and not tv_term.startswith("http://"):
                 tv_term_str = tv_term_str + tv_term + ","
         if tv_term_str.rstrip(",") in self.unique_tv_list:
             #print "eliminated duplicated string: ", tv_term_str
             pass
+        if "hurt" in tv_term_str or "podcast" in tv_term_str or "general" in tv_term_str or "catalog" in tv_term_str or "medicine" in tv_term_str:
+            print "document: ", doc
         else:
             self.unique_tv_list[tv_term_str.rstrip(",")] = 1
             try:
