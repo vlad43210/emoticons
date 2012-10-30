@@ -30,10 +30,13 @@ class TermCountCollector(PythonHitCollector):
         tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
         #tv_hash = dict([(t.split("/")[0].strip(), t.split("/")[1]) for for t in tv.split(",")])
         tv_term_str = ""
+        is_rt = False
         for tv_term in tv.getTerms():
             if tv_term not in [u'RT', u'rt'] and not tv_term.startswith("@") and not tv_term.startswith("http://"):
                 tv_term_str = tv_term_str + tv_term.rstrip(".") + ","
-        if tv_term_str.rstrip(",") in self.unique_tv_list:
+            if tv_term in [u'RT', u'rt']:
+                is_rt = True
+        if tv_term_str.rstrip(",") in self.unique_tv_list and is_rt:
             #print "eliminated duplicated string: ", tv_term_str
             pass
         else:
