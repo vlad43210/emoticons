@@ -28,7 +28,13 @@ class TermCountCollector(PythonHitCollector):
         #print "%s: %s" %(doc, score)
         tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
         #tv_hash = dict([(t.split("/")[0].strip(), t.split("/")[1]) for for t in tv.split(",")])
-        print "tv: ", list(tv.getTerms())
+        tv_term_str = ""
+        for tv_term in tv.getTerms():
+            if tv_term not in [u'RT', u'rt'] and not tv_term.startswith("@"):
+                tv_term_str = tv_term_str + tv_term + ","
+        if tv_term_str.rstrip(",") in self.unique_tv_list:
+            print "eliminated duplicated string: ", tv_term_str
+            continue
         try:
             for tv_term in tv.getTerms(): self.terms[tv_term] = self.terms.get(tv_term,0)+1
         except:
