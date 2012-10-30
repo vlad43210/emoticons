@@ -6,7 +6,8 @@ from emoticon_utilities.pmi_result import PMIResult
 
 from lucene import \
     VERSION, initVM, CLASSPATH, FSDirectory, IndexReader, IndexSearcher, \
-    MatchAllDocsQuery, PythonHitCollector, QueryFilter, QueryParser, WhitespaceAnalyzer
+    MatchAllDocsQuery, PythonHitCollector, QueryFilter, QueryParser, Term, \
+    WhitespaceAnalyzer
 
 class PMICalculator(object):
 
@@ -80,7 +81,7 @@ class PMICalculator(object):
     def getTermCount(self, co_term):
         t_count = 0
         try:
-            t_count = self.searcher.getIndexReader().docFreq(Term(self.field, co_term))
+            t_count = self.searcher.getIndexReader().docFreq(Term("text", co_term))
         except Exception, e:
             print "failed to get term count: ", e
         return t_count
