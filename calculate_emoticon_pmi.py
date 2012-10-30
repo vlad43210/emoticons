@@ -53,7 +53,7 @@ class PMICalculator(object):
         for co_occurring_term in unique_terms:
             cnt+=1
             if (self.terms.count(co_occurring_term) >= min_cooccurrence) and re.match(term_re, co_occurring_term):
-                term_result = getPMI(co_occurring_term)
+                term_result = self.getPMI(co_occurring_term)
                 if term_result.getCooccurrenceCount() >= min_cooccurrence:
                     result_set.add(term_result)
             if cnt%1000 == 0: print "processed term number: ", cnt
