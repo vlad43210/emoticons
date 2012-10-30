@@ -36,7 +36,7 @@ class TermCountCollector(PythonHitCollector):
             #print "eliminated duplicated string: ", tv_term_str
             pass
         if "hurt" in tv_term_str or "podcast" in tv_term_str or "general" in tv_term_str or "catalog" in tv_term_str or "medicine" in tv_term_str:
-            print "document: ", doc
+            print "document: ", tv
         else:
             self.unique_tv_list[tv_term_str.rstrip(",")] = 1
             try:
