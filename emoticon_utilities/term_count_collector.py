@@ -20,9 +20,9 @@ class TermCountCollector(PythonHitCollector):
         return self.terms
 
     def cleanTerm(self, term):
-        if term.endswith(".",",","?","!"):
+        if term.endswith((".",",","?","!")):
             term = term[:-1]
-        elif term.endswith(":)",":(",":/"):
+        elif term.endswith((":)",":(",":/")):
             term = term[:-2]
         return term
 
