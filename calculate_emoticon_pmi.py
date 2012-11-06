@@ -49,9 +49,8 @@ class PMICalculator(object):
             cnt+=1
             if (self.terms[co_occurring_term] >= min_cooccurrence) and re.match(term_re, co_occurring_term):
                 term_result = self.getPMI(co_occurring_term)
-                if term_result.getCooccurrenceCount() >= min_cooccurrence:
-                    result_set.add(term_result)
-            if cnt%10000 == 0: print "processed term number: ", cnt, " out of: ", len(self.terms), " at: ", time.time()
+                result_set.add(term_result)
+            if cnt%10 == 0: print "processed term number: ", cnt, " out of: ", len(self.terms), " at: ", time.time()
 
         print "number of results: ", len(result_set)
         sorted_result_set = sorted(list(result_set), key=lambda x: x.getPMI(), reverse=True)
@@ -68,7 +67,7 @@ class PMICalculator(object):
             if cooccurrence_count > 0:
                 p_cooccurrence = cooccurrence_count / self.n
                 p_term = term_count / self.n + .00000001
-            pmi = math.log(2, p_cooccurrence / (self.p_query_result * p_term))
+            pmi = math.log(p_cooccurrence / (self.p_query_result * p_term), 2)
             #print "term: ", co_term, " term count: ", term_count, " cooccurrence_count: ", cooccurrence_count, " P(seed-term,term): ", p_cooccurrence, " P(seedterm): ", p_term, " PMI: ", pmi
         except Exception, e:
             print "failed to calculate PMI: ", e
@@ -78,6 +77,10 @@ class PMICalculator(object):
         t_count = 0
         try:
             t_count = self.searcher.getIndexReader().docFreq(Term("text", co_term))
+			#t_query = QueryParser("text",self.analyzer).parse(co_term)
+			#t_term_count_collector = TermCountCollector(searcher)
+	        #t_hits = self.searcher.search(t_query, t_term_count_collector)
+	        #t_count = self.term_count_collector.getDocCount()
         except Exception, e:
             print "failed to get term count: ", e
         return t_count
