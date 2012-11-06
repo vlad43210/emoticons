@@ -20,7 +20,11 @@ class TermCountCollector(PythonHitCollector):
         return self.terms
 
     def cleanTerm(self, term):
-        return term.replace(".","").replace(",","").replace("?","").replace("!","")
+        if term.endswith(".",",","?","!"):
+            term = term[:-1]
+        elif term.endswith(":)",":(",":/"):
+            term = term[:-2]
+        return term
 
     def acceptsDocsOutOfOrder(self):
         return True
@@ -35,7 +39,7 @@ class TermCountCollector(PythonHitCollector):
         is_rt = False
         for tv_term in tv.getTerms():
             clean_term = self.cleanTerm(tv_term)
-            if clean_term not in [u'RT', u'rt', u'via'] and not clean_term.startswith("@") and not clean_term.startswith("http://"):
+            if clean_term and clean_term not in [u'RT', u'rt', u'via'] and not clean_term.startswith("@") and not clean_term.startswith("http://"):
                 tv_term_str = tv_term_str + clean_term + ","
             if clean_term in [u'RT', u'rt', u'via']:
                 is_rt = True
@@ -49,7 +53,9 @@ class TermCountCollector(PythonHitCollector):
             try:
                 for tv_term in tv.getTerms(): 
                     clean_tv_term = self.cleanTerm(tv_term)
-                    self.terms[clean_tv_term] = self.terms.get(clean_tv_term,0)+1
+                    if clean_tv_term and clean_tv_term not in [u'RT', u'rt', u'via'] and not clean_tv_term.startswith("@") \
+                       and not clean_tv_term.startswith("http://"):
+                        self.terms[clean_tv_term] = self.terms.get(clean_tv_term,0)+1
             except Exception, e:
                 print "failed to add terms: ", e
                 pass
