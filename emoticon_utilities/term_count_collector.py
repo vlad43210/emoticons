@@ -4,7 +4,7 @@ import time
 
 class TermCountCollector(PythonHitCollector): 
 
-    def __init__(self, searcher):
+    def __init__(self, searcher, emoticon):
         super(TermCountCollector, self).__init__()
         self.base_doc = 0
         self.doc_count = 0
@@ -12,6 +12,7 @@ class TermCountCollector(PythonHitCollector):
         self.searcher = searcher
         self.unique_tv_list = {}
         self.popular_terms_hash = {"hurt":[], "podcast":[], "general":[], "catalog":[], "medicine":[]}
+        self.emoticon = emoticon
         
     def getDocCount(self):
         return self.doc_count
@@ -39,7 +40,8 @@ class TermCountCollector(PythonHitCollector):
         is_rt = False
         for tv_term in tv.getTerms():
             clean_term = self.cleanTerm(tv_term)
-            if clean_term and clean_term not in [u'RT', u'rt', u'via'] and not clean_term.startswith("@") and not clean_term.startswith("http://"):
+            if clean_term and clean_term not in [u'RT', u'rt', u'via'] and not clean_term.startswith("@") \
+               and not clean_term.startswith("http://") and self.emoticon not in clean_term:
                 tv_term_str = tv_term_str + clean_term + ","
             if clean_term in [u'RT', u'rt', u'via']:
                 is_rt = True
@@ -54,7 +56,7 @@ class TermCountCollector(PythonHitCollector):
                 for tv_term in tv.getTerms(): 
                     clean_tv_term = self.cleanTerm(tv_term)
                     if clean_tv_term and clean_tv_term not in [u'RT', u'rt', u'via'] and not clean_tv_term.startswith("@") \
-                       and not clean_tv_term.startswith("http://"):
+                       and not clean_tv_term.startswith("http://") and self.emoticon not in clean_term:
                         self.terms[clean_tv_term] = self.terms.get(clean_tv_term,0)+1
             except Exception, e:
                 print "failed to add terms: ", e

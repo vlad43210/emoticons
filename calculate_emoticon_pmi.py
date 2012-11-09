@@ -22,7 +22,7 @@ class PMICalculator(object):
         self.query = QueryParser("emoticons",self.analyzer).parse(self.escaped_emoticon)
         self.raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
         self.pmi_file_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".pmidata"
-        self.term_count_collector = TermCountCollector(searcher)
+        self.term_count_collector = TermCountCollector(searcher, emoticon)
         print "starting query at: ", time.time()
         hits = self.searcher.search(self.query, self.term_count_collector)
         self.terms = self.term_count_collector.getTerms()
