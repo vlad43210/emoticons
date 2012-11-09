@@ -26,7 +26,7 @@ class TermCountCollector(PythonHitCollector):
             term = term[:-1]
         #elif term.endswith((":)",":(",":/",";o")):
         #    term = term[:-2]
-        return h.unescape(term)
+        return self.h.unescape(term)
 
     def acceptsDocsOutOfOrder(self):
         return True
@@ -47,7 +47,7 @@ class TermCountCollector(PythonHitCollector):
             if clean_term in [u'RT', u'rt', u'via']:
                 is_rt = True
         if tv_term_str[:-1] in self.unique_tv_list and is_rt:
-            print "eliminated duplicated string: ", tv_term_str
+            print "eliminated duplicated string: ", tv_term_str.encode("ascii","ignore")
         else:
             #for p_term in self.popular_terms_hash:
             #    if p_term in tv_term_str:
