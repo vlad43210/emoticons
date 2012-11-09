@@ -1,6 +1,6 @@
 from lucene import \
     IndexSearcher, PythonHitCollector
-import time
+import HTMLParser, time
 
 class TermCountCollector(PythonHitCollector): 
 
@@ -13,6 +13,7 @@ class TermCountCollector(PythonHitCollector):
         self.unique_tv_list = {}
         self.popular_terms_hash = {"hurt":[], "podcast":[], "general":[], "catalog":[], "medicine":[]}
         self.emoticon = emoticon
+        self.h = HTMLParser.HTMLParser()
         
     def getDocCount(self):
         return self.doc_count
@@ -25,7 +26,7 @@ class TermCountCollector(PythonHitCollector):
             term = term[:-1]
         #elif term.endswith((":)",":(",":/",";o")):
         #    term = term[:-2]
-        return term
+        return h.unescape(term)
 
     def acceptsDocsOutOfOrder(self):
         return True
@@ -41,7 +42,7 @@ class TermCountCollector(PythonHitCollector):
         for tv_term in tv.getTerms():
             clean_term = self.cleanTerm(tv_term)
             if clean_term and clean_term not in [u'RT', u'rt', u'via'] and not clean_term.startswith("@") \
-               and not clean_term.startswith("http://") and self.emoticon not in clean_term and "&" not in clean_term:
+               and not clean_term.startswith("http://") and self.emoticon not in clean_term:
                 tv_term_str = tv_term_str + clean_term + ","
             if clean_term in [u'RT', u'rt', u'via']:
                 is_rt = True
@@ -56,7 +57,7 @@ class TermCountCollector(PythonHitCollector):
                 for tv_term in tv.getTerms(): 
                     clean_tv_term = self.cleanTerm(tv_term)
                     if clean_tv_term and clean_tv_term not in [u'RT', u'rt', u'via'] and not clean_tv_term.startswith("@") \
-                       and not clean_tv_term.startswith("http://") and self.emoticon not in clean_term and "&" not in clean_term:
+                       and not clean_tv_term.startswith("http://") and self.emoticon not in clean_term:
                         self.terms[clean_tv_term] = self.terms.get(clean_tv_term,0)+1
             except Exception, e:
                 print "failed to add terms: ", e
