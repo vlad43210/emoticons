@@ -22,7 +22,7 @@ class TermCountCollector(PythonHitCollector):
     def cleanTerm(self, term):
         if term.endswith((".",",","?","!")):
             term = term[:-1]
-        elif term.endswith((":)",":(",":/")):
+        elif term.endswith((":)",":(",":/",";o")):
             term = term[:-2]
         return term
 
