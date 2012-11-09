@@ -23,8 +23,8 @@ class TermCountCollector(PythonHitCollector):
     def cleanTerm(self, term):
         if term.endswith((".",",","?","!")):
             term = term[:-1]
-        elif term.endswith((":)",":(",":/",";o")):
-            term = term[:-2]
+        #elif term.endswith((":)",":(",":/",";o")):
+        #    term = term[:-2]
         return term
 
     def acceptsDocsOutOfOrder(self):
