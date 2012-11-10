@@ -25,6 +25,7 @@ class PMICalculator(object):
         self.term_count_collector = TermCountCollector(searcher, emoticon)
         print "starting query at: ", time.time()
         hits = self.searcher.search(self.query, self.term_count_collector)
+        print "total hits: ", hits.length()
         self.terms = self.term_count_collector.getTerms()
         #print "terms: ", self.terms
         self.query_result_count = self.term_count_collector.getDocCount()
