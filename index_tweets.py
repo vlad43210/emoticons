@@ -27,10 +27,10 @@ if __name__ == '__main__':
     def fn():
         env.attachCurrentThread()
         start = datetime.now()
-        ix = IndexTweets(sys.argv[1], "/Volumes/TerraFirma/SharedData/vdb5/lucene_index",
-                   WhitespaceAnalyzer(Version.LUCENE_CURRENT), location_hash)
-        #ix = IndexTweets(sys.argv[1], "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test",
-        #           StandardAnalyzer(Version.LUCENE_CURRENT), location_hash)
+        #ix = IndexTweets(sys.argv[1], "/Volumes/TerraFirma/SharedData/vdb5/lucene_index",
+        #           WhitespaceAnalyzer(Version.LUCENE_CURRENT), location_hash)
+        ix = IndexTweets(sys.argv[1], "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test",
+                   StandardAnalyzer(Version.LUCENE_CURRENT), location_hash)
         ix.runIndexer()
         end = datetime.now()
         print end - start

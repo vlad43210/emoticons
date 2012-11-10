@@ -3,6 +3,7 @@
 import codecs, gzip, re, sys, os, lucene, threading, time
 from datetime import datetime
 from operator import itemgetter
+import HTMLParser
 
 """
 This class is loosely based on the Lucene (java implementation) demo class 
@@ -76,12 +77,13 @@ class IndexTweets(IndexFiles):
     def __init__(self, root, storeDir, analyzer, location_hash):
         super(IndexTweets, self).__init__(root, storeDir, analyzer)
         self.location_hash = location_hash
-        self.linecutoff = 50000000
+        self.linecutoff = 1000000
         self.RTre = re.compile("RT @\w+")
         self.tzre = re.compile("\+\w+")
         self.emoticonre = re.compile(u"http(s)?[:]//|[=<>]?[;:]+[\^]?[\\\/)(\]\[}{PpboO0]+[X#]?|[+=>\^Tㅜㅠㅡ][ㅁㅇ._-]*[+=<\^Tㅜㅠㅡ]")
         self.emoticonhash = {}
         self.emoticonhashfile = codecs.open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticons_list.txt", encoding='utf-8', mode='w')
+        self.h = HTMLParser.HTMLParser()
 
     def runIndexer(self):
         if self.root.endswith('tweets.txt.gz'): 
@@ -130,6 +132,7 @@ class IndexTweets(IndexFiles):
                 doc.add(lucene.Field("country", country, lucene.Field.Store.YES, lucene.Field.Index.UN_TOKENIZED))
                 doc.add(lucene.NumericField("timestamp",4,lucene.Field.Store.YES, True).setIntValue(timestamp))
                 #doc.add(lucene.Field("timestamp", timestamp, lucene.Field.Store.YES, lucene.Field.Index.UN_TOKENIZED))
+                clean_text = self.h.unescape(text)
                 if len(text) > 0: doc.add(lucene.Field("text", text, lucene.Field.Store.NO, lucene.Field.Index.TOKENIZED, lucene.Field.TermVector.YES))
                 if len(emoticon_str) > 0: 
                     #print "emoticon_str: ", emoticon_str

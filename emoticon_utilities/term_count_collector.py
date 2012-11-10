@@ -1,6 +1,6 @@
 from lucene import \
     IndexSearcher, PythonHitCollector
-import HTMLParser, time
+import time
 
 class TermCountCollector(PythonHitCollector): 
 
@@ -12,8 +12,7 @@ class TermCountCollector(PythonHitCollector):
         self.searcher = searcher
         self.unique_tv_list = {}
         self.popular_terms_hash = {"hurt":[], "podcast":[], "general":[], "catalog":[], "medicine":[]}
-        self.emoticon = emoticon
-        self.h = HTMLParser.HTMLParser()
+        self.emoticon = emoticon  
         
     def getDocCount(self):
         return self.doc_count
@@ -26,7 +25,7 @@ class TermCountCollector(PythonHitCollector):
             term = term[:-1]
         #elif term.endswith((":)",":(",":/",";o")):
         #    term = term[:-2]
-        return self.h.unescape(term)
+        return term
 
     def acceptsDocsOutOfOrder(self):
         return True
