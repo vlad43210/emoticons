@@ -98,7 +98,8 @@ if __name__ == '__main__':
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
     min_doc_frequency = 500
-    emoticonPmiCalculator = PMICalculator(":0", searcher, analyzer)
+    pmi_emoticon = "^^"
+    emoticonPmiCalculator = PMICalculator(pmi_emoticon, searcher, analyzer)
     emoticonPmiCalculator.getTermPMI(min_doc_frequency)
-    print "calculated PMI for :0 at: ", time.time()
+    print "calculated PMI for ", pmi_emoticon, " at: ", time.time()
     searcher.close()
