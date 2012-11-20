@@ -58,7 +58,6 @@ class TermCountCollector(PythonHitCollector):
                     if clean_tv_term and clean_tv_term not in [u'RT', u'rt', u'via'] and not clean_tv_term.startswith("@") \
                        and not clean_tv_term.startswith("http://") and self.emoticon not in tv_term:
                         self.terms[clean_tv_term] = self.terms.get(clean_tv_term,0)+1
-                    if self.emoticon in tv_term: print "found emoticon in term: ", tv_term
             except Exception, e:
                 print "failed to add terms: ", e
                 pass
