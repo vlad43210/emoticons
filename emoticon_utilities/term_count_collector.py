@@ -39,7 +39,7 @@ class TermCountCollector(PythonHitCollector):
         doc = self.searcher.doc(arg0);
         #print "%s: %s" %(doc, score)
         tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
-        tv_term_str = u""
+        tv_term_str = unicode("")
         is_rt = False
         for tv_term in tv.getTerms():
             clean_term = self.cleanTerm(tv_term)
@@ -52,8 +52,8 @@ class TermCountCollector(PythonHitCollector):
             print "eliminated duplicated string: ", tv_term_str.encode("ascii","ignore")
         else:
             for p_term in self.popular_terms_hash: pass
-            #    if p_term in tv_term_str:
-            #        self.popular_terms_hash[p_term].append(tv_term_str)
+                if p_term in tv_term_str:
+                    self.popular_terms_hash[p_term].append(tv_term_str)
             self.unique_tv_list[tv_term_str[:-1]] = 1
             try:
                 for tv_term in tv.getTerms(): 
