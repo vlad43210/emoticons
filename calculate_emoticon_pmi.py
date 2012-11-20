@@ -87,8 +87,8 @@ class PMICalculator(object):
  
 if __name__ == '__main__':
     print "started PMI calculator at: ", time.time()
-    STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index"
-    #STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test"
+    #STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index"
+    STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test"
     initVM(CLASSPATH, maxheap='1024m')
     print 'lucene', VERSION
     directory = FSDirectory.getDirectory(STORE_DIR, False)
