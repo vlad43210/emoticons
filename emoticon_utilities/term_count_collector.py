@@ -14,7 +14,10 @@ class TermCountCollector(PythonHitCollector):
         self.terms = {}
         self.searcher = searcher
         self.unique_tv_list = {}
-        self.popular_terms_hash = {u"huh":[], u"volt":[], u"jó":[], u"yep":[], u"worries":[], u"grazie":[], u"btw":[], u"yup":[], u"anyway":[], u"merci":[]}
+        if emoticon == ":)":
+            self.popular_terms_hash = {u"huh":[], u"volt":[], u"jó":[], u"yep":[], u"worries":[], u"grazie":[], u"btw":[], u"yup":[], u"anyway":[], u"merci":[]}
+        else:
+            self.popular_terms_hash = {}
         self.emoticon = emoticon  
         
     def getDocCount(self):
