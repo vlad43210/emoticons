@@ -22,6 +22,8 @@ class PMICalculator(object):
         self.query = QueryParser("emoticons",self.analyzer).parse(self.escaped_emoticon)
         self.raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
         self.pmi_file_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".pmidata"
+        self.sample_tweets_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".samptweets"
+        self.sample_tweets_file = codecs.open(self.sample_tweets_name, encoding='utf-8', mode='w')
         self.term_count_collector = TermCountCollector(searcher, emoticon)
         print "starting query at: ", time.time()
         hits = self.searcher.search(self.query, self.term_count_collector)
@@ -29,8 +31,8 @@ class PMICalculator(object):
         #print "terms: ", self.terms
         self.query_result_count = self.term_count_collector.getDocCount()
         for p_term, p_term_tweets in self.term_count_collector.popular_terms_hash.items():
-            print "term: ", p_term.encode("ascii","ignore")
-            print "tweets: ", [x.encode("ascii","ignore") for x in p_term_tweets]
+            self.sample_tweets_file.write("term: " + p_term + " tweets: " + ",".join(p_term_tweets) + "\n")
+        self.sample_tweets_file.close()
         self.n = searcher.getIndexReader().numDocs()
 
         print "computing PMI for query: ", self.emoticon, " at: ", time.time()
