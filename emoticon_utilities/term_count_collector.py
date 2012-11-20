@@ -14,7 +14,7 @@ class TermCountCollector(PythonHitCollector):
         self.terms = {}
         self.searcher = searcher
         self.unique_tv_list = {}
-        self.popular_terms_hash = {"huh":[], "volt":[], "jó":[], "yep":[], "worries":[], "grazie":[], "btw":[], "yup":[], "anyway":[], "merci":[]}
+        self.popular_terms_hash = {u"huh":[], u"volt":[], u"jó":[], u"yep":[], u"worries":[], u"grazie":[], u"btw":[], u"yup":[], u"anyway":[], u"merci":[]}
         self.emoticon = emoticon  
         
     def getDocCount(self):
@@ -52,8 +52,6 @@ class TermCountCollector(PythonHitCollector):
             print "eliminated duplicated string: ", tv_term_str.encode("ascii","ignore")
         else:
             for p_term in self.popular_terms_hash:
-                print tv_term_str.encode("ascii","ignore")
-                print p_term.encode("ascii","ignore")
                 if p_term in tv_term_str:
                     self.popular_terms_hash[p_term].append(tv_term_str)
             self.unique_tv_list[tv_term_str[:-1]] = 1
