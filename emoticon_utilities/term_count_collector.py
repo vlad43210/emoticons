@@ -17,7 +17,7 @@ class TermCountCollector(PythonHitCollector):
         if emoticon == ":)":
             self.popular_terms_hash = {u"huh":[], u"volt":[], u"jó":[], u"yep":[], u"worries":[], u"grazie":[], u"btw":[], u"yup":[], u"anyway":[], u"merci":[]}
         elif emoticon == ";)":
-            self.popular_terms_hash = {u"btw":[], u"anyway":[], u"gut":[], u "hehe":[], u"doch":[], u"eh":[], u"auch":[], u"ja":[], u"moi":[], u"gracias":[]}
+            self.popular_terms_hash = {u"btw":[], u"anyway":[], u"gut":[], u"hehe":[], u"doch":[], u"eh":[], u"auch":[], u"ja":[], u"moi":[], u"gracias":[]}
         else:
             self.popular_terms_hash = {}
         self.emoticon = emoticon  
