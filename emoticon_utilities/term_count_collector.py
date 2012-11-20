@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding=utf-8
+
 from lucene import \
     IndexSearcher, PythonHitCollector
 import time
