@@ -87,15 +87,15 @@ class PMICalculator(object):
  
 if __name__ == '__main__':
     print "started PMI calculator at: ", time.time()
-    #STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index"
-    STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test"
+    STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index"
+    #STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test"
     initVM(CLASSPATH, maxheap='1024m')
     print 'lucene', VERSION
     directory = FSDirectory.getDirectory(STORE_DIR, False)
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
-    min_doc_frequency = 3
-    emoticonPmiCalculator = PMICalculator(":(", searcher, analyzer)
+    min_doc_frequency = 50
+    emoticonPmiCalculator = PMICalculator(";o", searcher, analyzer)
     emoticonPmiCalculator.getTermPMI(min_doc_frequency)
-    print "calculated PMI for :( at: ", time.time()
+    print "calculated PMI for ;o at: ", time.time()
     searcher.close()
