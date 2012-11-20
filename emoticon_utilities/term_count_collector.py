@@ -39,7 +39,7 @@ class TermCountCollector(PythonHitCollector):
     def collect(self, arg0, score):
         #if self.doc_count%10000 == 0: print "doc number: ", self.doc_count, " at: ", time.time()
         #print "doc count: ", self.doc_count
-        if self.doc_count > 10000: break
+        if self.doc_count > 10000: return
         doc = self.searcher.doc(arg0);
         #print "%s: %s" %(doc, score)
         tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
