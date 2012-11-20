@@ -39,7 +39,7 @@ class TermCountCollector(PythonHitCollector):
         doc = self.searcher.doc(arg0);
         #print "%s: %s" %(doc, score)
         tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
-        tv_term_str = ""
+        tv_term_str = u""
         is_rt = False
         for tv_term in tv.getTerms():
             clean_term = self.cleanTerm(tv_term)
