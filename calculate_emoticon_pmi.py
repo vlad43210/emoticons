@@ -31,7 +31,8 @@ class PMICalculator(object):
         #print "terms: ", self.terms
         self.query_result_count = self.term_count_collector.getDocCount()
         for p_term, p_term_tweets in self.term_count_collector.popular_terms_hash.items():
-            self.sample_tweets_file.write("term: " + p_term + " tweets: " + ",".join(p_term_tweets) + "\n")
+            for p_term_tweet in p_term_tweets:
+                self.sample_tweets_file.write("term: " + p_term + " tweet: " + p_term_tweet + "\n")
         self.sample_tweets_file.close()
         self.n = searcher.getIndexReader().numDocs()
 
