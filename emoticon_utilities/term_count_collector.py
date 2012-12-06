@@ -47,7 +47,7 @@ class TermCountCollector(PythonHitCollector):
         #for country-based PMI
         if self.country: 
             print "collector country: ", self.country
-            print "doc country: ", doc.getField("country")
+            print "doc country: ", doc.getField("country").stringValue()
             if doc.getField("country") != self.country: return
         #print "%s: %s" %(doc, score)
         tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
