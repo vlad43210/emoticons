@@ -97,9 +97,12 @@ if __name__ == '__main__':
     directory = FSDirectory.getDirectory(STORE_DIR, False)
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
-    min_doc_frequency = 500
-    pmi_emoticon = "^^"
-    emoticonPmiCalculator = PMICalculator(pmi_emoticon, searcher, analyzer)
-    emoticonPmiCalculator.getTermPMI(min_doc_frequency)
-    print "calculated PMI for ", pmi_emoticon, " at: ", time.time()
+    min_doc_frequency = 100
+    emoticon_list = ["TT",":p",":/","^_^","T_T"]
+    #pmi_emoticon = "^^"
+    #if pmi_emoticon == "^^": min_doc_frequency = 100
+    for pmi_emoticon in emoticon_list:
+        emoticonPmiCalculator = PMICalculator(pmi_emoticon, searcher, analyzer)
+        emoticonPmiCalculator.getTermPMI(min_doc_frequency)
+        print "calculated PMI for ", pmi_emoticon, " at: ", time.time()
     searcher.close()
