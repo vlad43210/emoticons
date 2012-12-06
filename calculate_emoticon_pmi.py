@@ -104,7 +104,7 @@ if __name__ == '__main__':
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
     min_doc_frequency = 100
-    emoticon_list = ["TT",":p",":/","^_^","T_T"]
+    emoticon_list = [":)", ":(", ";)", ":P", ":0", "^^", "TT",":p",":/","^_^","T_T"]
     #pmi_emoticon = "^^"
     #if pmi_emoticon == "^^": min_doc_frequency = 100
     for pmi_emoticon in emoticon_list:
