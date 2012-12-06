@@ -7,7 +7,7 @@ import time
 
 class TermCountCollector(PythonHitCollector): 
 
-    def __init__(self, searcher, emoticon):
+    def __init__(self, searcher, emoticon, country=None):
         super(TermCountCollector, self).__init__()
         self.base_doc = 0
         self.doc_count = 0
@@ -20,7 +20,9 @@ class TermCountCollector(PythonHitCollector):
             self.popular_terms_hash = {u"btw":[], u"anyway":[], u"gut":[], u"hehe":[], u"doch":[], u"eh":[], u"auch":[], u"ja":[], u"moi":[], u"gracias":[]}
         else:
             self.popular_terms_hash = {}
-        self.emoticon = emoticon  
+        self.emoticon = emoticon
+        if country: self.country = country
+        else: self.country = None
         
     def getDocCount(self):
         return self.doc_count
@@ -42,6 +44,8 @@ class TermCountCollector(PythonHitCollector):
         #if self.doc_count%10000 == 0: print "doc number: ", self.doc_count, " at: ", time.time()
         #print "doc count: ", self.doc_count
         doc = self.searcher.doc(arg0);
+        #for country-based PMI
+        if self.country and doc.getField("country") != self.country: return
         #print "%s: %s" %(doc, score)
         tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
         tv_term_str = unicode("")

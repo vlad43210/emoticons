@@ -11,7 +11,7 @@ from lucene import \
 
 class PMICalculator(object):
 
-    def __init__(self, emoticon, searcher, analyzer):
+    def __init__(self, emoticon, searcher, analyzer, english_only=False):
         super(PMICalculator, self).__init__()
     
         self.field = "emoticons"
@@ -21,10 +21,16 @@ class PMICalculator(object):
         self.escaped_emoticon = QueryParser.escape(self.emoticon)
         self.query = QueryParser("emoticons",self.analyzer).parse(self.escaped_emoticon)
         self.raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
-        self.pmi_file_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".pmidata"
-        self.sample_tweets_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+".samptweets"
+        if english_only:
+            country = "United States"
+            country_prefix = "US"
+        else:
+            country = None
+            country_prefix = ""
+        self.pmi_file_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+("_%s" %(country_prefix))*english_only+".pmidata"
+        self.sample_tweets_name = self.raw_stats_dir + normalizeEmoticonName(self.emoticon).rstrip('_')+("_%s" %(country_prefix))*english_only+".samptweets"
         self.sample_tweets_file = codecs.open(self.sample_tweets_name, encoding='utf-8', mode='w')
-        self.term_count_collector = TermCountCollector(searcher, emoticon)
+        self.term_count_collector = TermCountCollector(searcher, emoticon, country)
         print "starting query at: ", time.time()
         hits = self.searcher.search(self.query, self.term_count_collector)
         self.terms = self.term_count_collector.getTerms()
@@ -80,10 +86,10 @@ class PMICalculator(object):
         t_count = 0
         try:
             t_count = self.searcher.getIndexReader().docFreq(Term("text", co_term))
-			#t_query = QueryParser("text",self.analyzer).parse(co_term)
-			#t_term_count_collector = TermCountCollector(searcher)
-	        #t_hits = self.searcher.search(t_query, t_term_count_collector)
-	        #t_count = self.term_count_collector.getDocCount()
+            #t_query = QueryParser("text",self.analyzer).parse(co_term)
+            #t_term_count_collector = TermCountCollector(searcher)
+            #t_hits = self.searcher.search(t_query, t_term_count_collector)
+            #t_count = self.term_count_collector.getDocCount()
         except Exception, e:
             print "failed to get term count: ", e
         return t_count
@@ -102,7 +108,8 @@ if __name__ == '__main__':
     #pmi_emoticon = "^^"
     #if pmi_emoticon == "^^": min_doc_frequency = 100
     for pmi_emoticon in emoticon_list:
-        emoticonPmiCalculator = PMICalculator(pmi_emoticon, searcher, analyzer)
+        #emoticonPmiCalculator = PMICalculator(pmi_emoticon, searcher, analyzer)
+        emoticonPmiCalculator = PMICalculator(pmi_emoticon, searcher, analyzer, english_only=True)
         emoticonPmiCalculator.getTermPMI(min_doc_frequency)
         print "calculated PMI for ", pmi_emoticon, " at: ", time.time()
     searcher.close()
