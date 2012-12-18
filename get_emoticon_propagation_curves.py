@@ -77,7 +77,8 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
             hctr += 1
             if hctr%100000==0: print "on hit: ", hctr
             if hctr == hits.length(): break
-            uid, timestamp, country, emoticons = hit.get("user_id"), hit.get("timestamp"), hit.get('country'), hit.get('emoticons')
+            uid, timestamp, country, emoticons, user_id_replied = hit.get("user_id"), hit.get("timestamp"), hit.get('country'), hit.get('emoticons'), hit.get('user_id_replied')
+            num_replies = int(user_id_replied != '0')
             countryset.add(country)
             timestruct = time.gmtime(int(timestamp))
             daysincestart = (timestruct[0]-2005)*365+timestruct[7]
@@ -88,8 +89,10 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
             if daysincestart in emoticon_propagation_hash:
                 emoticon_propagation_hash[daysincestart]['total'] += total_emoticon_count
                 emoticon_propagation_hash[daysincestart][country] = emoticon_propagation_hash[daysincestart].get(country,0) + total_emoticon_count
+                emoticon_propagation_hash[daysincestart]['total_in_replies'] += num_replies
             else:
-                emoticon_propagation_hash[daysincestart] = {'total':total_emoticon_count, country:total_emoticon_count, 'total tweets':0, 'total emoticon tweets':0, 'total http emoticons':0}
+                emoticon_propagation_hash[daysincestart] = {'total':total_emoticon_count, 'total_in_replies':num_replies, country:total_emoticon_count, \
+                                                            'total tweets':0, 'total emoticon tweets':0, 'total http emoticons':0}
     except Exception, e: 
         print "failed to list hit: ", e
 

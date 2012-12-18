@@ -48,7 +48,7 @@ class TermCountCollector(PythonHitCollector):
         if self.country and doc.getField("country").stringValue() != self.country: return 
         #    print "collector country: ", self.country
         #    print "doc country: ", 
-        #    if doc.getField("country") != self.country: return
+        #q    if doc.getField("country") != self.country: return
         #print "%s: %s" %(doc, score)
         tv = self.searcher.getIndexReader().getTermFreqVector(self.base_doc + arg0, "text")
         tv_term_str = unicode("")
