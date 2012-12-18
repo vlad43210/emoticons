@@ -96,14 +96,15 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
     except Exception, e: 
         print "failed to list hit: ", e
 
-    test_all_docs_query = MatchAllDocsQuery()
-    all_tweets = searcher.search(test_all_docs_query)
-    print "total tweet docs: ", all_tweets.length()
+    #test_all_docs_query = MatchAllDocsQuery()
+    #all_tweets = searcher.search(test_all_docs_query)
+    #print "total tweet docs: ", all_tweets.length()
     #adding total tweets / day for normalization
     sorted_daytslist = sorted(daytshash.keys())
     print "number of days to process: ", len(sorted_daytslist)
     for i, sorted_dayts in enumerate(sorted_daytslist):
         if i%100 == 0: print "on day number: ", i, " at: ", time.time()
+        print "dayts: ", sorted_dayts
 
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total tweets'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['total tweets']
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total emoticon tweets'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['emoticons']
@@ -130,7 +131,8 @@ if __name__ == '__main__':
     analyzer = WhitespaceAnalyzer()
     #getBaselineStatistics(searcher, analyzer)
     #emoticon_list = [":)", ":(", ";)", ":P", ":0", "^^", "TT", ":p", ":/", "^_^", "T_T"]
-    emoticon_list = [":)", ":(", ":'(", ":-|", "^^", "+_+", "-_-", "T_T"]
+    #emoticon_list = [":)", ":(", ":'(", ":-|", "^^", "+_+", "-_-", "T_T"]
+    emoticon_list = [":'(", ":-|", "^^", "+_+", "-_-", "T_T"]
     for prop_emoticon in emoticon_list: getEmoticonPropagationCurves(prop_emoticon, searcher, analyzer)
     #getEmoticonPropagationCurves(":)", searcher, analyzer)
     #getEmoticonPropagationCurves(":(", searcher, analyzer)
