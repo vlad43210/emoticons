@@ -15,5 +15,7 @@ def normalizeEmoticonName(emoticon):
         elif echar == 'T': norm_name += 'T_'
         elif echar == '=': norm_name += 'equals_'
         elif echar == '/': norm_name += "forwardslash_"
+        elif echar == '|': norm_name += "bar_"
+        elif echar == '+': norm_name += "plus_"
         else: norm_name += echar
     return norm_name
