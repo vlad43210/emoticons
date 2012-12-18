@@ -113,10 +113,10 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
     countrylist = list(countryset)
     emo_propagation_by_time = sorted(emoticon_propagation_hash.items(), key=itemgetter(0))
     emoticon_file = open(emoticon_file_name,'w')
-    emoticon_file.write("day,"+",".join(countrylist)+",total,alltweets,emoticontweets,httpemoticons\n")        
+    emoticon_file.write("day,"+",".join(countrylist)+",total,totalinreplies,alltweets,emoticontweets,httpemoticons\n")        
     for emo_day_entry in emo_propagation_by_time:
         emoticon_file.write(str(emo_day_entry[0])+","+",".join([str(emo_day_entry[1].get(ctry,0)) for ctry in countrylist]) + "," + \
-                            str(emo_day_entry[1]["total"]) + "," + str(emo_day_entry[1]['total tweets']) + "," + \
+                            str(emo_day_entry[1]["total"]) + "," + str(emo_day_entry[1]["total_in_replies"]) + "," + str(emo_day_entry[1]['total tweets']) + "," + \
                             str(emo_day_entry[1]["total emoticon tweets"]) + "," + str(emo_day_entry[1]["total http emoticons"]) + "\n")
     emoticon_file.close()
     print "done at: ", time.time()
