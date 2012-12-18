@@ -62,7 +62,7 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
     emoticon_stats_hash = json.loads(emoticon_stats_file.read())
     print "Searching for: ", emoticon, " at: ", time.time()
     escaped_emoticon = QueryParser.escape(emoticon)
-    query = QueryParser("text", analyzer).parse(escaped_emoticon)
+    query = QueryParser("emoticons", analyzer).parse(escaped_emoticon)
     hits = searcher.search(query)
     print "%s total matching documents." % hits.length()
     if hits.length() == 0: return
@@ -85,7 +85,6 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
             daystartts = int(timestamp)-60*60*timestruct[3]-60*timestruct[4]-timestruct[5]
             nextdaystartts = daystartts+86400
             daytshash[daystartts] = {'days since start':daysincestart, 'next day ts':nextdaystartts}
-            print "emoticons: ", emoticons, " emoticon: ", emoticon
             total_emoticon_count = string.count(emoticons, emoticon)
             if daysincestart in emoticon_propagation_hash:
                 emoticon_propagation_hash[daysincestart]['total'] += total_emoticon_count
@@ -105,8 +104,6 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
     print "number of days to process: ", len(sorted_daytslist)
     for i, sorted_dayts in enumerate(sorted_daytslist):
         if i%100 == 0: print "on day number: ", i, " at: ", time.time()
-        print "dayts: ", sorted_dayts
-        print "dayts hash: ", daytshash[sorted_dayts]
 
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total tweets'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['total tweets']
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total emoticon tweets'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['emoticons']
