@@ -129,7 +129,8 @@ if __name__ == '__main__':
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
     #getBaselineStatistics(searcher, analyzer)
-    emoticon_list = [":)", ":(", ";)", ":P", ":0", "^^", "TT", ":p", ":/", "^_^", "T_T"]
+    #emoticon_list = [":)", ":(", ";)", ":P", ":0", "^^", "TT", ":p", ":/", "^_^", "T_T"]
+    emoticon_list = [":)", ":(", ":'(", ":-|", "^^", "+_+", "-_-", "T_T"]
     for prop_emoticon in emoticon_list: getEmoticonPropagationCurves(prop_emoticon, searcher, analyzer)
     #getEmoticonPropagationCurves(":)", searcher, analyzer)
     #getEmoticonPropagationCurves(":(", searcher, analyzer)
