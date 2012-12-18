@@ -105,6 +105,7 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
     for i, sorted_dayts in enumerate(sorted_daytslist):
         if i%100 == 0: print "on day number: ", i, " at: ", time.time()
         print "dayts: ", sorted_dayts
+        print "dayts hash: ", daytshash[sorted_dayts]
 
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total tweets'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['total tweets']
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total emoticon tweets'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['emoticons']
