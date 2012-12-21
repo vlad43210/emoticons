@@ -103,10 +103,10 @@ if __name__ == '__main__':
     directory = FSDirectory.getDirectory(STORE_DIR, False)
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
-    min_doc_frequency = 500
+    min_doc_frequency = 50
     #emoticon_list = [":)", ":(", ";)", ":P", ":0", "^^", "TT",":p",":/","^_^","T_T"]
-    emoticon_list = [":)", ":(", ":'(", ":-|", "^^"]
-    #emoticon_list = ["T_T"]
+    #emoticon_list = [":)", ":(", ":'(", ":-|", "^^"]
+    emoticon_list = ["^^", "T_T"]
     #pmi_emoticon = "^^"
     #if pmi_emoticon == "^^": min_doc_frequency = 100
     for pmi_emoticon in emoticon_list:
