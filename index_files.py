@@ -80,7 +80,7 @@ class IndexTweets(IndexFiles):
         self.linecutoff = 50000000
         self.RTre = re.compile("RT @\w+")
         self.tzre = re.compile("\+\w+")
-        self.emoticonre = re.compile(u"http(s)?[:]//|[=<>]?[;:]+[\^]?[\\\/)(\]\[}{PpboO0]+[X#]?|[+=>\^Tㅜㅠㅡ][ㅁㅇ._-]*[+=<\^Tㅜㅠㅡ]")
+        self.emoticonre = re.compile(u"http(s)?[:]//|[=<>]?[;:]+[\^'-]?[\\\/)(\]\[}{PpboO0|]+[X#]?|[+=>\^Tㅜㅠㅡ][ㅁㅇ._-]*[+=<\^Tㅜㅠㅡ]")
         self.emoticonhash = {}
         self.emoticonhashfile = codecs.open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticons_list.txt", encoding='utf-8', mode='w')
         self.h = HTMLParser.HTMLParser()
