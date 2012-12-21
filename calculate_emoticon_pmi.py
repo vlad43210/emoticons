@@ -105,13 +105,13 @@ if __name__ == '__main__':
     analyzer = WhitespaceAnalyzer()
     min_doc_frequency = 500
     #emoticon_list = [":)", ":(", ";)", ":P", ":0", "^^", "TT",":p",":/","^_^","T_T"]
-    #emoticon_list = [":)", ":(", ":'(", ":-|", "^^", "T_T", "+_+", "-_-"]
-    emoticon_list = ["^^"]
+    emoticon_list = [":)", ":(", ":'(", ":-|", "^^"]
+    #emoticon_list = ["T_T"]
     #pmi_emoticon = "^^"
     #if pmi_emoticon == "^^": min_doc_frequency = 100
     for pmi_emoticon in emoticon_list:
-        emoticonPmiCalculator = PMICalculator(pmi_emoticon, searcher, analyzer)
-        #emoticonPmiCalculator = PMICalculator(pmi_emoticon, searcher, analyzer, english_only=True)
+        #emoticonPmiCalculator = PMICalculator(pmi_emoticon, searcher, analyzer)
+        emoticonPmiCalculator = PMICalculator(pmi_emoticon, searcher, analyzer, english_only=True)
         emoticonPmiCalculator.getTermPMI(min_doc_frequency)
         print "calculated PMI for ", pmi_emoticon, " at: ", time.time()
     searcher.close()
