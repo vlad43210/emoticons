@@ -10,17 +10,17 @@ from lucene import \
 from operator import itemgetter
 import json, string, time
 
-def getBaselineStatistics(searcher, analyzer):
-    all_docs_query = MatchAllDocsQuery()
-    all_docs_hits = searcher.search(all_docs_query)
+def getBaselineStatistics():
+    docsfile = gzip.open("/Volumes/Luna/twitter_germans/tweets.txt.gz",)
+    lctr = 0
+    linecutoff = 50000000
     all_users_set = {}
-    try:
-        hctr = 0
-        for hit in all_docs_hits:
-            hctr+=1
-            if hctr%100000==0: print "on hit: ", hctr, "user set size: ", len(all_users_set)
-            uid = hit.get("user_id")
-            all_users_set[uid] = all_users_set.get(uid,1)
+    for line in docsfile:
+        lctr+=1
+        if lctr%100000 == 0: print "on line: ", lctr, " at: ", time.time()
+        if lctr > linecutoff: break
+        tweet_id, user_id, date, tweet_id_replied, user_id_replied, source, some_flag, another_flag, location, text = unicode(line, 'utf-8').split('\t')
+        all_users_set[user_id] = all_users_set.get(user_id,1)
     except Exception, e:
         print "failed to list hit: ", e
     baseline_stats_text_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_diffusion_stats.txt","w")
