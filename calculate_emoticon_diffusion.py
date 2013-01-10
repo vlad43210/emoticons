@@ -16,7 +16,7 @@ def getBaselineStatistics(searcher, analyzer):
     all_users_set = set()
     try:
         hctr = 0
-        for hit in hits:
+        for hit in all_docs_hits:
             hctr+=1
             if hctr%100000==0: print "on hit: ", hctr
             uid = hit.get("user_id")
