@@ -17,6 +17,8 @@ def getBaselineStatistics(searcher, analyzer):
     try:
         hctr = 0
         for hit in hits:
+            hctr+=1
+            if hctr%100000==0: print "on hit: ", hctr
             uid = hit.get("user_id")
             all_users_set.add(uid)
     except Exception, e:
@@ -98,4 +100,7 @@ if __name__ == '__main__':
     directory = FSDirectory.getDirectory(STORE_DIR, False)
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
+    getBaselineStatistics(searcher, analyzer)
+    emoticon_list = [":)"]
+    for prop_emoticon in emoticon_list: calculateEmoticonDiffusion(prop_emoticon, searcher, analyzer)
     searcher.close()
