@@ -8,7 +8,7 @@ from lucene import \
     QueryFilter, Term, BooleanFilter, FilterClause, BooleanClause, BooleanQuery
 
 from operator import itemgetter
-import json, string, time
+import gzip, json, string, time
 
 def getBaselineStatistics():
     docsfile = gzip.open("/Volumes/Luna/twitter_germans/tweets.txt.gz",)
