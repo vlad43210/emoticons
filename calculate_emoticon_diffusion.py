@@ -21,8 +21,6 @@ def getBaselineStatistics():
         if lctr > linecutoff: break
         tweet_id, user_id, date, tweet_id_replied, user_id_replied, source, some_flag, another_flag, location, text = unicode(line, 'utf-8').split('\t')
         all_users_set[user_id] = all_users_set.get(user_id,1)
-    except Exception, e:
-        print "failed to list hit: ", e
     baseline_stats_text_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_diffusion_stats.txt","w")
     baseline_stats_text_file.write("%s\n" % (len(all_users_set)))
     baseline_stats_text_file.close()
