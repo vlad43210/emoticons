@@ -52,8 +52,14 @@ def getBaselineStatistics(searcher, analyzer):
         
         baseline_stats_hash[day_ctr] = {'total tweets':num_tweets_in_range, 'emoticons':num_emoticon_tweets_in_range, 'http':num_http_emoticons}
 
+    baseline_stats_text_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_stats.txt","w")
+    raw_stats_list = sorted(baseline_stats_hash.items(), key = lambda x: int(x[0]))
+    baseline_stats_text_file.write("day total emoticons http\n")
+    for rs in raw_stats_list: baseline_stats_text_file.write("%s %s %s %s\n" %(rs[0], rs[1]["total tweets"], rs[1]["emoticons"], rs[1]["http"]))
+    baseline_stats_text_file.close()
     baseline_stats_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_stats.json","w")
     baseline_stats_file.write(json.dumps(baseline_stats_hash))
+    baseline_stats_file.close()
 
 def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
     raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
@@ -128,7 +134,7 @@ if __name__ == '__main__':
     directory = FSDirectory.getDirectory(STORE_DIR, False)
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
-    #getBaselineStatistics(searcher, analyzer)
+    getBaselineStatistics(searcher, analyzer)
     #emoticon_list = [":)", ":(", ";)", ":P", ":0", "^^", "TT", ":p", ":/", "^_^", "T_T"]
     #emoticon_list = [":)", ":(", ":'(", ":-|", "^^", "+_+", "-_-", "T_T"]
     emoticon_list = [":)", ":("]
