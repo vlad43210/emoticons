@@ -26,6 +26,7 @@ def getBaselineStatistics():
     baseline_stats_text_file.close()
 
 def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1, comm_threshold = 1):
+    raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
     emoticon_stats_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_diffusion_stats.txt","r") 
     total_users = int(emoticon_stats_file.read().strip())
     emoticon_stats_file.close()
