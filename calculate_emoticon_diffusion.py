@@ -18,7 +18,7 @@ def getBaselineStatistics(searcher, analyzer):
         hctr = 0
         for hit in all_docs_hits:
             hctr+=1
-            if hctr%100000==0: print "on hit: ", hctr
+            if hctr%100000==0: print "on hit: ", hctr, "user set size: ", len(all_users_set)
             uid = hit.get("user_id")
             all_users_set[uid] = all_users_set.get(uid,1)
     except Exception, e:
