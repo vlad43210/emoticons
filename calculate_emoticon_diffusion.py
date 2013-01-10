@@ -13,14 +13,14 @@ import json, string, time
 def getBaselineStatistics(searcher, analyzer):
     all_docs_query = MatchAllDocsQuery()
     all_docs_hits = searcher.search(all_docs_query)
-    all_users_set = set()
+    all_users_set = {}
     try:
         hctr = 0
         for hit in all_docs_hits:
             hctr+=1
             if hctr%100000==0: print "on hit: ", hctr
             uid = hit.get("user_id")
-            all_users_set.add(uid)
+            all_users_set[uid] = all_users_set.get(uid,1)
     except Exception, e:
         print "failed to list hit: ", e
     baseline_stats_text_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_diffusion_stats.txt","w")
