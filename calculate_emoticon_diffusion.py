@@ -12,7 +12,7 @@ import json, string, time
 
 def getBaselineStatistics(searcher, analyzer):
     all_docs_query = MatchAllDocsQuery()
-    all_docs_hits = searchers.search(all_docs_query)
+    all_docs_hits = searcher.search(all_docs_query)
     all_users_set = set()
     try:
         hctr = 0
