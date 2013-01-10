@@ -98,7 +98,7 @@ if __name__ == '__main__':
     directory = FSDirectory.getDirectory(STORE_DIR, False)
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
-    getBaselineStatistics(searcher, analyzer)
+    getBaselineStatistics()
     emoticon_list = [":)"]
     for prop_emoticon in emoticon_list: calculateEmoticonDiffusion(prop_emoticon, searcher, analyzer)
     searcher.close()
