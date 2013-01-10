@@ -26,7 +26,7 @@ def getBaselineStatistics():
     baseline_stats_text_file.close()
 
 def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1, comm_threshold = 1):
-    emoticon_stats_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_diffusion_stats.json","r") 
+    emoticon_stats_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_diffusion_stats.txt","r") 
     total_users = int(emoticon_stats_file.read().strip())
     emoticon_stats_file.close()
 
@@ -98,7 +98,7 @@ if __name__ == '__main__':
     directory = FSDirectory.getDirectory(STORE_DIR, False)
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
-    getBaselineStatistics()
+    #getBaselineStatistics()
     emoticon_list = [":)"]
     for prop_emoticon in emoticon_list: calculateEmoticonDiffusion(prop_emoticon, searcher, analyzer)
     searcher.close()
