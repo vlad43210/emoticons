@@ -77,6 +77,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
         try:
             for uhit in uhits:
                 user_replying, user_id_replied = hit.get("user_id"), hit.get('user_id_replied')
+                print "user replying: ", user_replying, " in hash?: ", user_replying in emoticon_users_by_time_hash
                 #continue
                 if user_replying in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[user_replying]) >= usage_threshold \
                 and emoticon_users_by_time_hash[user_replying][0] > emoticon_users_by_time_hash[uid][usage_threshold-1]:
@@ -86,16 +87,18 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
                     emoticon_users_adopters_hash[user_replying]['simultaneous'] += 1
                 elif user_replying not in emoticon_users_by_time_hash:
                     emoticon_users_non_adopters_hash[user_replying] = emoticon_users_non_adopters_hash.get(user_replying,0)+1
+                print "adopters hash: ", emoticon_users_adopters_hash[user_replying]['sequential']
+                print "non adopters hash: ", emoticon_users_non_adopters_hash.get(user_replying,0)
         except Exception, e:
             pass
             #print "failed to list hit: ", e
 
     #users who were exposed and adopted: 
-    num_exposed_adopted = len([x for x in emoticon_users_adopters_hash if emoticon_users_adopters_hash[x]['simultaneous'] > 0])
+    num_exposed_adopted = len([x for x in emoticon_users_adopters_hash if emoticon_users_adopters_hash[x]['sequential'] > 0])
     #users who were exposed and did not adopt: 
     num_exposed_not_adopted = len([x for x in emoticon_users_non_adopters_hash if emoticon_users_non_adopters_hash[x] > 0])
     #users who were not exposed and did adopt: 
-    num_not_exposed_adopted = len([x for x in emoticon_users_adopters_hash if emoticon_users_adopters_hash[x]['simultaneous'] == 0])
+    num_not_exposed_adopted = len([x for x in emoticon_users_adopters_hash if emoticon_users_adopters_hash[x]['sequential'] == 0])
     #users who were not exposed and did not adopt: 
     num_not_exposed_not_adopted = total_users - len(emoticon_users_adopters_hash) - len(emoticon_users_non_adopters_hash)
 
