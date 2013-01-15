@@ -88,7 +88,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
                 if user_replying in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[user_replying]) >= usage_threshold \
                 and emoticon_users_by_time_hash[user_replying][0] > emoticon_users_by_time_hash[uid][usage_threshold-1] \
                 and len(users_exposure_hash[user_replying][uid]) >= comm_threshold \
-                and sorted(users_exposure_hash[user_replying][uid])[comm_threshold-1] <= emoticon_users_by_time_hash[user_replying][0]:
+                and sorted(users_exposure_hash[user_replying][uid])[comm_threshold-1] <= emoticon_users_by_time_hash[user_replying][usage_threshold-1]:
                     emoticon_users_adopters_hash[user_replying]['sequential'] += 1
                 #and sorted(users_exposure_hash[user_replying][uid])[comm_threshold-1] < emoticon_users_by_time_hash[user_replying][usage_threshold-1] \
                 #and sorted(users_exposure_hash[user_replying][uid])[0] > emoticon_users_by_time_hash[uid][0]:
