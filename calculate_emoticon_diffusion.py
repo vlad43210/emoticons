@@ -48,6 +48,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
         for hit in hits:
             hctr += 1
             if hctr%100000==0: print "on hit: ", hctr
+            if hctr > 100000: break
             if hctr == hits.length(): break
             uid, timestamp, country, emoticons, user_id_replied = hit.get("user_id"), hit.get("timestamp"), hit.get('country'), hit.get('emoticons'), hit.get('user_id_replied')
             emoticon_users_by_time_hash[uid] = emoticon_users_by_time_hash.get(uid,[])+[timestamp]
