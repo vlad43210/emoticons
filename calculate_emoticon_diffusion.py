@@ -98,7 +98,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
                 and sorted(users_exposure_hash[user_replying][uid])[0] >= emoticon_users_by_time_hash[uid][0]:
                     emoticon_users_adopters_hash[user_replying]['simultaneous'] += 1
                 #in temporal order: A talks to B, A does not adopt emoticon,
-                elif user_replying not in emoticon_users_by_time_hash and len(users_exposure_hash[user_replying][uid] >= comm_threshold): #\
+                elif user_replying not in emoticon_users_by_time_hash and len(users_exposure_hash[user_replying][uid]) >= comm_threshold: #\
                     emoticon_users_non_adopters_hash[user_replying] = emoticon_users_non_adopters_hash.get(user_replying,0)+1
                 #and sorted(users_exposure_hash[user_replying][uid])[0] > emoticon_users_by_time_hash[uid][usage_threshold-1]:
                 #    emoticon_users_non_adopters_hash[user_replying] = emoticon_users_non_adopters_hash.get(user_replying,0)+1
@@ -131,5 +131,5 @@ if __name__ == '__main__':
     analyzer = WhitespaceAnalyzer()
     #getBaselineStatistics()
     emoticon_list = [":)"]
-    for prop_emoticon in emoticon_list: calculateEmoticonDiffusion(prop_emoticon, searcher, analyzer, 3, 1)
+    for prop_emoticon in emoticon_list: calculateEmoticonDiffusion(prop_emoticon, searcher, analyzer, 3, 2)
     searcher.close()
