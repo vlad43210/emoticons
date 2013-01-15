@@ -131,5 +131,5 @@ if __name__ == '__main__':
     analyzer = WhitespaceAnalyzer()
     #getBaselineStatistics()
     emoticon_list = [":)"]
-    for prop_emoticon in emoticon_list: calculateEmoticonDiffusion(prop_emoticon, searcher, analyzer, 2, 1)
+    for prop_emoticon in emoticon_list: calculateEmoticonDiffusion(prop_emoticon, searcher, analyzer, 3, 1)
     searcher.close()
