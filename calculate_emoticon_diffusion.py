@@ -62,9 +62,10 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
 
     print "calculating sequential and simultaneous adoptions at: ", time.time()
     uidctr = 0
+    number_users = len(emoticon_users_by_time_hash)
     for uid in emoticon_users_by_time_hash:
         uidctr += 1
-        if uidctr%10==0: print "on uid number: ", uidctr, " at time: ", time.time()
+        if uidctr%10==0: print "on uid number: ", uidctr, " out of: ", number_users, " at time: ", time.time()
         if len(emoticon_users_by_time_hash[uid]) < usage_threshold: continue
         uquery = QueryParser("user_id_replied", analyzer).parse(uid)
         uhits = searcher.search(query)
