@@ -43,6 +43,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
     emoticon_users_by_time_hash = {}
     emoticon_users_adopters_hash = {}
     emoticon_users_non_adopters_hash = {}
+    users_exposure_hash = {}
     try:
         hctr = 0
         for hit in hits:
@@ -77,15 +78,20 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
         try:
             for uhit in uhits:
                 user_replying, user_id_replied = uhit.get("user_id"), uhit.get('user_id_replied')
+                replying_user_exposure_hash = users_exposure_hash.get(user_replying,{})
+                replying_user_exposure_hash[uid] = replying_user_exposure_hash.get(uid,0)+1
+                users_exposure_hash[user_replying] = replying_user_exposure_hash
                 #print "user replying: ", user_replying, " in hash?: ", user_replying in emoticon_users_by_time_hash
                 #continue
                 if user_replying in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[user_replying]) >= usage_threshold \
-                and emoticon_users_by_time_hash[user_replying][0] > emoticon_users_by_time_hash[uid][usage_threshold-1]:
+                and emoticon_users_by_time_hash[user_replying][0] > emoticon_users_by_time_hash[uid][usage_threshold-1] \
+                and users_exposure_hash[user_replying][uid] >= comm_threshold:
                     emoticon_users_adopters_hash[user_replying]['sequential'] += 1
                 elif user_replying in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[user_replying]) >= usage_threshold \
-	            and emoticon_users_by_time_hash[user_replying][usage_threshold-1] > emoticon_users_by_time_hash[uid][usage_threshold-1]:
+	            and emoticon_users_by_time_hash[user_replying][usage_threshold-1] > emoticon_users_by_time_hash[uid][usage_threshold-1] \
+                and users_exposure_hash[user_replying][uid] >= comm_threshold:
                     emoticon_users_adopters_hash[user_replying]['simultaneous'] += 1
-                elif user_replying not in emoticon_users_by_time_hash:
+                elif user_replying not in emoticon_users_by_time_hash and users_exposure_hash[user_replying][uid] >= comm_threshold:
                     emoticon_users_non_adopters_hash[user_replying] = emoticon_users_non_adopters_hash.get(user_replying,0)+1
                 #print "adopters hash: ", emoticon_users_adopters_hash.get(user_replying,{"sequential":0})['sequential']
                 #print "non adopters hash: ", emoticon_users_non_adopters_hash.get(user_replying,0)
