@@ -68,14 +68,14 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
         if uidctr%10==0: print "on uid number: ", uidctr, " out of: ", number_users, " at time: ", time.time()
         if len(emoticon_users_by_time_hash[uid]) < usage_threshold: continue
         uquery = QueryParser("user_id_replied", analyzer).parse(uid)
-        uhits = searcher.search(query)
+        uhits = searcher.search(uquery)
         if uhits.length() == 0: continue
         print "uid replied: ", uid, " number of hits: ", uhits.length()
 
         try:
             for uhit in uhits:
                 user_replying, user_id_replied = hit.get("user_id"), hit.get('user_id_replied')
-                continue
+                #continue
                 if user_replying in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[user_replying]) >= usage_threshold \
                 and emoticon_users_by_time_hash[user_replying][0] > emoticon_users_by_time_hash[uid][usage_threshold-1]:
                     emoticon_users_adopters_hash[user_replying]['sequential'] += 1
