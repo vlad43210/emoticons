@@ -87,7 +87,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
                     emoticon_users_adopters_hash[user_replying]['simultaneous'] += 1
                 elif user_replying not in emoticon_users_by_time_hash:
                     emoticon_users_non_adopters_hash[user_replying] = emoticon_users_non_adopters_hash.get(user_replying,0)+1
-                print "adopters hash: ", emoticon_users_adopters_hash[user_replying]['sequential']
+                print "adopters hash: ", emoticon_users_adopters_hash.get(user_replying,{"sequential":0})['sequential']
                 print "non adopters hash: ", emoticon_users_non_adopters_hash.get(user_replying,0)
         except Exception, e:
             pass
