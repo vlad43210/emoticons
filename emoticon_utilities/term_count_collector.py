@@ -60,7 +60,7 @@ class TermCountCollector(PythonHitCollector):
                 tv_term_str = tv_term_str + clean_term + ","
             if clean_term in [u'RT', u'rt', u'via']:
                 is_rt = True
-            tv_term_list = tv_term_str[:-1].split(",")
+        tv_term_list = tv_term_str[:-1].split(",")
         if tv_term_str[:-1] in self.unique_tv_list and is_rt:
             print "eliminated duplicated string: ", tv_term_str.encode("ascii","ignore")
         else:

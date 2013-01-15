@@ -39,7 +39,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
     print "%s total matching documents." % hits.length()
     if hits.length() == 0: return
 
-    print " compiling diffusion stats at: ", time.time()
+    print "compiling diffusion stats at: ", time.time()
     emoticon_users_by_time_hash = {}
     emoticon_users_adopters_hash = {}
     emoticon_users_non_adopters_hash = {}
@@ -52,13 +52,19 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
             uid, timestamp, country, emoticons, user_id_replied = hit.get("user_id"), hit.get("timestamp"), hit.get('country'), hit.get('emoticons'), hit.get('user_id_replied')
             emoticon_users_by_time_hash[uid] = emoticon_users_by_time_hash.get(uid,[])+[timestamp]
     except Exception, e:
-        print "failed to list hit: ", e
+        pass
+        #print "failed to list hit: ", e
 
+    print "making emoticon users by time hash at: ", time.time()
     for uid in emoticon_users_by_time_hash:
         emoticon_users_by_time_hash[uid] = sorted(emoticon_users_by_time_hash[uid])
         emoticon_users_adopters_hash[uid] = {'sequential':0, 'simultaneous':0}
 
+    print "calculating sequential and simultaneous adoptions at: ", time.time()
+    uidctr = 0
     for uid in emoticon_users_by_time_hash:
+        uidctr += 1
+        if uidctr%10==0: print "on uid number: ", uidctr, " at time: ", time.time()
         if len(emoticon_users_by_time_hash[uid]) < usage_threshold: continue
         uquery = QueryParser("user_id_replied", analyzer).parse(uid)
         uhits = searcher.search(query)
@@ -76,7 +82,8 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
                 elif user_replying not in emoticon_users_by_time_hash:
                     emoticon_users_non_adopters_hash[user_replying] = emoticon_users_non_adopters_hash.get(user_replying,0)+1
         except Exception, e:
-            print "failed to list hit: ", e
+            pass
+            #print "failed to list hit: ", e
 
     #users who were exposed and adopted: 
     num_exposed_adopted = len([x for x in emoticon_users_adopters_hash if emoticon_users_adopters_hash[x]['sequential'] > 0])
