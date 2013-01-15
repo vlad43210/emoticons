@@ -70,6 +70,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
         uquery = QueryParser("user_id_replied", analyzer).parse(uid)
         uhits = searcher.search(query)
         if uhits.length() == 0: continue
+        continue
 
         try:
             for uhit in uhits:
