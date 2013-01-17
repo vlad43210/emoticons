@@ -107,41 +107,41 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
         except Exception, e:
             pass
 
-		uquery_reverse = QueryParser("user_id", analyzer).parse(uid)
-        uhits_reverse = searcher.search(uquery_reverse)
-        if uhits.length() == 0: continue
+		#uquery_reverse = QueryParser("user_id", analyzer).parse(uid)
+        #uhits_reverse = searcher.search(uquery_reverse)
+        #if uhits.length() == 0: continue
         #print "uid replied: ", uid, " number of hits: ", uhits.length()
 
-        try:
-            for uhit_reverse in uhits_reverse:
-                user_replying, user_id_replied, reply_timestamp = uhit_reverse.get("user_id"), uhit_reverse.get('user_id_replied'), int(uhit_reverse.get("timestamp"))
-                replied_user_exposure_hash = users_exposure_hash.get(user_id_replied,{})
-                replied_user_exposure_hash[uid] = replied_user_exposure_hash.get(uid,[])+[reply_timestamp]
-                users_exposure_hash[user_id_replied] = replied_user_exposure_hash
-                #in temporal order:
-                #(A talks to B / A adopts emoticon), B adopts emoticon
-                if user_id_replied in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[user_id_replied]) >= usage_threshold \
-                and emoticon_users_by_time_hash[user_id_replied][0] > emoticon_users_by_time_hash[uid][usage_threshold-1] \
-                and len(users_exposure_hash[user_id_replied][uid]) >= comm_threshold \
-                and sorted(users_exposure_hash[user_id_replied][uid])[comm_threshold-1] <= emoticon_users_by_time_hash[user_id_replied][0]:
-                    emoticon_users_adopters_hash[user_id_replied]['sequential'] += 1
-                #and sorted(users_exposure_hash[user_replying][uid])[comm_threshold-1] < emoticon_users_by_time_hash[user_replying][usage_threshold-1] \
-                #and sorted(users_exposure_hash[user_replying][uid])[0] > emoticon_users_by_time_hash[uid][0]:
-                #simultaneously: (A adopts emoticon / A talks to B), B adopts the emoticon
-                elif user_id_replied in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[user_id_replied]) >= usage_threshold \
-	            and emoticon_users_by_time_hash[user_id_replied][usage_threshold-1] > emoticon_users_by_time_hash[uid][usage_threshold-1] \
-                and len(users_exposure_hash[user_id_replied][uid]) >= comm_threshold \
-                and sorted(users_exposure_hash[user_id_replied][uid])[0] <= emoticon_users_by_time_hash[user_id_replied][0]:
-                    emoticon_users_adopters_hash[user_id_replied]['simultaneous'] += 1
-                #in temporal order: A talks to B, A does not adopt emoticon,
-                elif user_replying not in emoticon_users_by_time_hash and len(users_exposure_hash[user_id_replied][uid]) >= comm_threshold:
-                    emoticon_users_non_adopters_hash[user_id_replied] = emoticon_users_non_adopters_hash.get(user_id_replied,0)+1
-                #and sorted(users_exposure_hash[user_replying][uid])[0] > emoticon_users_by_time_hash[uid][0]:
-                #print "adopters hash: ", emoticon_users_adopters_hash.get(user_replying,{"sequential":0})['sequential']
-                #print "non adopters hash: ", emoticon_users_non_adopters_hash.get(user_replying,0)
-        except Exception, e:
-            pass
-           #print "failed to list hit: ", e
+        #try:
+        #    for uhit_reverse in uhits_reverse:
+        #        user_replying, user_id_replied, reply_timestamp = uhit_reverse.get("user_id"), uhit_reverse.get('user_id_replied'), int(uhit_reverse.get("timestamp"))
+        #        replied_user_exposure_hash = users_exposure_hash.get(user_id_replied,{})
+        #        replied_user_exposure_hash[uid] = replied_user_exposure_hash.get(uid,[])+[reply_timestamp]
+        #        users_exposure_hash[user_id_replied] = replied_user_exposure_hash
+        #        #in temporal order:
+        #        #(A talks to B / A adopts emoticon), B adopts emoticon
+        #        if user_id_replied in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[user_id_replied]) >= usage_threshold \
+        #        and emoticon_users_by_time_hash[user_id_replied][0] > emoticon_users_by_time_hash[uid][usage_threshold-1] \
+        #        and len(users_exposure_hash[user_id_replied][uid]) >= comm_threshold \
+        #        and sorted(users_exposure_hash[user_id_replied][uid])[comm_threshold-1] <= emoticon_users_by_time_hash[user_id_replied][0]:
+        #            emoticon_users_adopters_hash[user_id_replied]['sequential'] += 1
+        #        #and sorted(users_exposure_hash[user_replying][uid])[comm_threshold-1] < emoticon_users_by_time_hash[user_replying][usage_threshold-1] \
+        #        #and sorted(users_exposure_hash[user_replying][uid])[0] > emoticon_users_by_time_hash[uid][0]:
+        #        #simultaneously: (A adopts emoticon / A talks to B), B adopts the emoticon
+        #        elif user_id_replied in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[user_id_replied]) >= usage_threshold \
+	    #        and emoticon_users_by_time_hash[user_id_replied][usage_threshold-1] > emoticon_users_by_time_hash[uid][usage_threshold-1] \
+        #        and len(users_exposure_hash[user_id_replied][uid]) >= comm_threshold \
+        #        and sorted(users_exposure_hash[user_id_replied][uid])[0] <= emoticon_users_by_time_hash[user_id_replied][0]:
+        #            emoticon_users_adopters_hash[user_id_replied]['simultaneous'] += 1
+        #        #in temporal order: A talks to B, A does not adopt emoticon,
+        #        elif user_replying not in emoticon_users_by_time_hash and len(users_exposure_hash[user_id_replied][uid]) >= comm_threshold:
+        #            emoticon_users_non_adopters_hash[user_id_replied] = emoticon_users_non_adopters_hash.get(user_id_replied,0)+1
+        #        #and sorted(users_exposure_hash[user_replying][uid])[0] > emoticon_users_by_time_hash[uid][0]:
+        #        #print "adopters hash: ", emoticon_users_adopters_hash.get(user_replying,{"sequential":0})['sequential']
+        #        #print "non adopters hash: ", emoticon_users_non_adopters_hash.get(user_replying,0)
+        #except Exception, e:
+        #    pass
+        #   #print "failed to list hit: ", e
 
     #users who were exposed and adopted: 
     num_exposed_adopted = len([x for x in emoticon_users_adopters_hash if emoticon_users_adopters_hash[x]['sequential'] > 0])
@@ -165,6 +165,6 @@ if __name__ == '__main__':
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
     #getBaselineStatistics()
-    emoticon_list = [":("]
+    emoticon_list = [":(", ";)", ":P", "^^", "TT", ":p", ":/", "^_^", "++"]
     for prop_emoticon in emoticon_list: calculateEmoticonDiffusion(prop_emoticon, searcher, analyzer, 3, 2)
     searcher.close()
