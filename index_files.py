@@ -77,13 +77,13 @@ class IndexTweets(IndexFiles):
     def __init__(self, root, storeDir, analyzer, location_hash):
         super(IndexTweets, self).__init__(root, storeDir, analyzer)
         self.location_hash = location_hash
-        self.linecutoff = 100000
+        self.linecutoff = 50000000
         self.RTre = re.compile("RT @\w+")
         self.tzre = re.compile("\+\w+")
         #self.emoticonre = re.compile(u"http(s)?[:]//|[=<>]?[;:]+[\^'-]?[\\\/)(\]\[}{PpboO0|]+[X#]?|[+=>\^Tㅜㅠㅡ][ㅁㅇ._-]*[+=<\^Tㅜㅠㅡ]")
         self.emoticonre = re.compile(u"http(s)?[:]//|[=<>]?(?<![A-Za-z0-9])[;:]{1}[\^'-]?[\\\/)(\]\[}{DPpboO|]+|[=<>]?(?<![A-Za-z0-9])[;:]{1}[\^'-]?[0X#]\s|[>\^ㅜㅠㅡ@][ㅁㅇ0oO\._\-]*[<\^ㅜㅠㅡ@];*|[T\-+=;][ㅁㅇ\._]+[T\-+=;];*|(?<!\w)TT\s")
         self.emoticonhash = {}
-        self.emoticonhashfile = codecs.open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticons_list_test.txt", encoding='utf-8', mode='w')
+        self.emoticonhashfile = codecs.open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticons_list.txt", encoding='utf-8', mode='w')
         self.h = HTMLParser.HTMLParser()
 
     def runIndexer(self):

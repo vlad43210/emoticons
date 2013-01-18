@@ -15,7 +15,7 @@ def getUserLocations():
         loc_hash[uid] = country.strip()
     return loc_hash
 
-
+#sample code for running: python index_files.py /Volumes/Luna/twitter_germans/tweets.txt.gz 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print IndexTweets.__doc__
@@ -27,10 +27,10 @@ if __name__ == '__main__':
     def fn():
         env.attachCurrentThread()
         start = datetime.now()
-        #ix = IndexTweets(sys.argv[1], "/Volumes/TerraFirma/SharedData/vdb5/lucene_index",
-        #           WhitespaceAnalyzer(Version.LUCENE_CURRENT), location_hash)
-        ix = IndexTweets(sys.argv[1], "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test",
+        ix = IndexTweets(sys.argv[1], "/Volumes/TerraFirma/SharedData/vdb5/lucene_index",
                    WhitespaceAnalyzer(Version.LUCENE_CURRENT), location_hash)
+        #ix = IndexTweets(sys.argv[1], "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test",
+        #           WhitespaceAnalyzer(Version.LUCENE_CURRENT), location_hash)
         ix.runIndexer()
         end = datetime.now()
         print end - start
