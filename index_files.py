@@ -81,7 +81,7 @@ class IndexTweets(IndexFiles):
         self.RTre = re.compile("RT @\w+")
         self.tzre = re.compile("\+\w+")
         #self.emoticonre = re.compile(u"http(s)?[:]//|[=<>]?[;:]+[\^'-]?[\\\/)(\]\[}{PpboO0|]+[X#]?|[+=>\^Tㅜㅠㅡ][ㅁㅇ._-]*[+=<\^Tㅜㅠㅡ]")
-        self.emoticonre = re.compile(u"http(s)?[:]//|[=<>]?(?<![A-Za-z0-9])[;:]{1}[\^'-]?[\\\/)(\]\[}{DPpboO|]+|[=<>]?(?<![A-Za-z0-9])[;:]{1}[\^'-]?[0X#]\s|[>\^ㅜㅠㅡ@][ㅁㅇ0oO\._\-]*[<\^ㅜㅠㅡ@];*|[T\-+=;][ㅁㅇ\._]+[T\-+=;];*|(?<!\w)TT\s")
+        self.emoticonre = re.compile(u"http(s)?[:]//|[=<>]?(?<![A-Za-z0-9])[;:]{1}[\^'-]?[\\\/)(\]\[}{DPpboO|]+|[=<>]?(?<![A-Za-z0-9])[;:]{1}[\^'-]?[0X#]\s|[>\^ㅜㅠㅡ@][ㅁㅇ0oO\._\-]*[<\^ㅜㅠㅡ@];*|[T\-oOXx+=;][\._]+[T\-+oOXx=;];*|(?<!\w)TT\s")
         self.emoticonhash = {}
         self.emoticonhashfile = codecs.open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticons_list.txt", encoding='utf-8', mode='w')
         self.h = HTMLParser.HTMLParser()
