@@ -154,11 +154,12 @@ if __name__ == '__main__':
     #emoticon_list = [":)", ":(", ":'(", ":-|", "^^"]
     #emoticon_list = ["^^", "T_T"]
     emoticon_list = [":)","^..^","^00^",":(",";)",":P","^^","^_^","-_-","T_T",":o","@_@"]
+    min_doc_hash = {":)":500, "^..^":500, "^00^":500, ":(":500, ";)":500, "^^":50, ":P":500, "^_^":50, "-_-":50, "T_T":50, ":o":50, "@_@":10}
     #pmi_emoticon = "^^"
     #if pmi_emoticon == "^^": min_doc_frequency = 100
     for pmi_emoticon in emoticon_list:
         #emoticonPmiCalculator = PMICalculator(pmi_emoticon, searcher, analyzer)
         emoticonPmiCalculator = PMICalculator(pmi_emoticon, searcher, analyzer, english_only=True)
-        emoticonPmiCalculator.getTermPMI(min_doc_frequency)
+        emoticonPmiCalculator.getTermPMI(min_doc_hash[pmi_emoticon])
         print "calculated PMI for ", pmi_emoticon, " at: ", time.time()
     searcher.close()
