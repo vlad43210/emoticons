@@ -23,13 +23,13 @@ def getBaselineStatistics():
     all_tweets_set = {}
     for line in docsfile:
         lctr+=1
-        if lctr%100000 == 0: print "on line: ", lctr, " at: ", time.time()
+        if lctr%10 == 0: print "on line: ", lctr, " at: ", time.time()
         if lctr > linecutoff: break
         tweet_id, user_id, date, tweet_id_replied, user_id_replied, source, some_flag, another_flag, location, text = unicode(line, 'utf-8').split('\t')
         is_rt = False
         tv_term_str = ""
         for tv_term in text.split():
-            clean_term = self.cleanRawTerm(tv_term)
+            clean_term = cleanRawTerm(tv_term)
             if clean_term and clean_term not in [u'RT', u'rt', u'via'] and not clean_term.startswith("@") \
                and not clean_term.startswith("http://"):
                 tv_term_str = tv_term_str + clean_term + ","
