@@ -11,7 +11,7 @@ from operator import itemgetter
 import gzip, json, string, time
 
 def getBaselineStatistics():
-    docsfile = gzip.open("/Volumes/Luna/twitter_germans/tweets.txt.gz",)
+    docsfile = gzip.open("/Volumes/Luna/twitter_germans/tweets.txt.gz")
     lctr = 0
     linecutoff = 50000000
     all_users_set = {}

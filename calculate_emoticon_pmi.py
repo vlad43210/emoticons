@@ -9,6 +9,38 @@ from lucene import \
     MatchAllDocsQuery, PythonHitCollector, QueryFilter, QueryParser, Term, \
     WhitespaceAnalyzer
 
+def cleanRawTerm(self, term):
+    if term.endswith((".",",","?","!",":",")")):
+        term = term[:-1]
+    #elif term.endswith((":)",":(",":/",";o")):
+    #    term = term[:-2]
+    return term
+
+def getBaselineStatistics():
+    docsfile = gzip.open("/Volumes/Luna/twitter_germans/tweets.txt.gz")
+    lctr = 0
+    linecutoff = 50000000
+    all_tweets_set = {}
+    for line in docsfile:
+        lctr+=1
+        if lctr%100000 == 0: print "on line: ", lctr, " at: ", time.time()
+        if lctr > linecutoff: break
+        tweet_id, user_id, date, tweet_id_replied, user_id_replied, source, some_flag, another_flag, location, text = unicode(line, 'utf-8').split('\t')
+        is_rt = False
+        tv_term_str = ""
+        for tv_term in text.split():
+            clean_term = self.cleanRawTerm(tv_term)
+            if clean_term and clean_term not in [u'RT', u'rt', u'via'] and not clean_term.startswith("@") \
+               and not clean_term.startswith("http://"):
+                tv_term_str = tv_term_str + clean_term + ","
+            if clean_term in [u'RT', u'rt', u'via']:
+                is_rt = True
+            ordered_term_str = sorted(tv_term_str.split(",")).join(",")
+            all_tweets_set[ordered_term_str] = all_tweets_set.get(ordered_term_str,0)+1
+    baseline_stats_text_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_pmi_stats.txt","w")
+    baseline_stats_text_file.write("n:%s\n" % (len(all_tweets_set)))
+    baseline_stats_text_file.close()
+
 class PMICalculator(object):
 
     def __init__(self, emoticon, searcher, analyzer, english_only=False):
@@ -103,6 +135,7 @@ class PMICalculator(object):
  
 if __name__ == '__main__':
     print "started PMI calculator at: ", time.time()
+    getBaselineStatistics()
     STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index"
     #STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test"
     initVM(CLASSPATH, maxheap='1024m')
