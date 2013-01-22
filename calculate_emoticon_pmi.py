@@ -68,9 +68,9 @@ class PMICalculator(object):
         #print "terms: ", self.terms
         if emoticon == ":P":
             ee_two = QueryParser.escape(":p")
-        elif emoticon == "T_T"
+        elif emoticon == "T_T":
             ee_two = QueryParser.escape("TT")
-        if emoticon in [":P","T_T"]
+        if emoticon in [":P","T_T"]:
             q_two = QueryParser("emoticons",self.analyzer).parse(ee_two)
             hits_two = self.searcher.search(q_two, self.term_count_collector)
         self.terms = self.term_count_collector.getTerms()            
