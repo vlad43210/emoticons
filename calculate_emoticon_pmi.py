@@ -1,4 +1,4 @@
-import codecs, math, re, time
+import codecs, gzip, math, re, time
 
 from emoticon_utilities.string_utils import normalizeEmoticonName
 from emoticon_utilities.term_count_collector import TermCountCollector
