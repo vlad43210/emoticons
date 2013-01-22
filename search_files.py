@@ -29,7 +29,10 @@ def run(searcher, analyzer):
         print "%s total matching documents." % hits.length()
 
         try:
-            for hit in hits[:100]:
+            hctr = 0
+            for hit in hits:
+                hctr += 1
+                if hctr > hits.length()-2 or hctr > 100: break
                 print 'uid:', hit.get("user_id"), 'timestamp: ', hit.get("timestamp"), "country: ", hit.get('country'), "emoticons: ", hit.get('emoticons')
         except Exception, e: 
             print "failed to list hit: ", e
@@ -43,7 +46,10 @@ def run(searcher, analyzer):
         print "%s total matching documents." % hits.length()
 
         try:
-            for hit in hits[:100]:
+            hctr = 0
+            for hit in hits:
+                hctr += 1
+                if hctr > hits.length()-2 or hctr > 100: break
                 print 'uid:', hit.get("user_id"), 'timestamp: ', hit.get("timestamp"), "country: ", hit.get('country'), "emoticons: ", hit.get('emoticons')
         except Exception, e: 
             print "failed to list hit: ", e
@@ -57,7 +63,10 @@ def run(searcher, analyzer):
         print "%s total matching documents." % hits.length()
 
         try:
-            for hit in hits[:100]:
+            hctr = 0
+            for hit in hits:
+                hctr += 1
+                if hctr > hits.length()-2 or hctr > 100: break
                 print 'uid:', hit.get("user_id"), 'timestamp: ', hit.get("timestamp"), "country: ", hit.get('country'), "emoticons: ", hit.get('emoticons')
         except Exception, e: 
             print "failed to list hit: ", e
