@@ -121,7 +121,7 @@ class PMICalculator(object):
                 p_cooccurrence = 0
                 p_term = 0
             pmi = math.log(p_cooccurrence / (self.p_query_result * p_term), 2)
-            norm_pmi = pmi * 1.0 / (-1 * log(p_cooccurrence) )
+            norm_pmi = pmi * 1.0 / (-1 * math.log(p_cooccurrence) )
             #print "term: ", co_term, " term count: ", term_count, " cooccurrence_count: ", cooccurrence_count, " P(seed-term,term): ", p_cooccurrence, " P(seedterm): ", p_term, " PMI: ", pmi
         except Exception, e:
             print "failed to calculate PMI: ", e
