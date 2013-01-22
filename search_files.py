@@ -31,9 +31,9 @@ def run(searcher, analyzer):
         try:
             hctr = 0
             for hit in hits:
+                print "hit id: ", hits.Id(hctr), " term vector: ", searcher.getIndexReader().getTermFreqVector(hit.get("id"), "text")
                 hctr += 1
                 if hctr > hits.length()-2 or hctr > 100: break
-                print "hit id: ", hit.get("id"), " term vector: ", searcher.getIndexReader().getTermFreqVector(hit.get("id"), "text")
                 print 'uid:', hit.get("user_id"), 'timestamp: ', hit.get("timestamp"), "country: ", hit.get('country'), "emoticons: ", hit.get('emoticons')
         except Exception, e: 
             print "failed to list hit: ", e
