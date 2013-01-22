@@ -6,7 +6,7 @@ class PMIResult(object):
         super(PMIResult, self).__init__()
         self.term = term
         self.pmi = pmi
-        self.norm_pmi = pmi
+        self.norm_pmi = norm_pmi
         self.cooccurrence_count = cooccurrence_count
 
     def getTerm(self):
