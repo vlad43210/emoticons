@@ -35,7 +35,7 @@ def getBaselineStatistics():
                 tv_term_str = tv_term_str + clean_term + ","
             if clean_term in [u'RT', u'rt', u'via']:
                 is_rt = True
-            ordered_term_str = sorted(tv_term_str.split(",")).join(",")
+            ordered_term_str = ",".join(sorted(tv_term_str.split(",")))
             all_tweets_set[ordered_term_str] = all_tweets_set.get(ordered_term_str,0)+1
     baseline_stats_text_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_pmi_stats.txt","w")
     baseline_stats_text_file.write("n:%s\n" % (len(all_tweets_set)))
