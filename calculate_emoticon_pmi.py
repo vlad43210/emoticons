@@ -9,7 +9,7 @@ from lucene import \
     MatchAllDocsQuery, PythonHitCollector, QueryFilter, QueryParser, Term, \
     WhitespaceAnalyzer
 
-def cleanRawTerm(self, term):
+def cleanRawTerm(term):
     if term.endswith((".",",","?","!",":",")")):
         term = term[:-1]
     #elif term.endswith((":)",":(",":/",";o")):
