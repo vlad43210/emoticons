@@ -23,7 +23,7 @@ def getBaselineStatistics():
     all_tweets_set = {}
     for line in docsfile:
         lctr+=1
-        if lctr%10 == 0: print "on line: ", lctr, " at: ", time.time()
+        if lctr%100000 == 0: print "on line: ", lctr, " at: ", time.time()
         if lctr > linecutoff: break
         tweet_id, user_id, date, tweet_id_replied, user_id_replied, source, some_flag, another_flag, location, text = unicode(line, 'utf-8').split('\t')
         is_rt = False
