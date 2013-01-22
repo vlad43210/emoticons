@@ -34,7 +34,7 @@ def run(searcher, analyzer):
                 hit_id = hits.id(hctr), 
                 hit_tv = searcher.getIndexReader().getTermFreqVector(hits.id(hctr), "text")
                 trm_str = ""
-                for trm in hit_tv.getTerms(): trm_str += trm
+                for trm in hit_tv.getTerms(): trm_str += " " + trm
                 print "term string: ", trm_str.encode("ascii","ignore")
                 hctr += 1
                 if hctr > hits.length()-2 or hctr > 100: break
@@ -56,7 +56,7 @@ def run(searcher, analyzer):
                 hit_id = hits.id(hctr), 
                 hit_tv = searcher.getIndexReader().getTermFreqVector(hits.id(hctr), "text")
                 trm_str = ""
-                for trm in hit_tv.getTerms(): trm_str += trm
+                for trm in hit_tv.getTerms(): trm_str += " " + trm
                 print "term string: ", trm_str.encode("ascii","ignore")
                 hctr += 1
                 if hctr > hits.length()-2 or hctr > 100: break
@@ -78,7 +78,7 @@ def run(searcher, analyzer):
                 hit_id = hits.id(hctr), 
                 hit_tv = searcher.getIndexReader().getTermFreqVector(hits.id(hctr), "text")
                 trm_str = ""
-                for trm in hit_tv.getTerms(): trm_str += trm
+                for trm in hit_tv.getTerms(): trm_str += " " + trm
                 print "term string: ", trm_str.encode("ascii","ignore")
                 hctr += 1
                 if hctr > hits.length()-2 or hctr > 100: break
