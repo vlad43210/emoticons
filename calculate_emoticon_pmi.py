@@ -80,7 +80,8 @@ class PMICalculator(object):
             for p_term_tweet in p_term_tweets:
                 self.sample_tweets_file.write("term: " + p_term + " tweet: " + p_term_tweet + "\n")
         self.sample_tweets_file.close()
-        self.n = searcher.getIndexReader().numDocs()
+        self.base_stats_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_pmi_stats.txt","r")
+        self.n = int(self.base_stats_file.read().strip().split(":")[1])
 
         print "computing PMI for query: ", self.emoticon, " at: ", time.time()
         
@@ -140,7 +141,7 @@ class PMICalculator(object):
  
 if __name__ == '__main__':
     print "started PMI calculator at: ", time.time()
-    getBaselineStatistics()
+    #getBaselineStatistics()
     STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index"
     #STORE_DIR =  "/Volumes/TerraFirma/SharedData/vdb5/lucene_index_test"
     initVM(CLASSPATH, maxheap='1024m')
