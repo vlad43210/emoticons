@@ -23,7 +23,7 @@ def getBaselineStatistics():
     all_tweets_set = {}
     for line in docsfile:
         lctr+=1
-        if lctr%100000 == 0: print "on line: ", lctr, " at: ", time.time()
+        if lctr%100000 == 0: print "on line: ", lctr, " at: ", time.time(), "number distinct tweets: ", len(all_tweets_set)
         if lctr > linecutoff: break
         tweet_id, user_id, date, tweet_id_replied, user_id_replied, source, some_flag, another_flag, location, text = unicode(line, 'utf-8').split('\t')
         is_rt = False
@@ -36,7 +36,8 @@ def getBaselineStatistics():
             if clean_term in [u'RT', u'rt', u'via']:
                 is_rt = True
             ordered_term_str = ",".join(sorted(tv_term_str.split(",")))
-            all_tweets_set[ordered_term_str] = all_tweets_set.get(ordered_term_str,0)+1
+            ordered_term_hash = hash(ordered_term_str)
+            all_tweets_set[ordered_term_hash] = all_tweets_set.get(ordered_term_hash,0)+1
     baseline_stats_text_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_pmi_stats.txt","w")
     baseline_stats_text_file.write("n:%s\n" % (len(all_tweets_set)))
     baseline_stats_text_file.close()
@@ -102,7 +103,7 @@ class PMICalculator(object):
 
         print "number of results: ", len(result_set)
         sorted_result_set = sorted(list(result_set), key=lambda x: x.getPMI(), reverse=True)
-        for tr in sorted_result_set: self.pmi_file.write(tr.getTerm() + "," + str(tr.getPMI()) + "," + str(tr.getCooccurrenceCount()) + "\n")
+        for tr in sorted_result_set: self.pmi_file.write(tr.getTerm() + "," + str(tr.getPMI()) + "," + str(tr.getNormPMI()) + "," + str(tr.getCooccurrenceCount()) + "\n")
         self.pmi_file.close()
 
     def getPMI(self, co_term):
@@ -115,11 +116,15 @@ class PMICalculator(object):
             if cooccurrence_count > 0:
                 p_cooccurrence = cooccurrence_count / self.n
                 p_term = term_count / self.n + .00000001
+            else:
+                p_cooccurrence = 0
+                p_term = 0
             pmi = math.log(p_cooccurrence / (self.p_query_result * p_term), 2)
+            norm_pmi = pmi * 1.0 / (-1 * log(p_cooccurrence) )
             #print "term: ", co_term, " term count: ", term_count, " cooccurrence_count: ", cooccurrence_count, " P(seed-term,term): ", p_cooccurrence, " P(seedterm): ", p_term, " PMI: ", pmi
         except Exception, e:
             print "failed to calculate PMI: ", e
-        return PMIResult(co_term, pmi, cooccurrence_count)
+        return PMIResult(co_term, pmi, norm_pmi, cooccurrence_count)
 
     def getTermCount(self, co_term):
         t_count = 0
