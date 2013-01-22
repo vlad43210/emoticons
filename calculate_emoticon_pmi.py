@@ -33,8 +33,15 @@ class PMICalculator(object):
         self.term_count_collector = TermCountCollector(searcher, emoticon, country)
         print "starting query at: ", time.time()
         hits = self.searcher.search(self.query, self.term_count_collector)
-        self.terms = self.term_count_collector.getTerms()
         #print "terms: ", self.terms
+        if emoticon == ":P":
+            ee_two = QueryParser.escape(":p")
+        elif emoticon == "T_T"
+            ee_two = QueryParser.escape("TT")
+        if emoticon in [":P","T_T"]
+            q_two = QueryParser("emoticons",self.analyzer).parse(ee_two)
+            hits_two = self.searcher.search(q_two, self.term_count_collector)
+        self.terms = self.term_count_collector.getTerms()            
         self.query_result_count = self.term_count_collector.getDocCount()
         for p_term, p_term_tweets in self.term_count_collector.popular_terms_hash.items():
             for p_term_tweet in p_term_tweets:
@@ -106,7 +113,8 @@ if __name__ == '__main__':
     min_doc_frequency = 50
     #emoticon_list = [":)", ":(", ";)", ":P", ":0", "^^", "TT",":p",":/","^_^","T_T"]
     #emoticon_list = [":)", ":(", ":'(", ":-|", "^^"]
-    emoticon_list = ["^^", "T_T"]
+    #emoticon_list = ["^^", "T_T"]
+    emoticon_list = [":)","^..^","^00^",":(",";)",":P","^^","^_^","-_-","T_T",":o","@_@"]
     #pmi_emoticon = "^^"
     #if pmi_emoticon == "^^": min_doc_frequency = 100
     for pmi_emoticon in emoticon_list:
