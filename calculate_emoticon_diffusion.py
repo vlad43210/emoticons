@@ -165,6 +165,7 @@ if __name__ == '__main__':
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
     #getBaselineStatistics()
-    emoticon_list = [":(", ";)", ":P", "^^", "TT", ":p", ":/", "^_^", "++"]
+    #emoticon_list = [":(", ";)", ":P", "^^", "TT", ":p", ":/", "^_^", "++"]
+    emoticon_list = [":)","^..^","^00^",":(",";)",":P","^^","^_^","-_-","T_T",":o","@_@"]
     for prop_emoticon in emoticon_list: calculateEmoticonDiffusion(prop_emoticon, searcher, analyzer, 3, 2)
     searcher.close()
