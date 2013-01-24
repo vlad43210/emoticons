@@ -137,7 +137,7 @@ if __name__ == '__main__':
     getBaselineStatistics(searcher, analyzer)
     #emoticon_list = [":)", ":(", ";)", ":P", ":0", "^^", "TT", ":p", ":/", "^_^", "T_T"]
     #emoticon_list = [":)", ":(", ":'(", ":-|", "^^", "+_+", "-_-", "T_T"]
-    emoticon_list = [":)", ":("]
+    emoticon_list = [":)","^..^","^00^",":(",";)",":P","^^","^_^","-_-","T_T",":o","@_@"]
     for prop_emoticon in emoticon_list: getEmoticonPropagationCurves(prop_emoticon, searcher, analyzer)
     #getEmoticonPropagationCurves(":)", searcher, analyzer)
     #getEmoticonPropagationCurves(":(", searcher, analyzer)
