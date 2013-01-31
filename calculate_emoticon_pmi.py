@@ -71,7 +71,9 @@ class PMICalculator(object):
             ee_two = QueryParser.escape(":p")
         elif emoticon == "T_T":
             ee_two = QueryParser.escape("TT")
-        if emoticon in [":P","T_T"]:
+        elif emoticon == "^_^":
+            ee_two = QueryParser.escape("^^")
+        if emoticon in [":P","T_T","^_^"]:
             q_two = QueryParser("emoticons",self.analyzer).parse(ee_two)
             hits_two = self.searcher.search(q_two, self.term_count_collector)
         self.terms = self.term_count_collector.getTerms()            
@@ -154,6 +156,7 @@ if __name__ == '__main__':
     #emoticon_list = [":)", ":(", ":'(", ":-|", "^^"]
     #emoticon_list = ["^^", "T_T"]
     emoticon_list = [":)","^..^","^00^",":(",";)",":P","^^","^_^","-_-","T_T",":o","@_@"]
+    emoticon_list = ["^_^",":D","+_+"]
     min_doc_hash = {":)":500, "^..^":500, "^00^":500, ":(":500, ";)":500, "^^":50, ":P":500, "^_^":50, "-_-":50, "T_T":50, ":o":50, "@_@":10}
     #pmi_emoticon = "^^"
     #if pmi_emoticon == "^^": min_doc_frequency = 100

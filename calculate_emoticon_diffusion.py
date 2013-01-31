@@ -57,6 +57,27 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
         pass
         #print "failed to list hit: ", e
 
+    if emoticon == ":P":
+        ee_two = QueryParser.escape(":p")
+    elif emoticon == "T_T":
+        ee_two = QueryParser.escape("TT")
+    elif emoticon == "^_^":
+        ee_two = QueryParser.escape("^^")
+    if emoticon in [":P","T_T","^_^"]:
+        q_two = QueryParser("emoticons",self.analyzer).parse(ee_two)
+        hits_two = self.searcher.search(q_two, self.term_count_collector)
+        try:
+        hctr_two = 0
+        for hit_two in hits_two:
+            hctr_two += 1
+            if hctr_two%100000==0: print "on hit: ", hctr_two
+            #if hctr > 100000: break
+            if hctr_two == hits_two.length(): break
+            uid, timestamp, country, emoticons, user_id_replied = hit_two.get("user_id"), int(hit_two.get("timestamp")), hit_two.get('country'), hit_two.get('emoticons'), hit_two.get('user_id_replied')
+            emoticon_users_by_time_hash[uid] = emoticon_users_by_time_hash.get(uid,[])+[timestamp]
+        except Exception, e:
+            pass
+
     print "making emoticon users by time hash at: ", time.time()
     for uid in emoticon_users_by_time_hash:
         emoticon_users_by_time_hash[uid] = sorted(emoticon_users_by_time_hash[uid])
@@ -166,6 +187,6 @@ if __name__ == '__main__':
     analyzer = WhitespaceAnalyzer()
     #getBaselineStatistics()
     #emoticon_list = [":(", ";)", ":P", "^^", "TT", ":p", ":/", "^_^", "++"]
-    emoticon_list = [":)","^..^","^00^",":(",";)",":P","^^","^_^","-_-","T_T",":o","@_@"]
+    emoticon_list = [":)","^..^","^00^",":(",";)",":P",":D","^_^","-_-","T_T",":o","@_@","+_+"]
     for prop_emoticon in emoticon_list: calculateEmoticonDiffusion(prop_emoticon, searcher, analyzer, 3, 2)
     searcher.close()
