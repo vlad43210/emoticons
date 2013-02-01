@@ -64,7 +64,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
     elif emoticon == "^_^":
         ee_two = QueryParser.escape("^^")
     if emoticon in [":P","T_T","^_^"]:
-        q_two = QueryParser("emoticons",self.analyzer).parse(ee_two)
+        q_two = QueryParser("emoticons",analyzer).parse(ee_two)
         hits_two = self.searcher.search(q_two, self.term_count_collector)
         try:
             hctr_two = 0
