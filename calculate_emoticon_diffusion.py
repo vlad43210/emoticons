@@ -45,7 +45,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
     emoticon_users_non_adopters_hash = {}
     users_exposure_hash = {}
     try:
-         hctr = 0
+        hctr = 0
         for hit in hits:
             hctr += 1
             if hctr%100000==0: print "on hit: ", hctr
