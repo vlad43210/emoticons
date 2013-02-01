@@ -67,14 +67,14 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
         q_two = QueryParser("emoticons",self.analyzer).parse(ee_two)
         hits_two = self.searcher.search(q_two, self.term_count_collector)
         try:
-        hctr_two = 0
-        for hit_two in hits_two:
-            hctr_two += 1
-            if hctr_two%100000==0: print "on hit: ", hctr_two
-            #if hctr > 100000: break
-            if hctr_two == hits_two.length(): break
-            uid, timestamp, country, emoticons, user_id_replied = hit_two.get("user_id"), int(hit_two.get("timestamp")), hit_two.get('country'), hit_two.get('emoticons'), hit_two.get('user_id_replied')
-            emoticon_users_by_time_hash[uid] = emoticon_users_by_time_hash.get(uid,[])+[timestamp]
+            hctr_two = 0
+            for hit_two in hits_two:
+                hctr_two += 1
+                if hctr_two%100000==0: print "on hit: ", hctr_two
+                #if hctr > 100000: break
+                if hctr_two == hits_two.length(): break
+                uid, timestamp, country, emoticons, user_id_replied = hit_two.get("user_id"), int(hit_two.get("timestamp")), hit_two.get('country'), hit_two.get('emoticons'), hit_two.get('user_id_replied')
+                emoticon_users_by_time_hash[uid] = emoticon_users_by_time_hash.get(uid,[])+[timestamp]
         except Exception, e:
             pass
 
