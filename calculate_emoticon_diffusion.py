@@ -115,7 +115,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
                 #and sorted(users_exposure_hash[user_replying][uid])[0] > emoticon_users_by_time_hash[uid][0]:
                 #simultaneously: (A adopts emoticon / A talks to B), B adopts the emoticon
                 elif user_replying in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[user_replying]) >= usage_threshold \
-	            and emoticon_users_by_time_hash[user_replying][usage_threshold-1] > emoticon_users_by_time_hash[uid][usage_threshold-1] \
+                and emoticon_users_by_time_hash[user_replying][usage_threshold-1] > emoticon_users_by_time_hash[uid][usage_threshold-1] \
                 and len(users_exposure_hash[user_replying][uid]) >= comm_threshold \
                 and sorted(users_exposure_hash[user_replying][uid])[0] <= emoticon_users_by_time_hash[user_replying][0]:
                     emoticon_users_adopters_hash[user_replying]['simultaneous'] += 1
@@ -128,7 +128,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
         except Exception, e:
             pass
 
-		#uquery_reverse = QueryParser("user_id", analyzer).parse(uid)
+        #uquery_reverse = QueryParser("user_id", analyzer).parse(uid)
         #uhits_reverse = searcher.search(uquery_reverse)
         #if uhits.length() == 0: continue
         #print "uid replied: ", uid, " number of hits: ", uhits.length()
@@ -150,7 +150,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
         #        #and sorted(users_exposure_hash[user_replying][uid])[0] > emoticon_users_by_time_hash[uid][0]:
         #        #simultaneously: (A adopts emoticon / A talks to B), B adopts the emoticon
         #        elif user_id_replied in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[user_id_replied]) >= usage_threshold \
-	    #        and emoticon_users_by_time_hash[user_id_replied][usage_threshold-1] > emoticon_users_by_time_hash[uid][usage_threshold-1] \
+        #        and emoticon_users_by_time_hash[user_id_replied][usage_threshold-1] > emoticon_users_by_time_hash[uid][usage_threshold-1] \
         #        and len(users_exposure_hash[user_id_replied][uid]) >= comm_threshold \
         #        and sorted(users_exposure_hash[user_id_replied][uid])[0] <= emoticon_users_by_time_hash[user_id_replied][0]:
         #            emoticon_users_adopters_hash[user_id_replied]['simultaneous'] += 1
