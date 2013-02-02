@@ -119,7 +119,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
         except Exception, e:
                 pass
 
-    all_potentially_exposed_set = set(users_exposure_hash.keys() | reverse_users_exposure_hash.keys())
+    all_potentially_exposed_set = set(users_exposure_hash.keys()) | set(reverse_users_exposure_hash.keys())
     all_potentially_exposed_list = list(all_potentially_exposed_set)
     pe_user_ctr = 0
     all_pe_users = len(all_potentially_exposed_list)
