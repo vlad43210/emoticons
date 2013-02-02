@@ -136,7 +136,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
                        sorted(list(users_exposure_hash[potentially_exposed_user][active_user]))[comm_threshold-1] \
                        <= emoticon_users_by_time_hash[potentially_exposed_user][0] and \
                        active_user in reverse_users_exposure_hash[potentially_exposed_user] and \
-                       len(reverse_users_exposure_hash[potentially_exposed_user][active_user]) >= comm_threshold and
+                       len(reverse_users_exposure_hash[potentially_exposed_user][active_user]) >= comm_threshold and \
                        sorted(list(reverse_users_exposure_hash[potentially_exposed_user][active_user]))[comm_threshold-1] \
                        <= emoticon_users_by_time_hash[potentially_exposed_user][0] and \
                        emoticon_users_by_time_hash[potentially_exposed_user][0] > emoticon_users_by_time_hash[active_user][usage_threshold-1]:
@@ -146,7 +146,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
                        sorted(list(users_exposure_hash[potentially_exposed_user][active_user]))[comm_threshold-1] \
                        <= emoticon_users_by_time_hash[potentially_exposed_user][comm_threshold-1] and \
                        active_user in reverse_users_exposure_hash[potentially_exposed_user] and \
-                       len(reverse_users_exposure_hash[potentially_exposed_user][active_user]) >= comm_threshold and
+                       len(reverse_users_exposure_hash[potentially_exposed_user][active_user]) >= comm_threshold and \
                        sorted(list(reverse_users_exposure_hash[potentially_exposed_user][active_user]))[comm_threshold-1] \
                        <= emoticon_users_by_time_hash[potentially_exposed_user][comm_threshold-1] and \
                        emoticon_users_by_time_hash[potentially_exposed_user][usage_threshold-1] > emoticon_users_by_time_hash[active_user][usage_threshold-1]:
