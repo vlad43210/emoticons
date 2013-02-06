@@ -31,7 +31,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
     total_users = int(emoticon_stats_file.read().strip())
     emoticon_stats_file.close()
 
-    emoticon_file_name = raw_stats_dir + normalizeEmoticonName(emoticon).rstrip('_')+".diffusion"
+    emoticon_file_name = raw_stats_dir + normalizeEmoticonName(emoticon).rstrip('_')+".diffusion_bidir"
     print "Calculating Diffusion for: ", emoticon, " at: ", time.time()
     escaped_emoticon = QueryParser.escape(emoticon)
     query = QueryParser("emoticons", analyzer).parse(escaped_emoticon)
