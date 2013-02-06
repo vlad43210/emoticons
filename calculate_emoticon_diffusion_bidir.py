@@ -197,6 +197,6 @@ if __name__ == '__main__':
     #emoticon_list = [":(", ";)", ":P", "^^", "TT", ":p", ":/", "^_^", "++"]
     emoticon_list = [":)","^..^","^00^",":(",";)",":D",":P",":D","^_^","-_-","T_T",":o","@_@","+_+"]
     #emoticon_list = [":P",":D","^_^","T_T"]
-    emoticon_list = [":P"]
+    #emoticon_list = [":P"]
     for prop_emoticon in emoticon_list: calculateEmoticonDiffusion(prop_emoticon, searcher, analyzer, 3, 2)
     searcher.close()
