@@ -134,7 +134,9 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
         #adopter
         if potentially_exposed_user in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[potentially_exposed_user]) >= usage_threshold:
             #potentially exposed both ways to some adopter
+            print "user: ", potentially_exposed_user, " has adopted!"
             if potentially_exposed_user in users_exposure_hash and potentially_exposed_user in reverse_users_exposure_hash:
+                print "user: ", potentially_exposed_user, " both exposed and reverse exposed!"
                 for active_user in users_exposure_hash[potentially_exposed_user]:  
                     emoticon_users_adopters_hash[potentially_exposed_user]['sequential'] += 1
                     break
