@@ -124,10 +124,13 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
     all_potentially_exposed_list = list(all_potentially_exposed_set)
     pe_user_ctr = 0
     all_pe_users = len(all_potentially_exposed_list)
+    print "users exposure length: ", len(users_exposure_hash)
+    print "reverse users exposure length: ", len(reverse_users_exposure_hash)
+    print "all potentially exposed list: ", len(all_potentially_exposed_list)
  
     for potentially_exposed_user in all_potentially_exposed_list:
         pe_user_ctr += 1
-        if pe_user_ctr%100==0: print "on potentially exposed user number: ", pe_user_ctr, " out of: ", all_pe_users, "at time: ", time.time()
+        #if pe_user_ctr%100==0: print "on potentially exposed user number: ", pe_user_ctr, " out of: ", all_pe_users, "at time: ", time.time()
         #adopter
         if potentially_exposed_user in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[potentially_exposed_user]) >= usage_threshold:
             #potentially exposed both ways to some adopter
