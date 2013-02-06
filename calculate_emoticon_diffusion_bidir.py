@@ -89,7 +89,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
     number_users = len(emoticon_users_by_time_hash)
     for uid in emoticon_users_by_time_hash:
         uidctr += 1
-        if uidctr > 1000: break
+        #if uidctr > 1000: break
         #if uidctr < 5: print "uid: ", uid, " hash: ", emoticon_users_by_time_hash[uid]
         if uidctr%100==0: print "on uid number: ", uidctr, " out of: ", number_users, " at time: ", time.time()
         if len(emoticon_users_by_time_hash[uid]) < usage_threshold: continue
@@ -134,7 +134,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
  
     for potentially_exposed_user in all_potentially_exposed_list:
         pe_user_ctr += 1
-        #if pe_user_ctr%100==0: print "on potentially exposed user number: ", pe_user_ctr, " out of: ", all_pe_users, "at time: ", time.time()
+        if pe_user_ctr%100==0: print "on potentially exposed user number: ", pe_user_ctr, " out of: ", all_pe_users, "at time: ", time.time()
         #adopter
         if potentially_exposed_user in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[potentially_exposed_user]) >= usage_threshold:
             #potentially exposed both ways to some adopter
@@ -142,14 +142,6 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
             if potentially_exposed_user in users_exposure_hash and potentially_exposed_user in reverse_users_exposure_hash:
                 #print "user: ", potentially_exposed_user, " both exposed and reverse exposed!"
                 for active_user in users_exposure_hash[potentially_exposed_user]:
-                    '''
-                    print "setting user sequential adopt for user: ", potentially_exposed_user
-                    emoticon_users_adopters_hash[potentially_exposed_user]['sequential'] += 1
-                    break                                     
-                    if active_user in reverse_users_exposure_hash:
-                        emoticon_users_adopters_hash[potentially_exposed_user]['sequential'] += 1
-                        break
-                    '''
                     if len(users_exposure_hash[potentially_exposed_user][active_user]) >= comm_threshold and \
                        sorted(list(users_exposure_hash[potentially_exposed_user][active_user]))[comm_threshold-1] \
                        <= emoticon_users_by_time_hash[potentially_exposed_user][0] and \
