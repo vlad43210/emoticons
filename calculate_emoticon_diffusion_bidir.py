@@ -117,8 +117,8 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
             for uhit_reverse in uhits_reverse:
                 user_replying, user_id_replied, reply_timestamp = uhit_reverse.get("user_id"), uhit_reverse.get('user_id_replied'), int(uhit_reverse.get("timestamp"))
                 replied_user_exposure_hash = reverse_users_exposure_hash.get(user_id_replied,{})
-                #replied_tstamp_set = replied_user_exposure_hash.get(uid,set())
-                #replied_tstamp_set.add(reply_timestamp)
+                replied_tstamp_set = replied_user_exposure_hash.get(uid,set())
+                replied_tstamp_set.add(reply_timestamp)
                 #replied_user_exposure_hash[uid] = replied_tstamp_setr
                 reverse_users_exposure_hash[user_id_replied] = replied_user_exposure_hash
         except Exception, e:
