@@ -133,10 +133,12 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
             #potentially exposed both ways to some adopter
             if potentially_exposed_user in users_exposure_hash and potentially_exposed_user in reverse_users_exposure_hash:
                 for active_user in users_exposure_hash[potentially_exposed_user]:  
+                    emoticon_users_adopters_hash[potentially_exposed_user]['sequential'] += 1
+                    break
+                    '''                 
                     if active_user in reverse_users_exposure_hash:
                         emoticon_users_adopters_hash[potentially_exposed_user]['sequential'] += 1
                         break
-                    '''                  
                     if len(users_exposure_hash[potentially_exposed_user][active_user]) >= comm_threshold and \
                        sorted(list(users_exposure_hash[potentially_exposed_user][active_user]))[comm_threshold-1] \
                        <= emoticon_users_by_time_hash[potentially_exposed_user][0] and \
@@ -192,6 +194,7 @@ if __name__ == '__main__':
     #getBaselineStatistics()
     #emoticon_list = [":(", ";)", ":P", "^^", "TT", ":p", ":/", "^_^", "++"]
     #emoticon_list = [":)","^..^","^00^",":(",";)",":P",":D","^_^","-_-","T_T",":o","@_@","+_+"]
-    emoticon_list = [":P",":D","^_^","T_T"]
+    #emoticon_list = [":P",":D","^_^","T_T"]
+    emoticon_list = [":P"]
     for prop_emoticon in emoticon_list: calculateEmoticonDiffusion(prop_emoticon, searcher, analyzer, 3, 2)
     searcher.close()
