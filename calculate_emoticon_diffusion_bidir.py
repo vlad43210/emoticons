@@ -102,7 +102,9 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
             for uhit in uhits:
                 user_replying, user_id_replied, reply_timestamp = uhit.get("user_id"), uhit.get('user_id_replied'), int(uhit.get("timestamp"))
                 replying_user_exposure_hash = users_exposure_hash.get(user_replying,{})
-                replying_user_exposure_hash.get(uid,set()).add(reply_timestamp)
+                replying_tstamp_set = replying_user_exposure_hash.get(uid,set())
+                replying_tstamp_set.add(reply_timestamp)
+                replying_user_exposure_hash[uid] = replying_tstamp_set
                 users_exposure_hash[user_replying] = replying_user_exposure_hash
         except Exception, e:
             pass
@@ -115,7 +117,9 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
             for uhit_reverse in uhits_reverse:
                 user_replying, user_id_replied, reply_timestamp = uhit_reverse.get("user_id"), uhit_reverse.get('user_id_replied'), int(uhit_reverse.get("timestamp"))
                 replied_user_exposure_hash = reverse_users_exposure_hash.get(user_id_replied,{})
-                replied_user_exposure_hash.get(uid,set()).add(reply_timestamp)
+                replied_tstamp_set = replied_user_exposure_hash.get(uid,set())
+                replied_tstamp_set.add(reply_timestamp)
+                replied_user_exposure_hash[uid] = replied_tstamp_setr
                 reverse_users_exposure_hash[user_id_replied] = replied_user_exposure_hash
         except Exception, e:
                 pass
@@ -134,17 +138,18 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
         #adopter
         if potentially_exposed_user in emoticon_users_by_time_hash and len(emoticon_users_by_time_hash[potentially_exposed_user]) >= usage_threshold:
             #potentially exposed both ways to some adopter
-            print "user: ", potentially_exposed_user, " has adopted!"
+            #print "user: ", potentially_exposed_user, " has adopted!"
             if potentially_exposed_user in users_exposure_hash and potentially_exposed_user in reverse_users_exposure_hash:
-                print "user: ", potentially_exposed_user, " both exposed and reverse exposed!"
+                #print "user: ", potentially_exposed_user, " both exposed and reverse exposed!"
                 for active_user in users_exposure_hash[potentially_exposed_user]:
+                    '''
                     print "setting user sequential adopt for user: ", potentially_exposed_user
                     emoticon_users_adopters_hash[potentially_exposed_user]['sequential'] += 1
-                    break
-                    '''                 
+                    break                                     
                     if active_user in reverse_users_exposure_hash:
                         emoticon_users_adopters_hash[potentially_exposed_user]['sequential'] += 1
                         break
+                    '''
                     if len(users_exposure_hash[potentially_exposed_user][active_user]) >= comm_threshold and \
                        sorted(list(users_exposure_hash[potentially_exposed_user][active_user]))[comm_threshold-1] \
                        <= emoticon_users_by_time_hash[potentially_exposed_user][0] and \
@@ -164,7 +169,6 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
                        <= emoticon_users_by_time_hash[potentially_exposed_user][comm_threshold-1] and \
                        emoticon_users_by_time_hash[potentially_exposed_user][usage_threshold-1] > emoticon_users_by_time_hash[active_user][usage_threshold-1]:
                         emoticon_users_adopters_hash[potentially_exposed_user]['simultaneous'] += 1
-                    '''
         #non-adopter
         else:
             #potentially exposed both ways to adopter
