@@ -101,7 +101,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
             for uhit in uhits:
                 user_replying, user_id_replied, reply_timestamp = uhit.get("user_id"), uhit.get('user_id_replied'), int(uhit.get("timestamp"))
                 replying_user_exposure_hash = users_exposure_hash.get(user_replying,{})
-                replying_user_exposure_hash[uid] = replying_user_exposure_hash.get(uid,set()).add(reply_timestamp)
+                replying_user_exposure_hash.get(uid,set()).add(reply_timestamp)
                 users_exposure_hash[user_replying] = replying_user_exposure_hash
         except Exception, e:
             pass
@@ -114,7 +114,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
             for uhit_reverse in uhits_reverse:
                 user_replying, user_id_replied, reply_timestamp = uhit_reverse.get("user_id"), uhit_reverse.get('user_id_replied'), int(uhit_reverse.get("timestamp"))
                 replied_user_exposure_hash = reverse_users_exposure_hash.get(user_id_replied,{})
-                replied_user_exposure_hash[uid] = replied_user_exposure_hash.get(uid,set()).add(reply_timestamp)
+                replied_user_exposure_hash.get(uid,set()).add(reply_timestamp)
                 reverse_users_exposure_hash[user_id_replied] = replied_user_exposure_hash
         except Exception, e:
                 pass
@@ -155,7 +155,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
         else:
             #potentially exposed both ways to adopter
             if potentially_exposed_user in users_exposure_hash and potentially_exposed_user in reverse_users_exposure_hash:
-                print "exposure hash: ", users_exposure_hash[potentially_exposed_user], "reverse exposure hash: ", reverse_users_exposure_hash[potentially_exposed_user]
+                #print "exposure hash: ", users_exposure_hash[potentially_exposed_user], "reverse exposure hash: ", reverse_users_exposure_hash[potentially_exposed_user]
                 for active_user in users_exposure_hash[potentially_exposed_user]:
                     if len(users_exposure_hash[potentially_exposed_user][active_user]) >= comm_threshold and \
                        len(reverse_users_exposure_hash[potentially_exposed_user].get(active_user,[])) >= comm_threshold:
