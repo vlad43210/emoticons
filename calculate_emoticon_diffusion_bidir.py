@@ -137,7 +137,8 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
             print "user: ", potentially_exposed_user, " has adopted!"
             if potentially_exposed_user in users_exposure_hash and potentially_exposed_user in reverse_users_exposure_hash:
                 print "user: ", potentially_exposed_user, " both exposed and reverse exposed!"
-                for active_user in users_exposure_hash[potentially_exposed_user]:  
+                for active_user in users_exposure_hash[potentially_exposed_user]:
+                    print "setting user sequential adopt for user: ", potentially_exposed_user
                     emoticon_users_adopters_hash[potentially_exposed_user]['sequential'] += 1
                     break
                     '''                 
