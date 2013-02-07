@@ -10,6 +10,17 @@ from lucene import \
 from operator import itemgetter
 import gzip, json, string, time
 
+def getUserLocations():
+    loc_hash = {}
+    location_file = open('/Volumes/TerraFirma/SharedData/vdb5/emoticons/twitter_uid_country.txt','r')
+    lctr = 0
+    for line in location_file:
+        lctr+=1
+        if lctr%1000000==0: print "grabbing location data for line: ", lctr, "at time: ", time.time()
+        uid, country = line.split('|')
+        loc_hash[uid] = country.strip()
+    return loc_hash
+
 def getBaselineStatistics():
     docsfile = gzip.open("/Volumes/Luna/twitter_germans/tweets.txt.gz")
     lctr = 0
@@ -25,7 +36,7 @@ def getBaselineStatistics():
     baseline_stats_text_file.write("%s\n" % (len(all_users_set)))
     baseline_stats_text_file.close()
 
-def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1, comm_threshold = 1):
+def calculateEmoticonDiffusion(emoticon, searcher, analyzer, user_location_hash, usage_threshold = 1, comm_threshold = 1):
     raw_stats_dir = "/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/"
     emoticon_stats_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_diffusion_stats.txt","r") 
     total_users = int(emoticon_stats_file.read().strip())
@@ -82,7 +93,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
     print "making emoticon users by time hash at: ", time.time()
     for uid in emoticon_users_by_time_hash:
         emoticon_users_by_time_hash[uid] = sorted(emoticon_users_by_time_hash[uid])
-        emoticon_users_adopters_hash[uid] = {'sequential':0, 'simultaneous':0}
+        emoticon_users_adopters_hash[uid] = {'sequential':0, 'simultaneous':0, 'same_country_sequential':0, 'cross_country_sequential':0}
 
     print "calculating sequential and simultaneous adoptions at: ", time.time()
     uidctr = 0
@@ -151,6 +162,19 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
                        <= emoticon_users_by_time_hash[potentially_exposed_user][0] and \
                        emoticon_users_by_time_hash[potentially_exposed_user][0] > emoticon_users_by_time_hash[active_user][usage_threshold-1]:
                         emoticon_users_adopters_hash[potentially_exposed_user]['sequential'] += 1
+                        #look at user locations
+                        if user_location_hash.get(potentially_exposed_user,'None') in ["United.States","United.Kingdom","France","Italy","Germany"] and \
+                          user_location_hash.get(active_user,'None') in ["Japan","China","South.Korea"]:
+                            emoticon_users_adopters_hash[potentially_exposed_user]['cross_country_sequential'] += 1
+                        elif user_location_hash.get(active_user,'None') in ["United.States","United.Kingdom","France","Italy","Germany"] and \
+                          user_location_hash.get(potentially_exposed_user,'None') in ["Japan","China","South.Korea"]:
+                            emoticon_users_adopters_hash[potentially_exposed_user]['cross_country_sequential'] += 1
+                        elif user_location_hash.get(potentially_exposed_user,'None') in ["United.States","United.Kingdom","France","Italy","Germany"] and \
+                          user_location_hash.get(active_user,'None') in ["United.States","United.Kingdom","France","Italy","Germany"]:
+                            emoticon_users_adopters_hash[potentially_exposed_user]['same_country_sequential'] += 1
+                        elif user_location_hash.get(potentially_exposed_user,'None') in ["Japan","China","South.Korea"] and \
+                          user_location_hash.get(active_user,'None') in ["Japan","China","South.Korea"]:
+                            emoticon_users_adopters_hash[potentially_exposed_user]['same_country_sequential'] += 1
                         break
                     elif len(users_exposure_hash[potentially_exposed_user][active_user]) >= comm_threshold and \
                        sorted(list(users_exposure_hash[potentially_exposed_user][active_user]))[comm_threshold-1] \
@@ -180,9 +204,14 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, usage_threshold = 1
     num_not_exposed_adopted = len([x for x in emoticon_users_adopters_hash if emoticon_users_adopters_hash[x]['sequential'] == 0])
     #users who were not exposed and did not adopt: 
     num_not_exposed_not_adopted = total_users - len(emoticon_users_adopters_hash) - len(emoticon_users_non_adopters_hash)
+    #users who were exposed and adopted cross-cultures
+    num_exposed_adopted_cross_country = len([x for x in emoticon_users_adopters_hash if emoticon_users_adopters_hash[x]['cross_country_sequential'] > 0])
+    #users who were exposed and adopted same-culture
+    num_exposed_adopted_same_country = len([x for x in emoticon_users_adopters_hash if emoticon_users_adopters_hash[x]['same_country_sequential'] > 0])
 
     emoticon_file = open(emoticon_file_name,'w')
-    emoticon_file.write("%s,%s,%s,%s\n" % (num_exposed_adopted, num_exposed_not_adopted, num_not_exposed_adopted, num_not_exposed_not_adopted))        
+    emoticon_file.write("%s,%s,%s,%s\n" % (num_exposed_adopted, num_exposed_not_adopted, num_not_exposed_adopted, num_not_exposed_not_adopted, \
+                                           num_exposed_adopted_cross_country, num_exposed_adopted_same_country))        
     emoticon_file.close()
     print "done at: ", time.time()
 
@@ -193,10 +222,11 @@ if __name__ == '__main__':
     directory = FSDirectory.getDirectory(STORE_DIR, False)
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
+    user_location_hash = getUserLocations()
     #getBaselineStatistics()
     #emoticon_list = [":(", ";)", ":P", "^^", "TT", ":p", ":/", "^_^", "++"]
     emoticon_list = [":)","^..^","^00^",":(",";)",":D",":P",":D","^_^","-_-","T_T",":o","@_@","+_+"]
     #emoticon_list = [":P",":D","^_^","T_T"]
     #emoticon_list = [":P"]
-    for prop_emoticon in emoticon_list: calculateEmoticonDiffusion(prop_emoticon, searcher, analyzer, 3, 2)
+    for prop_emoticon in emoticon_list: calculateEmoticonDiffusion(prop_emoticon, searcher, analyzer, user_location_hash, 3, 2)
     searcher.close()

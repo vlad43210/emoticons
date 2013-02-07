@@ -93,8 +93,10 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
             daytshash[daystartts] = {'days since start':daysincestart, 'next day ts':nextdaystartts}
             total_emoticon_count = string.count(emoticons, emoticon)
             if daysincestart in emoticon_propagation_hash:
-                emoticon_propagation_hash[daysincestart]['total'] += total_emoticon_count
-                emoticon_propagation_hash[daysincestart][country] = emoticon_propagation_hash[daysincestart].get(country,0) + total_emoticon_count
+                #emoticon_propagation_hash[daysincestart]['total'] += total_emoticon_count
+                emoticon_propagation_hash[daysincestart]['total'] += 1
+                #emoticon_propagation_hash[daysincestart][country] = emoticon_propagation_hash[daysincestart].get(country,0) + total_emoticon_count
+                emoticon_propagation_hash[daysincestart][country] = emoticon_propagation_hash[daysincestart].get(country,0) + 1
                 emoticon_propagation_hash[daysincestart]['total_in_replies'] += num_replies
             else:
                 emoticon_propagation_hash[daysincestart] = {'total':total_emoticon_count, 'total_in_replies':num_replies, country:total_emoticon_count, \
@@ -137,7 +139,7 @@ if __name__ == '__main__':
     getBaselineStatistics(searcher, analyzer)
     #emoticon_list = [":)", ":(", ";)", ":P", ":0", "^^", "TT", ":p", ":/", "^_^", "T_T"]
     #emoticon_list = [":)", ":(", ":'(", ":-|", "^^", "+_+", "-_-", "T_T"]
-    emoticon_list = [":)","^..^","^00^",":(",";)",":P","^^","^_^","-_-","T_T",":o","@_@"]
+    emoticon_list = [":)",":D",":(",";)",":P","^^","^_^","-_-","T_T",":o","@_@"]
     for prop_emoticon in emoticon_list: getEmoticonPropagationCurves(prop_emoticon, searcher, analyzer)
     #getEmoticonPropagationCurves(":)", searcher, analyzer)
     #getEmoticonPropagationCurves(":(", searcher, analyzer)
