@@ -210,7 +210,7 @@ def calculateEmoticonDiffusion(emoticon, searcher, analyzer, user_location_hash,
     num_exposed_adopted_same_country = len([x for x in emoticon_users_adopters_hash if emoticon_users_adopters_hash[x]['same_country_sequential'] > 0])
 
     emoticon_file = open(emoticon_file_name,'w')
-    emoticon_file.write("%s,%s,%s,%s\n" % (num_exposed_adopted, num_exposed_not_adopted, num_not_exposed_adopted, num_not_exposed_not_adopted, \
+    emoticon_file.write("%s,%s,%s,%s,%s,%s\n" % (num_exposed_adopted, num_exposed_not_adopted, num_not_exposed_adopted, num_not_exposed_not_adopted, \
                                            num_exposed_adopted_cross_country, num_exposed_adopted_same_country))        
     emoticon_file.close()
     print "done at: ", time.time()
