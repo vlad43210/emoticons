@@ -32,7 +32,7 @@ def getBaselineStatistics(searcher, analyzer):
         #all tweets in day range US
         us_tweets_base_query = MatchAllDocsQuery()
         US_tweets_country_query = QueryParser("country", analyzer).parse("United.States")
-        US_tweets_query_filter = QueryFilter(US_tweets_query)
+        US_tweets_query_filter = QueryFilter(US_tweets_country_query)
         compound_filter_US_tweets = Boolean_Filter()
         compound_filter_US_tweets.add(FilterClause(range_filter, BooleanClause.Occur.MUST))
         compound_filter_US_tweets.add(FilterClause(US_tweets_query_filter, BooleanClause.Occur.MUST))
@@ -42,7 +42,7 @@ def getBaselineStatistics(searcher, analyzer):
         #all tweets in day range japan
         jp_tweets_base_query = MatchAllDocsQuery()
         JP_tweets_country_query = QueryParser("country", analyzer).parse("Japan")
-        JP_tweets_query_filter = QueryFilter(JP_tweets_query)
+        JP_tweets_query_filter = QueryFilter(JP_tweets_country_query)
         compound_filter_JP_tweets = Boolean_Filter()
         compound_filter_JP_tweets.add(FilterClause(range_filter, BooleanClause.Occur.MUST))
         compound_filter_JP_tweets.add(FilterClause(JP_tweets_query_filter, BooleanClause.Occur.MUST))
