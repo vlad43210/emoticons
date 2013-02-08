@@ -30,7 +30,7 @@ def getBaselineStatistics(searcher, analyzer):
         num_tweets_in_range = tweets_in_range_search.length()
 
         #all tweets in day range US
-        us_tweets_base_query = MatchAllDocsQuery()
+        US_tweets_base_query = MatchAllDocsQuery()
         US_tweets_country_query = QueryParser("country", analyzer).parse("United.States")
         US_tweets_query_filter = QueryFilter(US_tweets_country_query)
         compound_filter_US_tweets = BooleanFilter()
@@ -40,7 +40,7 @@ def getBaselineStatistics(searcher, analyzer):
         num_US_tweets_in_range = US_tweets_in_range_search.length()
         
         #all tweets in day range japan
-        jp_tweets_base_query = MatchAllDocsQuery()
+        JP_tweets_base_query = MatchAllDocsQuery()
         JP_tweets_country_query = QueryParser("country", analyzer).parse("Japan")
         JP_tweets_query_filter = QueryFilter(JP_tweets_country_query)
         compound_filter_JP_tweets = BooleanFilter()
