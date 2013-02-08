@@ -29,6 +29,22 @@ def getBaselineStatistics(searcher, analyzer):
         tweets_in_range_search = searcher.search(all_docs_query, range_filter)
         num_tweets_in_range = tweets_in_range_search.length()
 
+        #all tweets in day range US
+        bq_us_tweets = BooleanQuery()
+        bq_us_tweets.add(all_docs_query)
+        US_tweets_query = QueryParsers("country", analyzer).parse("United.States")
+        bq_us_tweets.add(US_tweets_query)
+        US_tweets_in_range_search = searcher.search(US_tweets_query, range_filter)
+        num_US_tweets_in_range = US_tweets_in_range_search.length()
+        
+        #all tweets in day range japan
+        bq_jp_tweets = BooleanQuery()
+        bq_jp_tweets.add(all_docs_query)
+        JP_tweets_query = QueryParsers("country", analyzer).parse("Japan")
+        bq_jp_tweets.add(JP_tweets_query)
+        JP_tweets_in_range_search = searcher.search(JP_tweets_query, range_filter)
+        num_JP_tweets_in_range = JP_tweets_in_range_search.length()
+        
         #all tweets containing emoticons
         empty_term = Term("emoticons")
         empty_term_prefix = PrefixQuery(empty_term)
@@ -50,12 +66,14 @@ def getBaselineStatistics(searcher, analyzer):
         bq_search = searcher.search(bq, range_filter)
         num_http_emoticons = bq_search.length()
         
-        baseline_stats_hash[day_ctr] = {'total tweets':num_tweets_in_range, 'emoticons':num_emoticon_tweets_in_range, 'http':num_http_emoticons}
+        baseline_stats_hash[day_ctr] = {'total tweets':num_tweets_in_range, 'emoticons':num_emoticon_tweets_in_range, 'http':num_http_emoticons, 'US tweets':num_us_tweets_in_range, \
+                                        'JP tweets':num_JP_tweets_in_range}
 
     baseline_stats_text_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_stats.txt","w")
     raw_stats_list = sorted(baseline_stats_hash.items(), key = lambda x: int(x[0]))
-    baseline_stats_text_file.write("day total emoticons http\n")
-    for rs in raw_stats_list: baseline_stats_text_file.write("%s %s %s %s\n" %(rs[0], rs[1]["total tweets"], rs[1]["emoticons"], rs[1]["http"]))
+    baseline_stats_text_file.write("day total emoticons http US JP\n")
+    for rs in raw_stats_list: baseline_stats_text_file.write("%s %s %s %s %s %s\n" %(rs[0], rs[1]["total tweets"], rs[1]["emoticons"], rs[1]["http"], rs[1]['US tweets'], \
+                                                             rs[1]['JP tweets']))
     baseline_stats_text_file.close()
     baseline_stats_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_stats.json","w")
     baseline_stats_file.write(json.dumps(baseline_stats_hash))
@@ -114,6 +132,8 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
         if i%100 == 0: print "on day number: ", i, " at: ", time.time()
 
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total tweets'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['total tweets']
+        emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total US tweets'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['US tweets']
+        emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total JP tweets'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['JP tweets']
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total emoticon tweets'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['emoticons']
         emoticon_propagation_hash[daytshash[sorted_dayts]['days since start']]['total http emoticons'] = emoticon_stats_hash[str(daytshash[sorted_dayts]['days since start'])]['http']
         
