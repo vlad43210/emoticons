@@ -70,7 +70,7 @@ def getBaselineStatistics(searcher, analyzer):
         bq_search = searcher.search(bq, range_filter)
         num_http_emoticons = bq_search.length()
         
-        baseline_stats_hash[day_ctr] = {'total tweets':num_tweets_in_range, 'emoticons':num_emoticon_tweets_in_range, 'http':num_http_emoticons, 'US tweets':num_us_tweets_in_range, \
+        baseline_stats_hash[day_ctr] = {'total tweets':num_tweets_in_range, 'emoticons':num_emoticon_tweets_in_range, 'http':num_http_emoticons, 'US tweets':num_US_tweets_in_range, \
                                         'JP tweets':num_JP_tweets_in_range}
 
     baseline_stats_text_file = open("/Volumes/TerraFirma/SharedData/vdb5/emoticons_raw_files/emoticon_stats.txt","w")
