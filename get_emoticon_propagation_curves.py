@@ -36,7 +36,7 @@ def getBaselineStatistics(searcher, analyzer):
         compound_filter_US_tweets = BooleanFilter()
         compound_filter_US_tweets.add(FilterClause(range_filter, BooleanClause.Occur.MUST))
         compound_filter_US_tweets.add(FilterClause(US_tweets_query_filter, BooleanClause.Occur.MUST))
-        US_tweets_in_range_search = searcher.search(US_tweets_query, compound_filter_US_tweets)
+        US_tweets_in_range_search = searcher.search(US_tweets_base_query, compound_filter_US_tweets)
         num_US_tweets_in_range = US_tweets_in_range_search.length()
         
         #all tweets in day range japan
@@ -46,7 +46,7 @@ def getBaselineStatistics(searcher, analyzer):
         compound_filter_JP_tweets = BooleanFilter()
         compound_filter_JP_tweets.add(FilterClause(range_filter, BooleanClause.Occur.MUST))
         compound_filter_JP_tweets.add(FilterClause(JP_tweets_query_filter, BooleanClause.Occur.MUST))
-        JP_tweets_in_range_search = searcher.search(JP_tweets_query, compound_filter_JP_tweets)
+        JP_tweets_in_range_search = searcher.search(JP_tweets_base_query, compound_filter_JP_tweets)
         num_JP_tweets_in_range = JP_tweets_in_range_search.length()
         
         #all tweets containing emoticons
