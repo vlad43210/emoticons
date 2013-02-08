@@ -145,11 +145,12 @@ def getEmoticonPropagationCurves(emoticon, searcher, analyzer):
     countrylist = list(countryset)
     emo_propagation_by_time = sorted(emoticon_propagation_hash.items(), key=itemgetter(0))
     emoticon_file = open(emoticon_file_name,'w')
-    emoticon_file.write("day,"+",".join(countrylist)+",total,totalinreplies,alltweets,emoticontweets,httpemoticons\n")        
+    emoticon_file.write("day,"+",".join(countrylist)+",total,totalinreplies,alltweets,emoticontweets,httpemoticons,USemoticons,JPemoticons\n")        
     for emo_day_entry in emo_propagation_by_time:
         emoticon_file.write(str(emo_day_entry[0])+","+",".join([str(emo_day_entry[1].get(ctry,0)) for ctry in countrylist]) + "," + \
                             str(emo_day_entry[1]["total"]) + "," + str(emo_day_entry[1]["total_in_replies"]) + "," + str(emo_day_entry[1]['total tweets']) + "," + \
-                            str(emo_day_entry[1]["total emoticon tweets"]) + "," + str(emo_day_entry[1]["total http emoticons"]) + "\n")
+                            str(emo_day_entry[1]["total emoticon tweets"]) + "," + str(emo_day_entry[1]["total http emoticons"]) + \
+                            str(emo_day_entry[1]["US tweets"]) + "," + str(emo_day_entry[1]["JP tweets"]) "\n")
     emoticon_file.close()
     print "done at: ", time.time()
 
@@ -160,7 +161,7 @@ if __name__ == '__main__':
     directory = FSDirectory.getDirectory(STORE_DIR, False)
     searcher = IndexSearcher(directory)
     analyzer = WhitespaceAnalyzer()
-    getBaselineStatistics(searcher, analyzer)
+    #getBaselineStatistics(searcher, analyzer)
     #emoticon_list = [":)", ":(", ";)", ":P", ":0", "^^", "TT", ":p", ":/", "^_^", "T_T"]
     #emoticon_list = [":)", ":(", ":'(", ":-|", "^^", "+_+", "-_-", "T_T"]
     emoticon_list = [":)",":D",":(",";)",":P","^^","^_^","-_-","T_T",":o","@_@"]
