@@ -30,19 +30,23 @@ def getBaselineStatistics(searcher, analyzer):
         num_tweets_in_range = tweets_in_range_search.length()
 
         #all tweets in day range US
-        bq_us_tweets = BooleanQuery()
-        bq_us_tweets.add(all_docs_query)
-        US_tweets_query = QueryParsers("country", analyzer).parse("United.States")
-        bq_us_tweets.add(US_tweets_query)
-        US_tweets_in_range_search = searcher.search(US_tweets_query, range_filter)
+        us_tweets_base_query = MatchAllDocsQuery()
+        US_tweets_country_query = QueryParser("country", analyzer).parse("United.States")
+        US_tweets_query_filter = QueryFilter(US_tweets_query)
+        compound_filter_US_tweets = Boolean_Filter()
+        compound_filter_US_tweets.add(FilterClause(range_filter, BooleanClause.Occur.MUST))
+        compound_filter_US_tweets.add(FilterClause(US_tweets_query_filter, BooleanClause.Occur.MUST))
+        US_tweets_in_range_search = searcher.search(US_tweets_query, compound_filter_US_tweets)
         num_US_tweets_in_range = US_tweets_in_range_search.length()
         
         #all tweets in day range japan
-        bq_jp_tweets = BooleanQuery()
-        bq_jp_tweets.add(all_docs_query)
-        JP_tweets_query = QueryParsers("country", analyzer).parse("Japan")
-        bq_jp_tweets.add(JP_tweets_query)
-        JP_tweets_in_range_search = searcher.search(JP_tweets_query, range_filter)
+        jp_tweets_base_query = MatchAllDocsQuery()
+        JP_tweets_country_query = QueryParser("country", analyzer).parse("Japan")
+        JP_tweets_query_filter = QueryFilter(JP_tweets_query)
+        compound_filter_JP_tweets = Boolean_Filter()
+        compound_filter_JP_tweets.add(FilterClause(range_filter, BooleanClause.Occur.MUST))
+        compound_filter_JP_tweets.add(FilterClause(JP_tweets_query_filter, BooleanClause.Occur.MUST))
+        JP_tweets_in_range_search = searcher.search(JP_tweets_query, compound_filter_JP_tweets)
         num_JP_tweets_in_range = JP_tweets_in_range_search.length()
         
         #all tweets containing emoticons
