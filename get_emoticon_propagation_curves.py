@@ -34,7 +34,7 @@ def getBaselineStatistics(searcher, analyzer):
         US_tweets_base_query = MatchAllDocsQuery()
         #us_escape_one = QueryParser("country", analyzer).escape("United")
         #us_escape_two = 
-        us_query = TermQuery("country", "United States")
+        us_query = TermQuery(Term("country", "United States"))
         #us_query.add(Term("country","United"))
         #us_query.add(Term("country","States"))
         US_tweets_country_query = us_query
