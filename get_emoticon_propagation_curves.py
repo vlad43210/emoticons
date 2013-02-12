@@ -16,7 +16,7 @@ def getBaselineStatistics(searcher, analyzer):
     day_one = time.strptime("01 01 2005", "%d %m %Y")
     day_one_ts = int(time.mktime(day_one))
     max_day_ctr = 1830
-    day_ctr = 800
+    day_ctr = 0
     while day_ctr < max_day_ctr:
         if day_ctr%100 == 0: print "on day ctr: ", day_ctr, " at time: ", time.time()
         curr_day_ts = day_one_ts + 86400*day_ctr
@@ -55,7 +55,7 @@ def getBaselineStatistics(searcher, analyzer):
         compound_filter_JP_tweets.add(FilterClause(JP_tweets_query_filter, BooleanClause.Occur.MUST))
         JP_tweets_in_range_search = searcher.search(JP_tweets_base_query, compound_filter_JP_tweets)
         num_JP_tweets_in_range = JP_tweets_in_range_search.length()
-        if day_ctr%10 == 0: print "US tweets: ", num_US_tweets_in_range, " JP tweets: ", num_JP_tweets_in_range
+        #day_ctr%10 == 0: print "US tweets: ", num_US_tweets_in_range, " JP tweets: ", num_JP_tweets_in_range
         
         #all tweets containing emoticons
         empty_term = Term("emoticons")
