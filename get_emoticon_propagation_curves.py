@@ -6,7 +6,7 @@ from lucene import \
     Integer, QueryParser, IndexSearcher, WhitespaceAnalyzer, FSDirectory, Hit, \
     VERSION, initVM, CLASSPATH, NumericRangeFilter, MatchAllDocsQuery, PrefixQuery, \
     QueryFilter, Term, BooleanFilter, FilterClause, BooleanClause, BooleanQuery, \
-    Phrase Query
+    PhraseQuery
 
 from operator import itemgetter
 import json, string, time
