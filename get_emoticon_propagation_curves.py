@@ -38,7 +38,7 @@ def getBaselineStatistics(searcher, analyzer):
         #us_query.add(Term("country","United"))
         #us_query.add(Term("country","States"))
         #US_tweets_country_query = us_query
-        US_tweets_country_query = QueryParser("country", analyzer).parse("United\ States")
+        US_tweets_country_query = QueryParser("country", analyzer).parse("United")
         US_tweets_query_filter = QueryFilter(US_tweets_country_query)
         compound_filter_US_tweets = BooleanFilter()
         compound_filter_US_tweets.add(FilterClause(range_filter, BooleanClause.Occur.MUST))
