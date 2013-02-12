@@ -33,11 +33,11 @@ def getBaselineStatistics(searcher, analyzer):
         #all tweets in day range US
         US_tweets_base_query = MatchAllDocsQuery()
         #us_escape = QueryParser("country", analyzer).escape("United Kingdom")
-        us_query = PhraseQuery()
-        us_query.add(Term("country","United"))
-        us_query.add(Term("country","States"))
-        US_tweets_country_query = us_query
-        #US_tweets_country_query = QueryParser("country", analyzer).parse(us_escape)
+        #us_query = PhraseQuery()
+        #us_query.add(Term("country","United"))
+        #us_query.add(Term("country","States"))
+        #US_tweets_country_query = us_query
+        US_tweets_country_query = QueryParser("country", analyzer).parse("United?States")
         US_tweets_query_filter = QueryFilter(US_tweets_country_query)
         compound_filter_US_tweets = BooleanFilter()
         compound_filter_US_tweets.add(FilterClause(range_filter, BooleanClause.Occur.MUST))
